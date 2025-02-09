@@ -1,3 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
+
+/* tailwindcss */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    main {
+        font-family: "Orbitron", serif;
+    }
+    body {
+        background-color: #121214;
+        color: white;
+    }
+    header {
+        font-family: "Audiowide", serif;
+        margin-top: 30px;
+        margin-left: 10px;
+    }
+    nav {
+        color: #02d7f2;
+        width: 100%;
+    }
+    footer {
+        font-family: "Orbitron", serif;
+    }
+}
+
+@layer components {
+    .logo {
+        @apply h-14 w-14;
+    }
+}
