@@ -7,6 +7,8 @@ use Inertia\Inertia;
 
 
 Route::inertia('/', 'Accueil'); 
+Route::inertia('/connexion', 'Connexion');
+Route::inertia('/inscription', 'Inscription');
 
 
 

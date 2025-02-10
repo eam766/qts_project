@@ -32,4 +32,8 @@
     .logo {
         @apply h-14 w-14;
     }
+    .AudioWideBlue {
+        font-family: "Audiowide", serif;
+        color: #02d7f2;
+    }
 }
