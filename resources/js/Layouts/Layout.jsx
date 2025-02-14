@@ -1,5 +1,5 @@
 import { Link } from "@inertiajs/react";
-import main_border from "../assets/img/Main_Bordure17.png";
+import main_border from "../assets/img/Main_Bordure18.png";
 import footer_corner from "../assets/img/Footer_Corner3.png";
 import Logo from "@/Components/Logo";
 import SearchBar from "@/Components/SearchBar";
@@ -44,7 +44,7 @@ export default function Layout({ children }) {
                     {children}
                 </div>
             </main>
-            <footer className=" ml-5 mt-6">
+            <footer className=" ml-5 mt-6" style={{ position: "absolute" }}>
                 <img src={footer_corner} alt="" height={300} width={300} />
                 <p className="text-xs text-center mb-5">
                     @ QTS Montréal. Tout droit réservés. Toutes les marques

@@ -4,11 +4,20 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\GameController;
 
 
 Route::inertia('/', 'Accueil'); 
 Route::inertia('/connexion', 'Connexion');
 Route::inertia('/inscription', 'Inscription');
+Route::inertia('/profile', 'Profile');
+Route::inertia('/profil-settings', 'ProfileSettings');
+
+Route::get('/boutique', [GameController::class, 'index'])->name('games.index');
+
+
+Route::get('/jeux/{id}', [GameController::class, 'show']);
+
 Route::inertia('/a_propos', 'A_Propos');
 
 
