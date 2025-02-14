@@ -2,7 +2,6 @@ import * as React from "react";
 import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import "./User.css";
-import tw3 from "../../assets/img/tw3.webp";
 
 export function UserLibrary() {
     return (

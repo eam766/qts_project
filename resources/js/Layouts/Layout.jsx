@@ -1,5 +1,5 @@
 import { Link } from "@inertiajs/react";
-import main_border from "../assets/img/Main_Bordure18.png";
+import main_border from "../assets/img/Main_Bordure17.png";
 import footer_corner from "../assets/img/Footer_Corner3.png";
 import Logo from "@/Components/Logo";
 import SearchBar from "@/Components/SearchBar";
