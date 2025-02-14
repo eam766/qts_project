@@ -36,4 +36,38 @@
         font-family: "Audiowide", serif;
         color: #02d7f2;
     }
+    .buttonLeft {
+        background-image: url("../js/assets/img/Bouton_Inscription.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        width: 170px;
+    }
+    .buttonRight {
+        background-image: url("../js/assets/img/Bouton_Connexion4.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        width: 170px;
+    }
+    .bgInput {
+        background-image: url("../js/assets/img/ConnexionInput.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        font-family: "Orbitron", serif;
+        border: none;
+        height: 40px;
+        width: 360px;
+    }
 }

@@ -9,6 +9,7 @@ use Inertia\Inertia;
 Route::inertia('/', 'Accueil'); 
 Route::inertia('/connexion', 'Connexion');
 Route::inertia('/inscription', 'Inscription');
+Route::inertia('/a_propos', 'A_Propos');
 
 
 

@@ -1,5 +1,6 @@
-import bouton_inscription from "../assets/img/Bouton_Connexion4.png";
-import BgInput from "../assets/img/ConnexionInput.png";
+import CountrySelect from "@/Components/CountrySelect";
+import DateInput from "@/Components/DateInput";
+
 export default function Inscription() {
     return (
         <div
@@ -7,20 +8,12 @@ export default function Inscription() {
             className="flex flex-col justify-evenly items-center AudioWideBlue"
         >
             <p className="text-3xl">Inscription</p>
+            <br />
             <div className="flex ">
                 <div className="flex flex-col">
                     <label htmlFor="nom">Nom</label>
                     <input
-                        style={{
-                            backgroundImage: `url(${BgInput})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                            border: "none",
-                            height: "40px",
-                            width: "360px",
-                        }}
-                        className=" bg-transparent text-white w-100 mr-4"
+                        className="bgInput bg-transparent text-white mr-4"
                         id="nom"
                         name="nom"
                         type="text"
@@ -29,35 +22,24 @@ export default function Inscription() {
                 <div className="flex flex-col">
                     <label htmlFor="prenom">Prénom</label>
                     <input
-                        style={{
-                            backgroundImage: `url(${BgInput})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                            border: "none",
-                            height: "40px",
-                            width: "360px",
-                        }}
-                        className=" bg-transparent text-white w-100"
+                        className="bgInput bg-transparent text-white"
                         id="nom"
                         name="nom"
                         type="text"
                     />
                 </div>
             </div>
+            <div className="flex ">
+                <DateInput></DateInput>
+                <div className="flex flex-col ml-4">
+                    <label htmlFor="pays">Pays</label>
+                    <CountrySelect></CountrySelect>
+                </div>
+            </div>
             <div className="flex flex-col">
                 <label htmlFor="identifiant">Identifiant</label>
                 <input
-                    style={{
-                        backgroundImage: `url(${BgInput})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
-                        backgroundSize: "cover",
-                        border: "none",
-                        height: "40px",
-                        width: "360px",
-                    }}
-                    className=" bg-transparent text-white w-100"
+                    className="bgInput bg-transparent text-white"
                     id="identifiant"
                     name="identifiant"
                     type="text"
@@ -66,16 +48,7 @@ export default function Inscription() {
             <div className="flex flex-col">
                 <label htmlFor="courriel">Courriel</label>
                 <input
-                    style={{
-                        backgroundImage: `url(${BgInput})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
-                        backgroundSize: "cover",
-                        border: "none",
-                        height: "40px",
-                        width: "360px",
-                    }}
-                    className=" bg-transparent text-white w-100"
+                    className="bgInput bg-transparent text-white w-100"
                     id="courriel"
                     name="courriel"
                     type="text"
@@ -84,19 +57,10 @@ export default function Inscription() {
             <div className="flex flex-col">
                 <label htmlFor="mdp">Mot de passe</label>
                 <input
-                    style={{
-                        backgroundImage: `url(${BgInput})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
-                        backgroundSize: "cover",
-                        border: "none",
-                        height: "40px",
-                        width: "360px",
-                    }}
-                    className=" bg-transparent text-white w-100"
+                    className="bgInput bg-transparent text-white "
                     id="courriel"
                     name="courriel"
-                    type="text"
+                    type="password"
                 />
             </div>
             <div>
@@ -114,22 +78,7 @@ export default function Inscription() {
                     </label>
                 </div>
             </div>
-            <button
-                style={{
-                    backgroundImage: `url(${bouton_inscription})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                    border: "none",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "40px",
-                    width: "170px",
-                }}
-            >
-                Valider
-            </button>
+            <button className="buttonRight">Valider</button>
         </div>
     );
 }
