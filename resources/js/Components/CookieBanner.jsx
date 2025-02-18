@@ -1,7 +1,5 @@
 import cookie_deco from "../assets/img/CookieDecoration.png";
 import logo_caution from "../assets/img/LogoAttention.png";
-import bouton_refuser from "../assets/img/Bouton_Connexion4.png";
-import bouton_accepter from "../assets/img/Bouton_Inscription.png";
 export default function CookieBanner() {
     return (
         <div
