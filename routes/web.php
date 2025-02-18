@@ -7,13 +7,14 @@ use Inertia\Inertia;
 use App\Http\Controllers\GameController;
 
 
-Route::inertia('/', 'Accueil'); 
+Route::get('/', [GameController::class,'showTOP']); 
 Route::inertia('/connexion', 'Connexion');
 Route::inertia('/inscription', 'Inscription');
 Route::inertia('/profile', 'Profile');
 Route::inertia('/profil-settings', 'ProfileSettings');
 
 Route::get('/boutique', [GameController::class, 'index'])->name('games.index');
+
 
 
 Route::get('/jeux/{id}', [GameController::class, 'show']);

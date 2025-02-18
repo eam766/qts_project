@@ -9,7 +9,7 @@ export default function ProfileSettings() {
             <br />
             <UserSettings />
             <br />
-            <ButtonCyber nomButton={"Retour"} chemin={"profil"}></ButtonCyber>
+            <ButtonCyber nomButton={"Retour"} chemin={"profile"}></ButtonCyber>
         </>
     );
 }

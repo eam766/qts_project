@@ -1,0 +1,15 @@
+.jeux-container {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.jeux-cover {
+    width: 200px;
+    height: 300px;
+}
+
+.liste-jeux {
+    display: flex;
+    flex-direction: row;
+}

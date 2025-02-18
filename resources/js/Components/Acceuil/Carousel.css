@@ -1,0 +1,33 @@
+.carousel-container {
+    position: relative;
+    height: 500px;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-image {
+    position: absolute;
+    border-radius: 15px;
+    transition: transform 0.9s ease;
+}
+
+.center {
+    transform: translatex(0) scale(1);
+    z-index: 1;
+    opacity: 1;
+}
+
+.left {
+    transform: translatex(-50%) scale(0.8);
+    z-index: -1;
+    opacity: 0.4;
+}
+
+.right {
+    transform: translatex(50%) scale(0.8);
+    z-index: -1;
+    opacity: 0.4;
+}
