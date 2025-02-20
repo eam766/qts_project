@@ -1,15 +1,38 @@
+.liste-jeux {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+}
+
 .jeux-container {
     display: flex;
-    flex-direction: row;
-    gap: 5px;
+    gap: 10px;
+    transition: transform 0.5s ease-in-out; /* Smooth transition for sliding */
+    width: 100%; /* Ensure the container takes up the full width of its parent */
+    overflow: hidden; /* Prevent images from spilling out of the container */
 }
 
 .jeux-cover {
     width: 200px;
-    height: 300px;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
 }
 
-.liste-jeux {
-    display: flex;
-    flex-direction: row;
+.jeux-cover:hover {
+    transform: scale(1.05);
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.nav-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
