@@ -22,7 +22,6 @@ class GameController extends Controller
     
        
         $games = Game::where('platforms', 6)
-           
             ->with(['cover'])
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
@@ -79,6 +78,7 @@ class GameController extends Controller
         $mostVisitedIds = PopularityPrimitive::where('popularity_type', 1)
         ->orderBy('value', 'desc')
         ->get()
+       
         ->pluck('game_id') 
         ->toArray();
 
@@ -100,7 +100,6 @@ class GameController extends Controller
 
         $wantToPlay = Game::whereIn('id', $wantToPlayIds)
         ->with(['cover', 'screenshots'])
-        ->limit(30)
         ->get();
 
         $playing = Game::whereIn('id', $playingIds)
