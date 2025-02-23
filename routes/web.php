@@ -35,8 +35,8 @@ Route::get('/dashboard', function () {
  
 
  
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
+Route::get('/connexion', function () {
+    return Inertia::render('Connexion', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,

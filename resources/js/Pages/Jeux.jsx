@@ -10,7 +10,6 @@ export default function Jeux({ game }) {
     const [mainScreenshot, setMainScreenshot] = useState(game.screenshots?.[0]);
     return (
         <div className="container mx-auto p-10 flex">
-            {/* Section des screenshots */}
             <div className="w-2/3 flex flex-col items-center mr-8">
                 {mainScreenshot && (
                     <img
@@ -20,7 +19,7 @@ export default function Jeux({ game }) {
                         style={{ height: "500px", width: "800px" }}
                     />
                 )}
-                <div className="flex flex-wrap gap-2 items-start">
+                <div className="flex flex-wrap gap-2 items-start justify-center">
                     {game.screenshots?.map((screenshot) => (
                         <img
                             key={screenshot.id}
@@ -31,7 +30,6 @@ export default function Jeux({ game }) {
                         />
                     ))}
                 </div>
-                {/* Ajout de la description alignée à gauche */}
                 {game.summary && (
                     <div className="mt-9 w-full text-left">
                         <p className="text-start">{game.summary}</p>
@@ -39,7 +37,6 @@ export default function Jeux({ game }) {
                 )}
             </div>
 
-            {/* Section des informations sur le jeu */}
             <div className="w-1/3 flex flex-col items-center">
                 <Head title={game.name} />
                 {game.cover && (
