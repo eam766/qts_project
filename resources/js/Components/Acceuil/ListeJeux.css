@@ -1,15 +1,11 @@
-.jeux-container {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
+.liste-jeux {
+    max-width: 1300px;
+    margin: auto;
 }
 
 .jeux-cover {
     width: 200px;
     height: 300px;
-}
-
-.liste-jeux {
-    display: flex;
-    flex-direction: row;
+    object-fit: cover;
+    margin: 0 5px;
 }
