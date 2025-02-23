@@ -44,15 +44,8 @@ export default function Layout({ children }) {
                     {children}
                 </div>
             </main>
-            <footer className=" ml-5 mt-6" style={{ position: "absolute" }}>
-                <img src={footer_corner} alt="" height={300} width={300} />
-                <p className="text-xs text-center mb-5">
-                    @ QTS Montréal. Tout droit réservés. Toutes les marques
-                    commerciales et marques déposées sont la propriété de leurs
-                    propriétaires respectifs.
-                </p>
-            </footer>
-            <CookieBanner></CookieBanner>
+
+            <CookieBanner />
         </>
     );
 }
