@@ -1,5 +1,8 @@
 import Carousel from "@/Components/Acceuil/Carousel";
 import ListeJeux from "@/Components/Acceuil/ListeJeux";
+import separation from "../assets/img/SeparationCarrousel3.png";
+import titre_1 from "../assets/img/TitreCarrousel1.png";
+import titre_2 from "../assets/img/TitreCarrousel2.png";
 
 export default function Accueil({ mostVisited, wantToPlay, playing }) {
     console.log("Données reçues pour les visite:", mostVisited);
@@ -34,10 +37,27 @@ export default function Accueil({ mostVisited, wantToPlay, playing }) {
             }}
         >
             <Carousel temps={5000} galleryImage={mostVisited} />
-
-            <ListeJeux couvertures={wantToPlay} />
-            <br />
-            <ListeJeux couvertures={playing} />
+            <div className="flex flex-col items-start">
+                <img
+                    className="m-4"
+                    src={titre_2}
+                    alt=""
+                    width={440}
+                    height={440}
+                />
+                <ListeJeux couvertures={wantToPlay} />
+            </div>
+            <img className="m-4" src={separation} alt="" />
+            <div className="flex flex-col items-start">
+                <img
+                    className="mb-4"
+                    src={titre_1}
+                    alt=""
+                    width={500}
+                    height={500}
+                />
+                <ListeJeux couvertures={playing} />
+            </div>
 
             {/*
             <div>

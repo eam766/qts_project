@@ -33,10 +33,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
  
  
-
  
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
+ 
+Route::get('/connexion', function () {
+    return Inertia::render('Connexion', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -53,4 +53,5 @@ Route::middleware('auth')->group(function () {
  
 require __DIR__.'/auth.php';
  
-
+ 
+ 

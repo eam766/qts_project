@@ -25,7 +25,14 @@ export default function Carousel({ temps, galleryImage }) {
     console.log(galleryImage);
 
     return (
-        <div className="carousel-container">
+        <div
+            className="carousel-container"
+            style={{
+                backgroundImage: `url("https://images.igdb.com/igdb/image/upload/t_1080p/${
+                    galleryImage[indexes[1]].artworks[0].image_id
+                }.jpg")`,
+            }}
+        >
             {indexes.map((i, j) => (
                 <img
                     key={galleryImage[i].id}

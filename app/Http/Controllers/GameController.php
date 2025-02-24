@@ -64,7 +64,7 @@ class GameController extends Controller
     }
     
     public function showTOP(){
-        /* Popularity Type 
+        /* Popularity Type
             1: Visits (IGDB)
             2: Want to Play (IGDB)
             3: Playing (IGDB)
@@ -79,39 +79,39 @@ class GameController extends Controller
         ->orderBy('value', 'desc')
         ->get()
        
-        ->pluck('game_id') 
+        ->pluck('game_id')
         ->toArray();
-
+ 
         $wantToPlayIds = PopularityPrimitive::where('popularity_type', 2)
         ->orderBy('value', 'desc')
         ->get()
         ->pluck('game_id')->toArray();
-
+ 
         $playingIds = PopularityPrimitive::where('popularity_type', 3)
         ->orderBy('value', 'desc')
         ->get()
         ->pluck('game_id')->toArray();
-
+ 
     
         $mostVisited = Game::whereIn('id', $mostVisitedIds)
-        ->with(['cover', 'screenshots'])
+        ->with(['cover', 'screenshots', 'artworks'])
         ->limit(3)
         ->get();
-
+ 
         $wantToPlay = Game::whereIn('id', $wantToPlayIds)
-        ->with(['cover', 'screenshots'])
+        ->with(['cover', 'screenshots', 'artworks'])
         ->get();
-
+ 
         $playing = Game::whereIn('id', $playingIds)
-        ->with(['cover', 'screenshots'])
+        ->with(['cover', 'screenshots', 'artworks'])
         ->get();
-
+ 
     return Inertia::render('Accueil', [
         'mostVisited' => $mostVisited,
         'wantToPlay' => $wantToPlay,
         'playing' => $playing
     ]);
-
+ 
     }
     
   
