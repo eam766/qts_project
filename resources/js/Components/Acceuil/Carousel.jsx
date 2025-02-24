@@ -25,11 +25,14 @@ export default function Carousel({ temps, galleryImage }) {
     console.log(galleryImage);
 
     return (
-        <div
+        <Link
             className="carousel-container"
             style={{
-                backgroundImage: `url("https://images.igdb.com/igdb/image/upload/t_720p/ar2gn5.webp")`,
+                backgroundImage: `url("https://images.igdb.com/igdb/image/upload/t_1080p/${
+                    galleryImage[indexes[1]].artworks[0].image_id
+                }.jpg")`,
             }}
+            href={`/jeux/${galleryImage[indexes[1]].id}`}
         >
             {indexes.map((i, j) => (
                 <img
@@ -39,6 +42,6 @@ export default function Carousel({ temps, galleryImage }) {
                     className={`carousel-image ${classes[j]}`}
                 />
             ))}
-        </div>
+        </Link>
     );
 }

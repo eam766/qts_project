@@ -14,12 +14,13 @@ use App\Http\Controllers\Auth\NewPasswordController;
  
 Route::get('/', [GameController::class,'showTOP']);
 Route::inertia('/connexion', 'Connexion')->name('connexion');
+
 Route::inertia('/inscription', 'Inscription')->name('inscription');
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
  
  
- 
+Route::inertia('/envie', 'Envie'); 
 Route::inertia('/profile', 'Profile');
 Route::inertia('/profil-settings', 'ProfileSettings');
  

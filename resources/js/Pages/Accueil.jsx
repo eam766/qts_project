@@ -1,10 +1,20 @@
 import Carousel from "@/Components/Acceuil/Carousel";
 import ListeJeux from "@/Components/Acceuil/ListeJeux";
+import Tableau from "@/Components/Acceuil/Tableau";
 
-export default function Accueil({ mostVisited, wantToPlay, playing }) {
+export default function Accueil({
+    mostVisited,
+    wantToPlay,
+    playing,
+    upcomingGames,
+    topGames,
+    trendingGames,
+}) {
     console.log("Données reçues pour les visite:", mostVisited);
     console.log("Données reçues pour le want to play:", wantToPlay);
     console.log("Données reçues pour playing:", playing);
+    console.log("Upcoming Games:", upcomingGames);
+    console.log("Top Games", topGames);
 
     let array = [
         "https://placehold.co/600x400/green/white",
@@ -33,31 +43,17 @@ export default function Accueil({ mostVisited, wantToPlay, playing }) {
                 position: "relative",
             }}
         >
-            <Carousel temps={5000} galleryImage={mostVisited} />
-
+            <Carousel temps={5000} galleryImage={trendingGames} />
+            <br />
             <ListeJeux couvertures={wantToPlay} />
             <br />
             <ListeJeux couvertures={playing} />
-
-            {/*
-            <div>
-                <h1 style={{ color: "red" }}>Most Visited</h1>
-                {mostVisited.map((jeu) => (
-                    <div key={jeu.game_id}>{jeu.game_id}</div>
-                ))}
+            <br />
+            <div style={{ display: "flex", gap: 50 }}>
+                <Tableau jeux={upcomingGames} />
+                <Tableau jeux={playing} />
+                <Tableau jeux={topGames} />
             </div>
-            <div>
-                <h1 style={{ color: "red" }}>Want to Play</h1>
-                {wantToPlay.map((jeu) => (
-                    <div key={jeu.game_id}>{jeu.game_id}</div>
-                ))}
-            </div>
-            <div>
-                <h1 style={{ color: "red" }}>Playing</h1>
-                {playing.map((jeu) => (
-                    <div key={jeu.game_id}>{jeu.game_id}</div>
-                ))}
-            </div>*/}
         </div>
     );
 }
