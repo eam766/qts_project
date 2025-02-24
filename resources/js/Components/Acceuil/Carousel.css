@@ -28,6 +28,22 @@
     z-index: 1;
     pointer-events: none;
 }
+
+.carousel-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, #121214 0%, rgba(18, 18, 20, 0) 15%),
+        linear-gradient(to bottom, #121214 0%, rgba(18, 18, 20, 0) 15%),
+        linear-gradient(to left, #121214 0%, rgba(18, 18, 20, 0) 15%),
+        linear-gradient(to right, #121214 0%, rgba(18, 18, 20, 0) 15%);
+    background-blend-mode: normal;
+    z-index: 1;
+    pointer-events: none;
+}
 .carousel-image {
     position: absolute;
     border-radius: 15px;
