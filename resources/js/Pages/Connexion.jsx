@@ -34,7 +34,8 @@
 //     );
 // }
 
-import { useForm } from "@inertiajs/react";
+import { useForm, Link } from "@inertiajs/react";
+
 import BgInput from "../assets/img/ConnexionInput.png";
 import bouton_connexion from "../assets/img/Bouton_Connexion4.png";
 
@@ -109,7 +110,18 @@ export default function Connexion() {
                         </div>
                     )}
                 </div>
+
+                <p className="text-sm mt-2">
+                    <Link
+                        href={route("password.request")}
+                        className="text-blue-500 hover:underline"
+                    >
+                        Mot de passe oublié ?
+                    </Link>
+                </p>
+
                 <br />
+
                 <br />
                 <button
                     type="submit"
