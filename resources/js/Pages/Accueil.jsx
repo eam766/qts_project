@@ -54,11 +54,17 @@ export default function Accueil({
                     alt=""
                     width={440}
                     height={440}
+                    style={{ width: 600, height: "auto" }}
                 />{" "}
                 <br />
                 <ListeJeux couvertures={wantToPlay} />
             </div>
-            <img className="m-4" src={separation} alt="" />
+            <img
+                className="m-4"
+                src={separation}
+                alt=""
+                style={{ width: "auto", height: "auto" }}
+            />
             <div className="flex flex-col items-start">
                 <img
                     className="mb-4"
@@ -66,6 +72,7 @@ export default function Accueil({
                     alt=""
                     width={500}
                     height={500}
+                    style={{ width: 600, height: "auto" }}
                 />
                 <ListeJeux couvertures={playing} />
             </div>
