@@ -5,6 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import { Link } from "@inertiajs/react";
 import { Tooltip } from "@mui/material";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+
 export default function Tableau({ jeux }) {
     const itemTemplate = (jeu, index) => {
         return (
@@ -12,7 +13,8 @@ export default function Tableau({ jeux }) {
                 <div className="card">
                     <Link className="card-link" href={`/jeux/${jeu.id}`}>
                         <img
-                            src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${jeu.cover.image_id}.jpg`}
+                            src={`https://images.igdb.com/igdb/image/upload/t_cover_small/${jeu.cover.image_id}.webp`}
+                            loading="lazy"
                             alt={jeu.name}
                         />
                         <div>
@@ -54,8 +56,6 @@ export default function Tableau({ jeux }) {
             <DataView
                 value={jeux}
                 listTemplate={listTemplate}
-                paginator
-                rows={5}
                 className="custom-dataview-container"
             ></DataView>
         </div>
