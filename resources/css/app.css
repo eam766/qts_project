@@ -70,4 +70,19 @@
         height: 40px;
         width: 360px;
     }
+    .main-container {
+        width: 100%;
+        min-height: 100vh;
+        border: 80px solid transparent;
+        border-image-source: url("../js/assets/img/Main_Bordure22.png");
+        border-image-slice: 100;
+        border-image-width: 1;
+        border-image-repeat: stretch;
+        border-image-width: 1.5;
+        padding: 20px;
+        padding-top: 100px;
+        position: relative;
+
+        z-index: 1;
+    }
 }

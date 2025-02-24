@@ -1,5 +1,5 @@
 import { Link } from "@inertiajs/react";
-import main_border from "../assets/img/Main_Bordure17.png";
+import main_border from "../assets/img/Main_Bordure20.png";
 import footer_corner from "../assets/img/Footer_Corner3.png";
 import Logo from "@/Components/Logo";
 import SearchBar from "@/Components/SearchBar";
@@ -28,21 +28,8 @@ export default function Layout({ children }) {
                 </nav>
             </header>
 
-            <main className="flex justify-center mt-10 min-h-screen">
-                <div
-                    style={{
-                        backgroundImage: `url(${main_border})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "100% 100%",
-                        backgroundPosition: "center",
-                        width: "98%",
-                        height: "auto",
-                        padding: "20px",
-                        paddingTop: "130px",
-                    }}
-                >
-                    {children}
-                </div>
+            <main className="flex justify-center min-h-screen">
+                <div className="main-container">{children}</div>
             </main>
 
             <CookieBanner />

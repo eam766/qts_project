@@ -1,63 +1,122 @@
-import "./Tableau.css";
-import { DataView, DataViewLayoutOptions } from "primereact/dataview";
+// Dans Tableau.jsx (exemple complet)
+import React from "react";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "@inertiajs/react";
 import { Tooltip } from "@mui/material";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-export default function Tableau({ jeux }) {
-    const itemTemplate = (jeu, index) => {
-        return (
-            <div key={jeu.id}>
-                <div className="card">
-                    <Link className="card-link" href={`/jeux/${jeu.id}`}>
-                        <img
-                            src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${jeu.cover.image_id}.jpg`}
-                            alt={jeu.name}
-                        />
-                        <div>
-                            <h1>{jeu.name}</h1>
-                            <div>19.99</div>
-                        </div>
-                    </Link>
-                    <div>
-                        <Tooltip title="Ajoute à la liste de souhait">
-                            <IconButton>
-                                <PlaylistAddIcon className="icons" />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Ajouter au panier">
-                            <IconButton
-                                aria-label="Ajouter au panier"
-                                className="icon-button"
-                            >
-                                <AddShoppingCartIcon className="icons" />
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                </div>
-            </div>
-        );
-    };
+import "./Tableau.css";
 
-    const listTemplate = (items) => {
-        if (!items || items.length === 0) return null;
+// Composant pour le contenu d'un onglet
+function CustomTabPanel(props) {
+    const { children, value, index, ...other } = props;
 
-        let list = items.map((jeux, index) => {
-            return itemTemplate(jeux, index);
-        });
-
-        return <div className="grid grid-nogutter">{list}</div>;
-    };
     return (
-        <div>
-            <DataView
-                value={jeux}
-                listTemplate={listTemplate}
-                paginator
-                rows={5}
-                className="custom-dataview-container"
-            ></DataView>
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
         </div>
     );
 }
+
+CustomTabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        "aria-controls": `simple-tabpanel-${index}`,
+    };
+}
+
+function JeuxList({ jeux }) {
+    return (
+        <div className="jeux-grid">
+            {jeux &&
+                jeux.map((jeu) => (
+                    <div key={jeu.id} className="card">
+                        <Link className="card-link" href={`/jeux/${jeu.id}`}>
+                            <img
+                                src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${jeu.cover.image_id}.jpg`}
+                                alt={jeu.name}
+                            />
+                            <div>
+                                <h1>{jeu.name}</h1>
+                                <div>19.99$</div>
+                            </div>
+                        </Link>
+                        <div>
+                            <Tooltip title="Ajouter à la liste de souhaits">
+                                <IconButton>
+                                    <PlaylistAddIcon className="icons" />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Ajouter au panier">
+                                <IconButton
+                                    aria-label="Ajouter au panier"
+                                    className="icon-button"
+                                >
+                                    <AddShoppingCartIcon className="icons" />
+                                </IconButton>
+                            </Tooltip>
+                        </div>
+                    </div>
+                ))}
+        </div>
+    );
+}
+
+JeuxList.propTypes = {
+    jeux: PropTypes.array.isRequired,
+};
+
+export default function Tableau({ upcomingGames, playing, topGames }) {
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    return (
+        <Box sx={{ width: "100%" }}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="Jeux par catégories"
+                >
+                    <Tab label="Jeux à venir" {...a11yProps(0)} />
+                    <Tab label="Playing" {...a11yProps(1)} />
+                    <Tab label="Top Games" {...a11yProps(2)} />
+                </Tabs>
+            </Box>
+            <CustomTabPanel value={value} index={0}>
+                <JeuxList jeux={upcomingGames} />
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={1}>
+                <JeuxList jeux={playing} />
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={2}>
+                <JeuxList jeux={topGames} />
+            </CustomTabPanel>
+        </Box>
+    );
+}
+
+Tableau.propTypes = {
+    upcomingGames: PropTypes.array.isRequired,
+    playing: PropTypes.array.isRequired,
+    topGames: PropTypes.array.isRequired,
+};

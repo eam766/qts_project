@@ -13,12 +13,6 @@ export default function Accueil({
     topGames,
     trendingGames,
 }) {
-    console.log("Données reçues pour les visite:", mostVisited);
-    console.log("Données reçues pour le want to play:", wantToPlay);
-    console.log("Données reçues pour playing:", playing);
-    console.log("Upcoming Games:", upcomingGames);
-    console.log("Top Games", topGames);
-
     let array = [
         "https://placehold.co/600x400/green/white",
         "https://placehold.co/600x400/red/white",
@@ -52,8 +46,6 @@ export default function Accueil({
                     className="m-4"
                     src={titre_2}
                     alt=""
-                    width={440}
-                    height={440}
                     style={{ width: 600, height: "auto" }}
                 />{" "}
                 <br />
@@ -70,17 +62,18 @@ export default function Accueil({
                     className="mb-4"
                     src={titre_1}
                     alt=""
-                    width={500}
-                    height={500}
                     style={{ width: 600, height: "auto" }}
                 />
                 <ListeJeux couvertures={playing} />
             </div>
             <br />
+
             <div style={{ display: "flex", gap: 50 }}>
-                <Tableau jeux={upcomingGames} />
-                <Tableau jeux={playing} />
-                <Tableau jeux={topGames} />
+                <Tableau
+                    upcomingGames={upcomingGames}
+                    playing={playing}
+                    topGames={topGames}
+                />
             </div>
         </div>
     );
