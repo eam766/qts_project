@@ -64,7 +64,7 @@ class GameController extends Controller
     }
     
     public function showTOP(){
-        /* Popularity Type 
+        /* Popularity Type
             1: Visits (IGDB)
             2: Want to Play (IGDB)
             3: Playing (IGDB)
@@ -79,39 +79,69 @@ class GameController extends Controller
         ->orderBy('value', 'desc')
         ->get()
        
-        ->pluck('game_id') 
+        ->pluck('game_id')
         ->toArray();
-
+ 
         $wantToPlayIds = PopularityPrimitive::where('popularity_type', 2)
         ->orderBy('value', 'desc')
         ->get()
         ->pluck('game_id')->toArray();
-
-        $playingIds = PopularityPrimitive::where('popularity_type', 3)
+ 
+        $playingIds = PopularityPrimitive::where('popularity_type', 6)
         ->orderBy('value', 'desc')
         ->get()
         ->pluck('game_id')->toArray();
+ 
+        $timestampToday = time(); 
+        $oneMonthAgo = strtotime('-1 month', $timestampToday);
 
-    
+        $upcomingGames = Game::where('first_release_date', '>', $timestampToday)
+            ->where('hypes', '>', 0) 
+            ->orderBy('hypes', 'desc')
+            ->with(['cover', 'screenshots', 'artworks']) 
+            ->limit(10)
+            ->get();
+
+           
+            $trendingGames = Game::where('first_release_date', '>=', $oneMonthAgo)
+            ->where('first_release_date', '<=', $timestampToday)
+            ->where('rating_count', '>', 0) 
+            ->orderBy('first_release_date', 'desc') 
+            ->orderBy('rating_count', 'desc') 
+            ->with(['cover', 'screenshots', 'artworks']) 
+            ->limit(10)
+            ->get();
+
+
+        $topGames = Game::where('rating_count', '>', 0) 
+        ->orderBy('rating_count', 'desc')
+        ->with(['cover', 'screenshots', 'artworks']) 
+        ->limit(10)
+        ->get();
+
+
+          
         $mostVisited = Game::whereIn('id', $mostVisitedIds)
-        ->with(['cover', 'screenshots'])
-        ->limit(3)
+        ->with(['cover', 'screenshots', 'artworks', 'artworks'])
         ->get();
-
+ 
         $wantToPlay = Game::whereIn('id', $wantToPlayIds)
-        ->with(['cover', 'screenshots'])
+        ->with(['cover', 'screenshots', 'artworks'])
         ->get();
-
+ 
         $playing = Game::whereIn('id', $playingIds)
-        ->with(['cover', 'screenshots'])
+        ->with(['cover', 'screenshots', 'artworks'])
         ->get();
-
+ 
     return Inertia::render('Accueil', [
+        'trendingGames'=>$trendingGames,
+        'upcomingGames'=>$upcomingGames,
         'mostVisited' => $mostVisited,
         'wantToPlay' => $wantToPlay,
-        'playing' => $playing
+        'playing' => $playing,
+        'topGames'=>$topGames
     ]);
-
+ 
     }
     
   

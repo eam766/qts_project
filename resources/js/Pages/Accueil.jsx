@@ -1,10 +1,23 @@
 import Carousel from "@/Components/Acceuil/Carousel";
 import ListeJeux from "@/Components/Acceuil/ListeJeux";
+import separation from "../assets/img/SeparationCarrousel3.png";
+import titre_1 from "../assets/img/TitreCarrousel1.png";
+import titre_2 from "../assets/img/TitreCarrousel2.png";
+import Tableau from "@/Components/Acceuil/Tableau";
 
-export default function Accueil({ mostVisited, wantToPlay, playing }) {
+export default function Accueil({
+    mostVisited,
+    wantToPlay,
+    playing,
+    upcomingGames,
+    topGames,
+    trendingGames,
+}) {
     console.log("Données reçues pour les visite:", mostVisited);
     console.log("Données reçues pour le want to play:", wantToPlay);
     console.log("Données reçues pour playing:", playing);
+    console.log("Upcoming Games:", upcomingGames);
+    console.log("Top Games", topGames);
 
     let array = [
         "https://placehold.co/600x400/green/white",
@@ -33,31 +46,42 @@ export default function Accueil({ mostVisited, wantToPlay, playing }) {
                 position: "relative",
             }}
         >
-            <Carousel temps={5000} galleryImage={mostVisited} />
-
-            <ListeJeux couvertures={wantToPlay} />
+            <Carousel temps={5000} galleryImage={trendingGames} />
+            <div className="flex flex-col items-start">
+                <img
+                    className="m-4"
+                    src={titre_2}
+                    alt=""
+                    width={440}
+                    height={440}
+                    style={{ width: 600, height: "auto" }}
+                />{" "}
+                <br />
+                <ListeJeux couvertures={wantToPlay} />
+            </div>
+            <img
+                className="m-4"
+                src={separation}
+                alt=""
+                style={{ width: "auto", height: "auto" }}
+            />
+            <div className="flex flex-col items-start">
+                <img
+                    className="mb-4"
+                    src={titre_1}
+                    alt=""
+                    width={500}
+                    height={500}
+                    style={{ width: 600, height: "auto" }}
+                />
+                <ListeJeux couvertures={playing} />
+            </div>
             <br />
-            <ListeJeux couvertures={playing} />
-
-            {/*
-            <div>
-                <h1 style={{ color: "red" }}>Most Visited</h1>
-                {mostVisited.map((jeu) => (
-                    <div key={jeu.game_id}>{jeu.game_id}</div>
-                ))}
+            <div style={{ display: "flex", gap: 50 }}>
+                <Tableau jeux={upcomingGames} />
+                <Tableau jeux={playing} />
+                <Tableau jeux={topGames} />
             </div>
-            <div>
-                <h1 style={{ color: "red" }}>Want to Play</h1>
-                {wantToPlay.map((jeu) => (
-                    <div key={jeu.game_id}>{jeu.game_id}</div>
-                ))}
-            </div>
-            <div>
-                <h1 style={{ color: "red" }}>Playing</h1>
-                {playing.map((jeu) => (
-                    <div key={jeu.game_id}>{jeu.game_id}</div>
-                ))}
-            </div>*/}
         </div>
     );
 }
