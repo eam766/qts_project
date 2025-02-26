@@ -28,21 +28,8 @@ export default function Layout({ children }) {
                 </nav>
             </header>
 
-            <main className="flex justify-center mt-10 min-h-screen">
-                <div
-                    style={{
-                        backgroundImage: `url(${main_border})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "100% 100%",
-                        backgroundPosition: "center",
-                        width: "98%",
-                        height: "auto",
-                        padding: "20px",
-                        paddingTop: "130px",
-                    }}
-                >
-                    {children}
-                </div>
+            <main className="flex justify-center min-h-screen">
+                <div className="main-container">{children}</div>
             </main>
 
             <CookieBanner />

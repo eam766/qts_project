@@ -3,12 +3,16 @@ import ListeJeux from "@/Components/Acceuil/ListeJeux";
 import separation from "../assets/img/SeparationCarrousel3.png";
 import titre_1 from "../assets/img/TitreCarrousel1.png";
 import titre_2 from "../assets/img/TitreCarrousel2.png";
+import Tableau from "@/Components/Acceuil/Tableau";
 
-export default function Accueil({ mostVisited, wantToPlay, playing }) {
-    console.log("Données reçues pour les visite:", mostVisited);
-    console.log("Données reçues pour le want to play:", wantToPlay);
-    console.log("Données reçues pour playing:", playing);
-
+export default function Accueil({
+    mostVisited,
+    wantToPlay,
+    playing,
+    upcomingGames,
+    topGames,
+    trendingGames,
+}) {
     let array = [
         "https://placehold.co/600x400/green/white",
         "https://placehold.co/600x400/red/white",
@@ -36,10 +40,10 @@ export default function Accueil({ mostVisited, wantToPlay, playing }) {
                 position: "relative",
             }}
         >
-            <Carousel temps={5000} galleryImage={mostVisited} />
+            <Carousel temps={5000} galleryImage={trendingGames} />
             <div className="flex flex-col items-start">
                 <img
-                    className="m-4"
+                    className="m-4 mt-10"
                     src={titre_2}
                     alt=""
                     width={440}
@@ -58,26 +62,13 @@ export default function Accueil({ mostVisited, wantToPlay, playing }) {
                 />
                 <ListeJeux couvertures={playing} />
             </div>
-
-            {/*
             <div>
-                <h1 style={{ color: "red" }}>Most Visited</h1>
-                {mostVisited.map((jeu) => (
-                    <div key={jeu.game_id}>{jeu.game_id}</div>
-                ))}
+                <Tableau
+                    upcomingGames={upcomingGames}
+                    playing={playing}
+                    topGames={topGames}
+                />
             </div>
-            <div>
-                <h1 style={{ color: "red" }}>Want to Play</h1>
-                {wantToPlay.map((jeu) => (
-                    <div key={jeu.game_id}>{jeu.game_id}</div>
-                ))}
-            </div>
-            <div>
-                <h1 style={{ color: "red" }}>Playing</h1>
-                {playing.map((jeu) => (
-                    <div key={jeu.game_id}>{jeu.game_id}</div>
-                ))}
-            </div>*/}
         </div>
     );
 }

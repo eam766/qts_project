@@ -1,0 +1,56 @@
+.p-dataview-content {
+    background-color: #121214 !important;
+    border-top: solid 1px #02d7f2;
+    border-radius: 15px 15px 0 0;
+    width: 450px;
+}
+.p-dataview .p-paginator {
+    background-color: #121214 !important;
+    color: white !important;
+    border-bottom: solid 1px #02d7f2;
+    border-top: solid 1px #02d7f2;
+    border-radius: 15px;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    color: #02d7f2 !important;
+}
+
+h1 {
+    font-weight: bold;
+    color: #02d7f2;
+    width: 250px;
+}
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5px;
+    border-bottom: solid 1px #02d7f2;
+    background-color: #222;
+    border-radius: 15px;
+}
+
+.card:hover {
+    background-color: #444;
+}
+
+.icons {
+    color: #02d7f2;
+}
+.icon-button {
+    color: #02d7f2;
+
+    width: 40px;
+    height: 40px;
+    align-self: center;
+}
+.card-link {
+    display: flex;
+    align-items: center;
+}
+.jeux-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
