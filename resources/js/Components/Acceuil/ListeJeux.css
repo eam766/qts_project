@@ -11,3 +11,7 @@
 .jeux-cover:hover {
     border-bottom: 1px solid #02d7f2;
 }
+
+.jeux-cover:hover {
+    border-bottom: 2px solid #02d7f2;
+}

@@ -122,7 +122,7 @@ class GameController extends Controller
 
           
         $mostVisited = Game::whereIn('id', $mostVisitedIds)
-        ->with(['cover', 'screenshots', 'artworks', 'artworks'])
+        ->with(['cover', 'screenshots', 'artworks'])
         ->get();
  
         $wantToPlay = Game::whereIn('id', $wantToPlayIds)

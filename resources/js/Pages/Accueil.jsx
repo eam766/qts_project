@@ -43,7 +43,7 @@ export default function Accueil({
             <Carousel temps={5000} galleryImage={trendingGames} />
             <div className="flex flex-col items-start">
                 <img
-                    className="m-4"
+                    className="m-4 mt-10"
                     src={titre_2}
                     alt=""
                     style={{ width: 600, height: "auto" }}
@@ -66,9 +66,7 @@ export default function Accueil({
                 />
                 <ListeJeux couvertures={playing} />
             </div>
-            <br />
-
-            <div style={{ display: "flex", gap: 50 }}>
+            <div>
                 <Tableau
                     upcomingGames={upcomingGames}
                     playing={playing}

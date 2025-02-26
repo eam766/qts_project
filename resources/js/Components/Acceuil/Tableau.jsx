@@ -51,6 +51,11 @@ function JeuxList({ jeux }) {
                             <img
                                 src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${jeu.cover.image_id}.jpg`}
                                 alt={jeu.name}
+                                style={{
+                                    width: 100,
+                                    height: "auto",
+                                    padding: 10,
+                                }}
                             />
                             <div>
                                 <h1>{jeu.name}</h1>
@@ -90,16 +95,23 @@ export default function Tableau({ upcomingGames, playing, topGames }) {
     };
 
     return (
-        <Box sx={{ width: "100%" }}>
+        <Box sx={{ width: "100%", marginTop: "20px" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <Tabs
                     value={value}
                     onChange={handleChange}
                     aria-label="Jeux par catégories"
+                    TabIndicatorProps={{
+                        style: { backgroundColor: "#02d7f2" },
+                    }}
+                    sx={{
+                        "& .MuiTab-root": { color: "#383636" },
+                        "& .MuiTab-root.Mui-selected": { color: "#02d7f2" },
+                    }}
                 >
-                    <Tab label="Jeux à venir" {...a11yProps(0)} />
-                    <Tab label="Playing" {...a11yProps(1)} />
-                    <Tab label="Top Games" {...a11yProps(2)} />
+                    <Tab label="Sorties les plus attendues" {...a11yProps(0)} />
+                    <Tab label="Succès du moment" {...a11yProps(1)} />
+                    <Tab label="Mieux notés" {...a11yProps(2)} />
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
