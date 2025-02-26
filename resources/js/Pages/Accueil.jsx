@@ -46,7 +46,8 @@ export default function Accueil({
                     className="m-4 mt-10"
                     src={titre_2}
                     alt=""
-                    style={{ width: 600, height: "auto" }}
+                    width={440}
+                    height={440}
                 />{" "}
                 <br />
                 <ListeJeux couvertures={wantToPlay} />
@@ -62,7 +63,8 @@ export default function Accueil({
                     className="mb-4"
                     src={titre_1}
                     alt=""
-                    style={{ width: 600, height: "auto" }}
+                    width={500}
+                    height={500}
                 />
                 <ListeJeux couvertures={playing} />
             </div>
