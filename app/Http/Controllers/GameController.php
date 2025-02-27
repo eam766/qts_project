@@ -109,14 +109,14 @@ class GameController extends Controller
             ->orderBy('first_release_date', 'desc') 
             ->orderBy('rating_count', 'desc') 
             ->with(['cover', 'screenshots', 'artworks']) 
-            ->limit(10)
+            ->limit(3)
             ->get();
 
 
         $topGames = Game::where('rating_count', '>', 0) 
         ->orderBy('rating_count', 'desc')
         ->with(['cover', 'screenshots', 'artworks']) 
-        ->limit(10)
+        ->limit(5)
         ->get();
 
 

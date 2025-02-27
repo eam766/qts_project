@@ -17,9 +17,10 @@ export default function ListeJeux({ couvertures, visibleCount = 5 }) {
             >
                 <Link href={`/jeux/${couverture.id}`}>
                     <img
-                        src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${couverture.cover.image_id}.jpg`}
+                        src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${couverture.cover.image_id}.webp`}
                         alt="Jeu"
                         className="jeux-cover"
+                        loading="lazy"
                     />
                 </Link>
             </div>
