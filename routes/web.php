@@ -20,7 +20,8 @@ Route::post('/register', [RegisteredUserController::class, 'store'])->name('regi
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
  
  
-Route::inertia('/envie', 'Envie'); 
+Route::inertia('/listeSouhaits', 'ListeSouhaits'); 
+Route::inertia('/panier', 'Panier'); 
 Route::inertia('/profile', 'Profile');
 Route::inertia('/profil-settings', 'ProfileSettings');
  

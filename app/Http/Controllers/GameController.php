@@ -99,7 +99,7 @@ class GameController extends Controller
             ->where('hypes', '>', 0) 
             ->orderBy('hypes', 'desc')
             ->with(['cover', 'screenshots', 'artworks']) 
-            ->limit(10)
+            ->limit(limit: 10)
             ->get();
 
            
@@ -123,14 +123,18 @@ class GameController extends Controller
           
         $mostVisited = Game::whereIn('id', $mostVisitedIds)
         ->with(['cover', 'screenshots', 'artworks'])
+        
+        ->limit(10)
         ->get();
  
         $wantToPlay = Game::whereIn('id', $wantToPlayIds)
         ->with(['cover', 'screenshots', 'artworks'])
+        ->limit(limit: 10)
         ->get();
  
         $playing = Game::whereIn('id', $playingIds)
         ->with(['cover', 'screenshots', 'artworks'])
+        ->limit(10)
         ->get();
  
     return Inertia::render('Accueil', [

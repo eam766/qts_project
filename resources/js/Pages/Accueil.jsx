@@ -43,17 +43,17 @@ export default function Accueil({
             <Carousel temps={5000} galleryImage={trendingGames} />
             <div className="flex flex-col items-start">
                 <img
-                    className="m-4 mt-10"
+                    className=" mt-10"
                     src={titre_2}
                     alt=""
                     width={440}
                     height={440}
-                />{" "}
+                />
                 <br />
                 <ListeJeux couvertures={wantToPlay} />
             </div>
             <img
-                className="m-4"
+                className="m-6"
                 src={separation}
                 alt=""
                 style={{ width: "auto", height: "auto" }}

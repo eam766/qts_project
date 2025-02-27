@@ -16,8 +16,8 @@ export default function ButtonCyber({ nomButton, chemin }) {
                 alignItems: "center",
                 width: "170px",
                 height: "40px",
-                textDecoration: "none", // Ensure it looks like a button
-                color: "white", // Set text color
+                textDecoration: "none",
+                color: "white",
                 fontWeight: "bold",
             }}
         >

@@ -1,14 +1,14 @@
 import carte from "../assets/img/CartePanier.png";
 import bouton from "../assets/img/Bouton_Inscription.png";
 
-export default function ListeSouhait() {
+export default function Panier() {
     return (
         <div
             className="flex flex-col items-start"
             style={{ fontFamily: "Audiowide" }}
         >
             <p className="AudioWideBlue mb-8" style={{ fontSize: 30 }}>
-                'Identifiant' liste de souhaits
+                Votre panier
             </p>
             <div
                 style={{
@@ -38,24 +38,7 @@ export default function ListeSouhait() {
                     <p className="ml-5">note</p>
                     <p className="ml-5">Date de sortie: jj/mm/aaaa</p>
                 </div>
-                <div className="flex flex-col self-center ml-auto ">
-                    <button
-                        className="AudioWideBlue"
-                        style={{
-                            backgroundImage: `url(${bouton})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                            border: "none",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            height: "45px",
-                            width: "180px",
-                        }}
-                    >
-                        Ajouter au panier
-                    </button>
+                <div className="flex flex-col justify-end ml-auto ">
                     <button
                         className="AudioWideBlue"
                         style={{
@@ -69,10 +52,10 @@ export default function ListeSouhait() {
                             alignItems: "center",
                             height: "50px",
                             width: "203px",
-                            marginTop: "16px",
+                            marginBottom: "40px",
                         }}
                     >
-                        Supprimer de la liste
+                        Supprimer du panier
                     </button>
                 </div>
             </div>
@@ -105,24 +88,7 @@ export default function ListeSouhait() {
                     <p className="ml-5">note</p>
                     <p className="ml-5">Date de sortie: jj/mm/aaaa</p>
                 </div>
-                <div className="flex flex-col self-center ml-auto ">
-                    <button
-                        className="AudioWideBlue"
-                        style={{
-                            backgroundImage: `url(${bouton})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                            border: "none",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            height: "45px",
-                            width: "183px",
-                        }}
-                    >
-                        Ajouter au panier
-                    </button>
+                <div className="flex flex-col justify-end ml-auto ">
                     <button
                         className="AudioWideBlue"
                         style={{
@@ -136,10 +102,10 @@ export default function ListeSouhait() {
                             alignItems: "center",
                             height: "50px",
                             width: "203px",
-                            marginTop: "16px",
+                            marginBottom: "40px",
                         }}
                     >
-                        Supprimer de la liste
+                        Supprimer du panier
                     </button>
                 </div>
             </div>
@@ -172,24 +138,7 @@ export default function ListeSouhait() {
                     <p className="ml-5">note</p>
                     <p className="ml-5">Date de sortie: jj/mm/aaaa</p>
                 </div>
-                <div className="flex flex-col self-center ml-auto ">
-                    <button
-                        className="AudioWideBlue"
-                        style={{
-                            backgroundImage: `url(${bouton})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                            border: "none",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            height: "45px",
-                            width: "180px",
-                        }}
-                    >
-                        Ajouter au panier
-                    </button>
+                <div className="flex flex-col justify-end ml-auto ">
                     <button
                         className="AudioWideBlue"
                         style={{
@@ -203,12 +152,43 @@ export default function ListeSouhait() {
                             alignItems: "center",
                             height: "50px",
                             width: "203px",
-                            marginTop: "16px",
+                            marginBottom: "40px",
                         }}
                     >
-                        Supprimer de la liste
+                        Supprimer du panier
                     </button>
                 </div>
+            </div>
+            <br />
+            <div
+                className="flex flex-col justify-around"
+                style={{
+                    backgroundColor: "#222222",
+                    fontSize: 25,
+                    padding: 20,
+                    fontFamily: "Orbitron",
+                }}
+            >
+                <p>Total: ----------------------------- prix </p>
+                <br />
+                <button
+                    className="AudioWideBlue"
+                    style={{
+                        backgroundImage: `url(${bouton})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                        border: "none",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "55px",
+                        width: "230px",
+                        fontSize: 20,
+                    }}
+                >
+                    Passer au paiment
+                </button>
             </div>
         </div>
     );
