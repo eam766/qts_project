@@ -1,7 +1,8 @@
 .carousel-container {
     position: relative;
     height: 500px;
-    width: 90%;
+    width: 100%;
+
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center top;
@@ -10,7 +11,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: #121214;
 }
 
 .carousel-container::after {
@@ -33,7 +33,6 @@
     position: absolute;
     border-radius: 15px;
     transition: transform 0.9s ease;
-    width: 300px;
 }
 
 .center {

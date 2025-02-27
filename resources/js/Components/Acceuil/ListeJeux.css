@@ -4,10 +4,12 @@
 }
 
 .jeux-cover {
-    width: 250px;
-    overflow: hidden;
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    margin: 0 5px;
 }
 
 .jeux-cover:hover {
-    border-bottom: 1px solid #02d7f2;
+    border-bottom: 2px solid #02d7f2;
 }

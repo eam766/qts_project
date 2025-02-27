@@ -70,4 +70,20 @@
         height: 40px;
         width: 360px;
     }
+    .main-container {
+        width: 100%;
+        min-height: 100vh;
+        border: 55px solid transparent;
+
+        border-image-source: url("../js/assets/img/Main_Bordure22.png");
+        border-image-slice: 100;
+        border-image-width: 1.5;
+
+        border-image-repeat: stretch;
+
+        padding: 10px;
+        padding-top: 70px;
+        position: relative;
+        z-index: 1;
+    }
 }

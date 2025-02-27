@@ -24,12 +24,11 @@ export default function Accueil({
             <Carousel temps={5000} galleryImage={trendingGames} />
             <div className="flex flex-col items-start">
                 <img
-                    className="m-4"
+                    className="m-4 mt-10"
                     src={titre_2}
                     alt=""
                     width={440}
                     height={440}
-                    style={{ width: 440, height: "auto" }}
                 />{" "}
                 <br />
                 <ListeJeux couvertures={wantToPlay} />
@@ -47,15 +46,15 @@ export default function Accueil({
                     alt=""
                     width={500}
                     height={500}
-                    style={{ width: 440, height: "auto" }}
                 />
                 <ListeJeux couvertures={playing} />
             </div>
-            <br />
-            <div style={{ display: "flex", gap: 50 }}>
-                <Tableau jeux={upcomingGames} />
-
-                <Tableau jeux={topGames} />
+            <div>
+                <Tableau
+                    upcomingGames={upcomingGames}
+                    playing={playing}
+                    topGames={topGames}
+                />
             </div>
         </div>
     );
