@@ -9,17 +9,20 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\WishlistController;
  
  
  
 Route::get('/', [GameController::class,'showTOP']);
 Route::inertia('/connexion', 'Connexion')->name('connexion');
+
 Route::inertia('/inscription', 'Inscription')->name('inscription');
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
  
  
- 
+Route::inertia('/listeSouhaits', 'ListeSouhaits'); 
+Route::inertia('/panier', 'Panier'); 
 Route::inertia('/profile', 'Profile');
 Route::inertia('/profil-settings', 'ProfileSettings');
  
@@ -35,16 +38,16 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
  
  
-
  
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
+ 
+ Route::get('/connexion', function () {
+     return Inertia::render('Connexion', [
+         'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+     ]);
+ });
  
  
 Route::middleware('auth')->group(function () {
@@ -69,6 +72,18 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->middleware('guest')
     ->name('password.update');
  
+
+    Route::post('/wishlist', [WishlistController::class, 'store'])
+    ->name('wishlist.store')
+    ->middleware('auth');
+
+    Route::delete('/wishlist', [WishlistController::class, 'destroy'])
+    ->name('wishlist.destroy')
+    ->middleware('auth');
+
+   
+
 require __DIR__.'/auth.php';
  
-
+ 
+ 

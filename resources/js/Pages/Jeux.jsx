@@ -1,13 +1,51 @@
 import ButtonCyber from "@/Components/Buttons/ButtonCyber";
 import BordureCover from "@/Components/JeuxVideo/BordureCover";
 import BoutonAjouter from "../assets/img/Bouton_Ajouter.png";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import React, { useState } from "react";
 import { LuHeart } from "react-icons/lu";
 import { FaCartArrowDown } from "react-icons/fa";
 
-export default function Jeux({ game }) {
+export default function Jeux({ game, isInWishlist: initialIsInWishlist }) {
     const [mainScreenshot, setMainScreenshot] = useState(game.screenshots?.[0]);
+    // État local pour gérer instantanément si le jeu est dans la wishlist
+    const [inWishlist, setInWishlist] = useState(initialIsInWishlist);
+
+    const toggleWishlist = () => {
+        if (inWishlist) {
+            // Si déjà dans la wishlist, on le retire
+            router.delete(route("wishlist.destroy"), {
+                data: { game_id: game.id },
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    setInWishlist(false);
+                },
+                onError: () => {
+                    console.error(
+                        "Erreur lors de la suppression de la wishlist."
+                    );
+                },
+            });
+        } else {
+            // Sinon, on l'ajoute
+            router.post(
+                route("wishlist.store"),
+                { game_id: game.id },
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        setInWishlist(true);
+                    },
+                    onError: () => {
+                        console.error("Erreur lors de l'ajout à la wishlist.");
+                    },
+                }
+            );
+        }
+    };
+
     return (
         <div className="container mx-auto p-10 flex">
             <div className="w-2/3 flex flex-col items-center mr-8">
@@ -15,7 +53,7 @@ export default function Jeux({ game }) {
                     <img
                         src={`https://images.igdb.com/igdb/image/upload/t_screenshot_big/${mainScreenshot.image_id}.jpg`}
                         alt="Main Screenshot"
-                        className=" mb-4"
+                        className="mb-4"
                         style={{ height: "500px", width: "800px" }}
                     />
                 )}
@@ -87,9 +125,16 @@ export default function Jeux({ game }) {
                             height: 40,
                             width: 272,
                         }}
+                        onClick={toggleWishlist}
                     >
-                        <LuHeart className="mr-4" />
-                        Ajouter à la wishlist
+                        <LuHeart
+                            className={`mr-4 ${
+                                inWishlist ? "text-red-500" : ""
+                            }`}
+                        />
+                        {inWishlist
+                            ? "Dans la liste de souhaits"
+                            : "Ajouter à la liste de souhaits"}
                     </button>
                 </div>
             </div>

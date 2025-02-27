@@ -358,16 +358,6 @@ export default function CookieBanner() {
                     </div>
                 </div>
             )}
-
-            {/* Footer - Toujours visible */}
-            <footer className="ml-5 mt-6">
-                <img src={footer_corner} alt="" height={300} width={300} />
-                <p className="text-xs text-center mb-5">
-                    @ QTS Montréal. Tous droits réservés. Toutes les marques
-                    commerciales et déposées sont la propriété de leurs
-                    propriétaires respectifs.
-                </p>
-            </footer>
         </div>
     );
 }

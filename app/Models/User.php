@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
- 
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -30,7 +30,13 @@ class User extends Authenticatable
             'termsCondition',
             'image'
         ];
- 
+        
+  public function wishlist()
+{
+    return $this->hasMany(Wishlist::class);
+}
+
+        
     /**
      * The attributes that should be hidden for serialization.
      *

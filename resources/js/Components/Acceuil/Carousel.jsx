@@ -22,18 +22,26 @@ export default function Carousel({ temps, galleryImage }) {
         };
     });
 
-    console.log(galleryImage);
-
     return (
-        <div className="carousel-container">
+        <Link
+            className="carousel-container"
+            style={{
+                backgroundImage: `url("https://images.igdb.com/igdb/image/upload/t_1080p/${
+                    galleryImage[indexes[1]].artworks[0].image_id
+                }.webp")`,
+            }}
+            href={`/jeux/${galleryImage[indexes[1]].id}`}
+            loading="lazy"
+        >
             {indexes.map((i, j) => (
                 <img
                     key={galleryImage[i].id}
-                    src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${galleryImage[i].cover.image_id}.jpg`}
+                    src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${galleryImage[i].cover.image_id}.webp`}
                     alt={galleryImage[i].slug}
                     className={`carousel-image ${classes[j]}`}
+                    loading="lazy"
                 />
             ))}
-        </div>
+        </Link>
     );
 }

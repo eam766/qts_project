@@ -11,7 +11,11 @@ export default function A_Propos() {
             className="flex flex-col justify-around "
         >
             <div className="flex flex-row basis-1/3 justify-evenly ">
-                <img src={logo} alt="" />
+                <img
+                    src={logo}
+                    alt=""
+                    style={{ height: "auto", width: "auto" }}
+                />
                 <p
                     style={{
                         backgroundImage: `url(${encadrePresentation})`,
@@ -55,7 +59,7 @@ export default function A_Propos() {
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
                         backgroundSize: "100% 100%",
-                        minHeight: "330px",
+                        minHeight: "230px",
                         width: "100%",
                         maxWidth: "800px",
                         overflow: "hidden",
@@ -81,7 +85,7 @@ export default function A_Propos() {
                     détails et notre capacité à transformer les idées en
                     réalité.
                 </p>
-                <img src={circuit} alt="" width={370} />
+                <img src={circuit} alt="" width={390} />
             </div>
             <div className="flex flex-row basis-1/3 justify-evenly mt-32">
                 <img

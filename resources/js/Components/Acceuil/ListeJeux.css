@@ -9,3 +9,7 @@
     object-fit: cover;
     margin: 0 5px;
 }
+
+.jeux-cover:hover {
+    border-bottom: 2px solid #02d7f2;
+}
