@@ -21,7 +21,8 @@ Route::post('/register', [RegisteredUserController::class, 'store'])->name('regi
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
  
  
-Route::inertia('/envie', 'Envie'); 
+Route::inertia('/listeSouhaits', 'ListeSouhaits'); 
+Route::inertia('/panier', 'Panier'); 
 Route::inertia('/profile', 'Profile');
 Route::inertia('/profil-settings', 'ProfileSettings');
  
@@ -39,14 +40,14 @@ Route::get('/dashboard', function () {
  
  
  
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
+ Route::get('/connexion', function () {
+     return Inertia::render('Connexion', [
+         'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+     ]);
+ });
  
  
 Route::middleware('auth')->group(function () {
