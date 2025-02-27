@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\WishlistController;
  
  
  
@@ -70,6 +71,17 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->middleware('guest')
     ->name('password.update');
  
+
+    Route::post('/wishlist', [WishlistController::class, 'store'])
+    ->name('wishlist.store')
+    ->middleware('auth');
+
+    Route::delete('/wishlist', [WishlistController::class, 'destroy'])
+    ->name('wishlist.destroy')
+    ->middleware('auth');
+
+   
+
 require __DIR__.'/auth.php';
  
  

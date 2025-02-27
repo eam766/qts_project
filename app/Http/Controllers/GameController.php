@@ -51,7 +51,7 @@ class GameController extends Controller
     public function show($id)
     {
         $id = (int) $id;
-
+    
         $game = Game::where('id', $id)
             ->with(['cover', 'screenshots'])
             ->first();
@@ -60,7 +60,19 @@ class GameController extends Controller
             return abort(404, "Jeu non trouvé");
         }
     
-        return Inertia::render('Jeux', ['game' => $game]);
+        // Déterminer si le jeu est dans la wishlist de l'utilisateur connecté
+        $isInWishlist = false;
+        if (auth()->check()) {
+            $isInWishlist = auth()->user()
+                ->wishlist()
+                ->where('game_id', $id)
+                ->exists();
+        }
+    
+        return Inertia::render('Jeux', [
+            'game' => $game,
+            'isInWishlist' => $isInWishlist,
+        ]);
     }
     
     public function showTOP(){
