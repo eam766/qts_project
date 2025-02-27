@@ -3,9 +3,8 @@ export default function Logo() {
     return (
         <div
             style={{
-                border: "1px #F0F14E double",
                 padding: 10,
-                borderRadius: 50,
+
                 marginLeft: 10,
             }}
         >
