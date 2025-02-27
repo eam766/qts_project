@@ -1,4 +1,6 @@
 import { useForm, Link } from "@inertiajs/react";
+import BgInput from "../../assets/img/ConnexionInput.png";
+import bouton_forgotPassword from "../../assets/img/Bouton_Connexion4.png";
 
 export default function ForgotPassword({ status }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -10,9 +12,19 @@ export default function ForgotPassword({ status }) {
         post(route("password.email"));
     };
 
+    const inputStyle = {
+        backgroundImage: `url(${BgInput})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        border: "none",
+        height: "40px",
+        width: "360px",
+    };
+
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="text-2xl mb-4 AudioWideBlue">
                 Réinitialisation du mot de passe
             </h2>
             <p className="text-gray-500 mb-4">
@@ -24,18 +36,19 @@ export default function ForgotPassword({ status }) {
 
             <form
                 onSubmit={submit}
-                className="w-full max-w-sm bg-black p-6 rounded-lg shadow-lg"
+                className="w-full max-w-sm p-6 rounded-lg shadow-lg"
             >
-                <label htmlFor="email" className="block text-gray-700">
+                <label htmlFor="email" className="block AudioWideBlue">
                     Courriel
                 </label>
                 <input
+                    style={inputStyle}
                     id="email"
                     type="email"
                     name="email"
                     value={data.email}
                     onChange={(e) => setData("email", e.target.value)}
-                    className="w-full p-2 mt-1 border rounded"
+                    className="w-full p-2 mt-1 border rounded bg-transparent"
                     required
                 />
 
@@ -43,7 +56,7 @@ export default function ForgotPassword({ status }) {
 
                 <button
                     type="submit"
-                    className="w-full mt-4 bg-blue-500 text-black p-2 rounded hover:bg-blue-700"
+                    className="buttonRight AudioWideBlue mt-16"
                     disabled={processing}
                 >
                     {processing ? "Envoi en cours..." : "Envoyer le lien"}
@@ -53,7 +66,8 @@ export default function ForgotPassword({ status }) {
             <p className="mt-4">
                 <Link
                     href={route("login")}
-                    className="text-blue-500 hover:underline"
+                    className=" hover:underline"
+                    style={{ color: "#F0F14E" }}
                 >
                     Retour à la connexion
                 </Link>

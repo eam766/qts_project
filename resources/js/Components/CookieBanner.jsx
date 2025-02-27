@@ -306,8 +306,11 @@ export default function CookieBanner() {
                                     style={{ height: "30px" }}
                                 />
                                 <p
-                                    className="text-2xl text-red-500 mx-2"
-                                    style={{ fontFamily: "AudioWide" }}
+                                    className="text-2xl  mx-2"
+                                    style={{
+                                        fontFamily: "AudioWide",
+                                        color: "#E5315C",
+                                    }}
                                 >
                                     Attention
                                 </p>

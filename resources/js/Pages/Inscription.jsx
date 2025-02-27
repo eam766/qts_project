@@ -137,7 +137,7 @@ export default function Inscription() {
                 className="flex flex-col items-center space-y-4 w-full"
             >
                 {/* Nom et Prénom */}
-                <div className="flex space-x-4">
+                <div className="flex space-x-4 ">
                     <div className="flex flex-col">
                         <label htmlFor="lastName">Nom</label>
                         <input

@@ -76,11 +76,11 @@ export default function Connexion() {
                 onSubmit={submit}
                 className="basis-1/3 flex flex-col justify-evenly"
             >
-                <div className="flex flex-col">
+                <div className="flex flex-col mb-4">
                     <label htmlFor="email">Courriel</label>
                     <input
                         style={inputStyle}
-                        className="bg-transparent text-white w-100"
+                        className="bg-transparent text-white w-100 "
                         id="email"
                         name="email"
                         type="email"
@@ -114,7 +114,8 @@ export default function Connexion() {
                 <p className="text-sm mt-2">
                     <Link
                         href={route("password.request")}
-                        className="text-blue-500 hover:underline"
+                        className=" hover:underline"
+                        style={{ color: "#F0F14E" }}
                     >
                         Mot de passe oublié ?
                     </Link>

@@ -41,7 +41,8 @@ class PasswordResetLinkController extends Controller
         );
 
         if ($status == Password::RESET_LINK_SENT) {
-            return back()->with('status', __($status));
+            return back()->with('status', 'Nous vous avons envoyé un lien de réinitialisation de mot de passe.');
+
         }
 
         throw ValidationException::withMessages([

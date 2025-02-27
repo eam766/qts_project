@@ -1,24 +1,35 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, useForm } from '@inertiajs/react';
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
+import GuestLayout from "@/Layouts/GuestLayout";
+import BgInput from "../../assets/img/ConnexionInput.png";
+import { Head, useForm } from "@inertiajs/react";
 
 export default function ResetPassword({ token, email }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         token: token,
         email: email,
-        password: '',
-        password_confirmation: '',
+        password: "",
+        password_confirmation: "",
     });
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('password.store'), {
-            onFinish: () => reset('password', 'password_confirmation'),
+        post(route("password.store"), {
+            onFinish: () => reset("password", "password_confirmation"),
         });
+    };
+
+    const inputStyle = {
+        backgroundImage: `url(${BgInput})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        border: "none",
+        height: "40px",
+        width: "360px",
     };
 
     return (
@@ -27,53 +38,71 @@ export default function ResetPassword({ token, email }) {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <label
+                        htmlFor="email"
+                        value="Email"
+                        className="AudioWideBlue"
+                    >
+                        Courriel
+                    </label>
 
-                    <TextInput
+                    <input
+                        style={inputStyle}
                         id="email"
                         type="email"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full bg-transparent"
                         autoComplete="username"
-                        onChange={(e) => setData('email', e.target.value)}
+                        onChange={(e) => setData("email", e.target.value)}
                     />
 
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <label
+                        htmlFor="password"
+                        value="Password"
+                        className="AudioWideBlue"
+                    >
+                        Mot de passe
+                    </label>
 
-                    <TextInput
+                    <input
+                        style={inputStyle}
                         id="password"
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full bg-transparent"
                         autoComplete="new-password"
                         isFocused={true}
-                        onChange={(e) => setData('password', e.target.value)}
+                        onChange={(e) => setData("password", e.target.value)}
                     />
 
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel
+                    <label
                         htmlFor="password_confirmation"
                         value="Confirm Password"
-                    />
+                        className="AudioWideBlue"
+                    >
+                        Confirmer le mot de passe
+                    </label>
 
-                    <TextInput
+                    <input
+                        style={inputStyle}
                         type="password"
                         id="password_confirmation"
                         name="password_confirmation"
                         value={data.password_confirmation}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full bg-transparent"
                         autoComplete="new-password"
                         onChange={(e) =>
-                            setData('password_confirmation', e.target.value)
+                            setData("password_confirmation", e.target.value)
                         }
                     />
 
@@ -83,10 +112,13 @@ export default function ResetPassword({ token, email }) {
                     />
                 </div>
 
-                <div className="mt-4 flex items-center justify-end">
-                    <PrimaryButton className="ms-4" disabled={processing}>
+                <div className="mt-16 flex items-center justify-start ">
+                    <button
+                        disabled={processing}
+                        className="buttonRight AudioWideBlue"
+                    >
                         Reset Password
-                    </PrimaryButton>
+                    </button>
                 </div>
             </form>
         </GuestLayout>
