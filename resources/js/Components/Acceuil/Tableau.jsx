@@ -16,6 +16,7 @@ export default function Tableau({ jeux }) {
                             src={`https://images.igdb.com/igdb/image/upload/t_cover_small/${jeu.cover.image_id}.webp`}
                             loading="lazy"
                             alt={jeu.name}
+                            style={{ width: 100, height: "auto", padding: 10 }}
                         />
                         <div>
                             <h1>{jeu.name}</h1>

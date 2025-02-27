@@ -29,7 +29,7 @@ export default function Accueil({
                     alt=""
                     width={440}
                     height={440}
-                    style={{ width: 600, height: "auto" }}
+                    style={{ width: 440, height: "auto" }}
                 />{" "}
                 <br />
                 <ListeJeux couvertures={wantToPlay} />
@@ -47,7 +47,7 @@ export default function Accueil({
                     alt=""
                     width={500}
                     height={500}
-                    style={{ width: 600, height: "auto" }}
+                    style={{ width: 440, height: "auto" }}
                 />
                 <ListeJeux couvertures={playing} />
             </div>
