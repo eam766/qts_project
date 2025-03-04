@@ -87,6 +87,7 @@ class GameController extends Controller
             8: Total Reviews (Steam)
         
         */
+        
         $mostVisitedIds = PopularityPrimitive::where('popularity_type', 1)
         ->orderBy('value', 'desc')
         ->get()
@@ -107,7 +108,8 @@ class GameController extends Controller
         $timestampToday = time(); 
         $oneMonthAgo = strtotime('-1 month', $timestampToday);
 
-        $upcomingGames = Game::where('first_release_date', '>', $timestampToday)
+        $upcomingGames = Game::select(['id','name', 'cover','screenshots','artworks'])
+        ->where('first_release_date', '>', $timestampToday)
             ->where('hypes', '>', 0) 
             ->orderBy('hypes', 'desc')
             ->with(['cover', 'screenshots', 'artworks']) 
@@ -115,17 +117,19 @@ class GameController extends Controller
             ->get();
 
            
-            $trendingGames = Game::where('first_release_date', '>=', $oneMonthAgo)
-            ->where('first_release_date', '<=', $timestampToday)
-            ->where('rating_count', '>', 0) 
-            ->orderBy('first_release_date', 'desc') 
-            ->orderBy('rating_count', 'desc') 
-            ->with(['cover', 'screenshots', 'artworks']) 
-            ->limit(3)
-            ->get();
+        $trendingGames = Game::select(['id','name', 'cover','screenshots','artworks'])
+        ->where('first_release_date', '>=', $oneMonthAgo)
+        ->where('first_release_date', '<=', $timestampToday)
+        ->where('rating_count', '>', 0) 
+        ->orderBy('first_release_date', 'desc') 
+        ->orderBy('rating_count', 'desc') 
+        ->with(['cover', 'screenshots', 'artworks']) 
+        ->limit(3)
+        ->get();
 
 
-        $topGames = Game::where('rating_count', '>', 0) 
+        $topGames = Game::select(['id','name', 'cover','screenshots','artworks'])
+        ->where('rating_count', '>', 0) 
         ->orderBy('rating_count', 'desc')
         ->with(['cover', 'screenshots', 'artworks']) 
         ->limit(5)
@@ -133,21 +137,26 @@ class GameController extends Controller
 
 
           
-        $mostVisited = Game::whereIn('id', $mostVisitedIds)
+        $mostVisited = Game::select(['id','name', 'cover','screenshots','artworks'])
+        ->whereIn('id', $mostVisitedIds)
         ->with(['cover', 'screenshots', 'artworks'])
         
         ->limit(10)
         ->get();
  
-        $wantToPlay = Game::whereIn('id', $wantToPlayIds)
+        $wantToPlay = Game::select(['id','name', 'cover','screenshots','artworks'])
+        ->whereIn('id', $wantToPlayIds)
         ->with(['cover', 'screenshots', 'artworks'])
         ->limit(limit: 10)
         ->get();
  
-        $playing = Game::whereIn('id', $playingIds)
+        $playing = Game::select(['id','name', 'cover','screenshots','artworks'])
+        ->whereIn('id', $playingIds)
         ->with(['cover', 'screenshots', 'artworks'])
         ->limit(10)
         ->get();
+      
+
  
     return Inertia::render('Accueil', [
         'trendingGames'=>$trendingGames,
