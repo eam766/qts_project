@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { usePage, router, Link } from "@inertiajs/react";
 import main_border from "../assets/img/Main_Bordure20.png";
 
 import Logo from "@/Components/Logo";
@@ -8,6 +8,9 @@ import Footer from "@/Components/Footer";
 import { StrictMode } from "react";
 
 export default function Layout({ children }) {
+    const { auth } = usePage().props;
+    const user = auth.user; // Récupérer l'utilisateur connecté
+
     return (
         <>
             <header className="flex flex-row items-center ">
@@ -20,12 +23,34 @@ export default function Layout({ children }) {
                     </div>
                     <SearchBar />
                     <div className="flex justify-center basis-1/3">
-                        <Link className="buttonLeft mr-1" href="/inscription">
-                            Inscription
-                        </Link>
-                        <Link className="buttonRight" href="/connexion">
-                            Connexion
-                        </Link>
+                        {user ? (
+                            <>
+                                <Link
+                                    className="buttonLeft mr-1"
+                                    href="/profile"
+                                >
+                                    Profil
+                                </Link>
+                                <button
+                                    className="buttonRight"
+                                    onClick={() => router.post(route("logout"))}
+                                >
+                                    Déconnexion
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <Link
+                                    className="buttonLeft mr-1"
+                                    href="/inscription"
+                                >
+                                    Inscription
+                                </Link>
+                                <Link className="buttonRight" href="/connexion">
+                                    Connexion
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </nav>
             </header>
