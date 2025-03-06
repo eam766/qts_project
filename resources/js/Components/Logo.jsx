@@ -1,12 +1,14 @@
+import { Link } from "@inertiajs/react";
 import logo from "../assets/img/Logo.svg";
 export default function Logo() {
     return (
-        <div
+        <Link
             style={{
                 padding: 10,
 
                 marginLeft: 10,
             }}
+            href="/"
         >
             <svg
                 version="1.0"
@@ -96,6 +98,6 @@ m207 -65 c23 -12 60 -42 82 -67 161 -182 33 -469 -209 -469 -161 0 -279 122
             >
                 Ludic
             </p>
-        </div>
+        </Link>
     );
 }
