@@ -6,6 +6,7 @@ import SearchBar from "@/Components/SearchBar";
 import CookieBanner from "@/Components/CookieBanner";
 import Footer from "@/Components/Footer";
 import { StrictMode } from "react";
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
 
 export default function Layout({ children }) {
     const { auth } = usePage().props;
@@ -25,6 +26,25 @@ export default function Layout({ children }) {
                     <div className="flex justify-center basis-1/3">
                         {user ? (
                             <>
+                                <div className="flex justify-center basis-1/3 gap-4">
+                                    {" "}
+                                    <Link
+                                        href="/listeSouhaits"
+                                        className="text-xl"
+                                    >
+                                        <FaHeart
+                                            className="text-white hover:text-red-500"
+                                            size={28}
+                                        />
+                                    </Link>
+                                    <Link href="/panier" className="text-xl">
+                                        <FaShoppingCart
+                                            className="text-white hover:text-yellow-500"
+                                            size={28}
+                                        />
+                                    </Link>
+                                </div>
+
                                 <Link
                                     className="buttonLeft mr-1"
                                     href="/profile"
