@@ -67,8 +67,12 @@ export default function ListeSouhait() {
                                 Sortie:{" "}
                                 {game.first_release_date
                                     ? new Date(
-                                          game.first_release_date * 1000
-                                      ).toLocaleDateString()
+                                          game.first_release_date
+                                      ).toLocaleDateString("fr-FR", {
+                                          year: "numeric",
+                                          month: "long",
+                                          day: "numeric",
+                                      })
                                     : "N/A"}
                             </p>
                         </div>

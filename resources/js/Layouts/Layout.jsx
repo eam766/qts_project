@@ -7,10 +7,29 @@ import CookieBanner from "@/Components/CookieBanner";
 import Footer from "@/Components/Footer";
 import { StrictMode } from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import axios from "axios"; // Ajoute axios pour faire des requêtes API
 
 export default function Layout({ children }) {
     const { auth } = usePage().props;
     const user = auth.user; // Récupérer l'utilisateur connecté
+    const [wishlistGames, setWishlistGames] = useState([]);
+
+    useEffect(() => {
+        if (user) {
+            axios
+                .get(route("wishlist.data"))
+                .then((response) => {
+                    setWishlistGames(response.data.wishlistGames);
+                })
+                .catch((error) =>
+                    console.error("Erreur chargement wishlist:", error)
+                );
+        }
+    }, [user]);
+
+    const wishlistCount = wishlistGames.length;
+    console.log("Wishlist Games dans le Layout:", wishlistGames);
 
     return (
         <>
@@ -30,12 +49,17 @@ export default function Layout({ children }) {
                                     {" "}
                                     <Link
                                         href="/listeSouhaits"
-                                        className="text-xl"
+                                        className="text-xl relative"
                                     >
                                         <FaHeart
                                             className="text-white hover:text-red-500"
                                             size={28}
                                         />
+                                        {wishlistCount > 0 && (
+                                            <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2">
+                                                {wishlistCount}
+                                            </span>
+                                        )}
                                     </Link>
                                     <Link href="/panier" className="text-xl">
                                         <FaShoppingCart

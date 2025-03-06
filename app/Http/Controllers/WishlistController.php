@@ -62,6 +62,8 @@ class WishlistController extends Controller
 
         return redirect()->back()->with('success', 'Jeu ajouté à la wishlist.');
     }
+
+
     public function destroy(Request $request)
 {
     $request->validate([
@@ -73,4 +75,15 @@ class WishlistController extends Controller
 
     return redirect()->back()->with('success', 'Jeu retiré de la wishlist.');
 }
+
+public function getWishlist()
+{
+    $user = auth()->user();
+    $wishlistGames = $user ? $user->wishlist()->pluck('game_id') : collect();
+
+    return response()->json([
+        'wishlistGames' => $wishlistGames
+    ]);
+}
+
 }
