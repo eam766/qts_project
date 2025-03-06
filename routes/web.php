@@ -24,7 +24,7 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('l
  
 Route::inertia('/listeSouhaits', 'ListeSouhaits'); 
 Route::inertia('/panier', 'Panier'); 
-Route::inertia('/profile', 'Profile');
+Route::inertia('/profil', 'Profile');
 Route::inertia('/profil-settings', 'ProfileSettings');
  
 Route::get('/boutique', [GameController::class, 'index'])->name('games.index');
