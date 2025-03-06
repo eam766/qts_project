@@ -81,6 +81,11 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->name('wishlist.destroy')
     ->middleware('auth');
 
+    Route::get('/listeSouhaits', [WishlistController::class, 'index'])
+    ->middleware('auth')
+    ->name('wishlist.index');
+
+
    
 
 require __DIR__.'/auth.php';
