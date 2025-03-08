@@ -1,15 +1,16 @@
 // Dans Tableau.jsx (exemple complet)
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import IconButton from "@mui/material/IconButton";
-import { Link } from "@inertiajs/react";
+import { Link, usePage, router } from "@inertiajs/react";
 import { Tooltip } from "@mui/material";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import "./Tableau.css";
+import { motion } from "framer-motion";
 
 // Composant pour le contenu d'un onglet
 function CustomTabPanel(props) {
@@ -42,43 +43,119 @@ function a11yProps(index) {
 }
 
 function JeuxList({ jeux }) {
+    const { auth, wishlistGames } = usePage().props;
+    const user = auth.user;
+    const [wishlist, setWishlist] = useState(wishlistGames || []);
+
+    const toggleWishlist = (gameId) => {
+        if (!user) {
+            router.visit("/connexion");
+            return;
+        }
+
+        const isInWishlist = wishlist.includes(gameId);
+
+        if (isInWishlist) {
+            router.delete(route("wishlist.destroy"), {
+                data: { game_id: gameId },
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    setWishlist((prev) => prev.filter((id) => id !== gameId));
+                },
+                onError: () => {
+                    console.error("Erreur lors de la suppression du jeu.");
+                },
+            });
+        } else {
+            router.post(
+                route("wishlist.store"),
+                { game_id: gameId },
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        setWishlist((prev) => [...prev, gameId]);
+                    },
+                    onError: () => {
+                        console.error("Erreur lors de l'ajout à la wishlist.");
+                    },
+                }
+            );
+        }
+    };
+
     return (
         <div className="jeux-grid">
             {jeux &&
-                jeux.map((jeu) => (
-                    <div key={jeu.id} className="card">
-                        <Link className="card-link" href={`/jeux/${jeu.id}`}>
-                            <img
-                                src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${jeu.cover.image_id}.jpg`}
-                                alt={jeu.name}
-                                style={{
-                                    width: 100,
-                                    height: "auto",
-                                    padding: 10,
-                                }}
-                            />
+                jeux.map((jeu) => {
+                    const isInWishlist = wishlist.includes(jeu.id);
+                    return (
+                        <div key={jeu.id} className="card">
+                            <Link
+                                className="card-link"
+                                href={`/jeux/${jeu.id}`}
+                            >
+                                <img
+                                    src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${jeu.cover.image_id}.jpg`}
+                                    alt={jeu.name}
+                                    style={{
+                                        width: 100,
+                                        height: "auto",
+                                        padding: 10,
+                                    }}
+                                />
+                                <div>
+                                    <h1>{jeu.name}</h1>
+                                    <div>19.99$</div>
+                                </div>
+                            </Link>
                             <div>
-                                <h1>{jeu.name}</h1>
-                                <div>19.99$</div>
+                                <Tooltip title="Ajouter à la liste de souhaits">
+                                    <motion.div
+                                        whileTap={{ scale: 0.8 }} // 🔥 Effet de "pouls" au clic
+                                        animate={{
+                                            rotate: wishlist.includes(jeu.id)
+                                                ? 360
+                                                : 0,
+                                        }} // 🔥 Tourne à 360° quand ajouté
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 200,
+                                            damping: 10,
+                                        }}
+                                    >
+                                        <IconButton
+                                            onClick={() =>
+                                                toggleWishlist(jeu.id)
+                                            }
+                                        >
+                                            <PlaylistAddIcon
+                                                className="icons"
+                                                style={{
+                                                    color: wishlist.includes(
+                                                        jeu.id
+                                                    )
+                                                        ? "#FF007F"
+                                                        : "#FFFFFF",
+                                                }}
+                                            />
+                                        </IconButton>
+                                    </motion.div>
+                                </Tooltip>
+
+                                <Tooltip title="Ajouter au panier">
+                                    <IconButton
+                                        aria-label="Ajouter au panier"
+                                        className="icon-button"
+                                    >
+                                        <AddShoppingCartIcon className="icons" />
+                                    </IconButton>
+                                </Tooltip>
                             </div>
-                        </Link>
-                        <div>
-                            <Tooltip title="Ajouter à la liste de souhaits">
-                                <IconButton>
-                                    <PlaylistAddIcon className="icons" />
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Ajouter au panier">
-                                <IconButton
-                                    aria-label="Ajouter au panier"
-                                    className="icon-button"
-                                >
-                                    <AddShoppingCartIcon className="icons" />
-                                </IconButton>
-                            </Tooltip>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
         </div>
     );
 }

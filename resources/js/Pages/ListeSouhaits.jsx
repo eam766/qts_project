@@ -131,51 +131,18 @@ export default function ListeSouhait() {
                                   </p>
                               </div>
 
-                              {/* Boutons d'action */}
-                              <div className="flex flex-col self-center ml-auto">
-                                  <button
-                                      className="AudioWideBlue"
+                              {/* Conteneur des boutons d’action */}
+                              <div
+                                  className="flex flex-col self-center ml-auto"
+                                  style={{ width: "220px" }}
+                              >
+                                  {/* Section "Ajouter au panier" (reste fixe) */}
+                                  <div
                                       style={{
-                                          backgroundImage: `url(${bouton})`,
-                                          backgroundRepeat: "no-repeat",
-                                          backgroundPosition: "center",
-                                          backgroundSize: "cover",
-                                          border: "none",
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                          height: "45px",
-                                          width: "180px",
+                                          textAlign: "center",
+                                          marginBottom: "10px",
                                       }}
                                   >
-                                      Ajouter au panier
-                                  </button>
-
-                                  {confirmDelete === game.id ? (
-                                      <div className="mt-2 flex gap-2">
-                                          <button
-                                              className="bg-red-600 text-white px-4 py-2 rounded"
-                                              onClick={() =>
-                                                  removeFromWishlist(game.id)
-                                              }
-                                              disabled={
-                                                  removingGameId === game.id
-                                              }
-                                          >
-                                              {removingGameId === game.id
-                                                  ? "Suppression en cours..."
-                                                  : "Confirmer"}
-                                          </button>
-                                          <button
-                                              className="bg-gray-500 text-white px-4 py-2 rounded"
-                                              onClick={() =>
-                                                  setConfirmDelete(null)
-                                              }
-                                          >
-                                              Annuler
-                                          </button>
-                                      </div>
-                                  ) : (
                                       <button
                                           className="AudioWideBlue"
                                           style={{
@@ -187,17 +154,75 @@ export default function ListeSouhait() {
                                               display: "flex",
                                               justifyContent: "center",
                                               alignItems: "center",
-                                              height: "50px",
-                                              width: "203px",
-                                              marginTop: "16px",
+                                              height: "45px",
+                                              width: "180px",
+                                              margin: "0 auto", // 🔥 Centre le bouton horizontalement
                                           }}
-                                          onClick={() =>
-                                              setConfirmDelete(game.id)
-                                          }
                                       >
-                                          Supprimer de la liste
+                                          Ajouter au panier
                                       </button>
-                                  )}
+                                  </div>
+
+                                  {/* Section "Supprimer de la liste" avec confirmation */}
+                                  <div
+                                      style={{
+                                          minHeight: "60px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                      }}
+                                  >
+                                      {confirmDelete === game.id ? (
+                                          <div className="flex gap-2">
+                                              <button
+                                                  className="bg-red-600 text-white px-4 py-2 rounded"
+                                                  onClick={() =>
+                                                      removeFromWishlist(
+                                                          game.id
+                                                      )
+                                                  }
+                                                  disabled={
+                                                      removingGameId === game.id
+                                                  }
+                                              >
+                                                  {removingGameId === game.id
+                                                      ? "Suppression en cours..."
+                                                      : "Confirmer"}
+                                              </button>
+                                              <button
+                                                  className="bg-gray-500 text-white px-4 py-2 rounded"
+                                                  onClick={() =>
+                                                      setConfirmDelete(null)
+                                                  }
+                                              >
+                                                  Annuler
+                                              </button>
+                                          </div>
+                                      ) : (
+                                          <button
+                                              className="AudioWideBlue"
+                                              style={{
+                                                  backgroundImage: `url(${bouton})`,
+                                                  backgroundRepeat: "no-repeat",
+                                                  backgroundPosition: "center",
+                                                  backgroundSize: "cover",
+                                                  border: "none",
+                                                  display: "flex",
+                                                  justifyContent: "center",
+                                                  alignItems: "center",
+                                                  height: "50px",
+                                                  width: "203px",
+                                                  marginTop: "16px",
+                                                  margin: "0 auto", // 🔥 Centre le bouton horizontalement
+                                              }}
+                                              onClick={() =>
+                                                  setConfirmDelete(game.id)
+                                              }
+                                          >
+                                              Supprimer de la liste
+                                          </button>
+                                      )}
+                                  </div>
                               </div>
                           </motion.div>
                       ))}
