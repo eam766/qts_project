@@ -1,0 +1,16 @@
+.containerMission {
+    background-image: url("../../assets/img/Encadre_Mission7.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    min-height: 230px;
+    width: 100%;
+    max-width: 800px;
+    overflow: hidden;
+    padding: 30px;
+}
+
+.titleMission {
+    font-family: Audiowide;
+    color: #8a2be2;
+}

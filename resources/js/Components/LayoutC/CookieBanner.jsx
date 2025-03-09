@@ -251,9 +251,9 @@
 
 //V4
 import { useState, useEffect } from "react";
-import cookie_deco from "../assets/img/CookieDecoration.png";
-import logo_caution from "../assets/img/LogoAttention.png";
-import footer_corner from "../assets/img/Footer_Corner3.png";
+import cookie_deco from "../../assets/img/CookieDecoration.png";
+import logo_caution from "../../assets/img/LogoAttention.png";
+import footer_corner from "../../assets/img/Footer_Corner3.png";
 
 export default function CookieBanner() {
     const [bannerCookieVisible, setBannerCookieVisible] = useState(true);

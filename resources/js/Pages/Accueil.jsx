@@ -1,9 +1,9 @@
-import Carousel from "@/Components/Acceuil/Carousel";
-import ListeJeux from "@/Components/Acceuil/ListeJeux";
+import Carousel from "@/Components/Accueil/Carousel";
+import ListeJeux from "@/Components/Accueil/ListeJeux";
 import separation from "../assets/img/SeparationCarrousel3.png";
 import titre_1 from "../assets/img/TitreCarrousel1.png";
 import titre_2 from "../assets/img/TitreCarrousel2.png";
-import Tableau from "@/Components/Acceuil/Tableau";
+import Tableau from "@/Components/Accueil/Tableau";
 
 export default function Accueil({
     wantToPlay,

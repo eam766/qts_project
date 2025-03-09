@@ -2,7 +2,7 @@ import * as React from "react";
 import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import "./User.css";
-import ListeJeux from "../Acceuil/ListeJeux";
+import ListeJeux from "../Accueil/ListeJeux";
 
 export function UserLibrary() {
     let array1 = [

@@ -64,7 +64,7 @@ import BgInput from "../assets/img/ConnexionInput.png";
 export default function CountrySelect({ value, onChange }) {
     const [countries, setCountries] = useState([]);
 
-    useEffect(() => {
+    /* useEffect(() => {
         fetch(
             "https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code"
         )
@@ -72,6 +72,20 @@ export default function CountrySelect({ value, onChange }) {
             .then((data) => {
                 // On attend que data.countries soit un tableau d'options au format { value, label }
                 setCountries(data.countries);
+            });
+    }, []); */
+    useEffect(() => {
+        fetch(
+            "https://restcountries.com/v3.1/all?fields=cca2,name,translations,flags"
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                const countryOptions = data.map((country) => ({
+                    value: country.cca2,
+                    label:
+                        country.translations.fra.common || country.name.common,
+                }));
+                setCountries(countryOptions);
             });
     }, []);
 
@@ -107,6 +121,7 @@ export default function CountrySelect({ value, onChange }) {
 
     return (
         <Select
+            placeholder="Sélectionnez un pays"
             styles={customStyles}
             options={countries}
             // On retrouve dans le tableau des options celle dont la valeur correspond à la valeur passée par le parent

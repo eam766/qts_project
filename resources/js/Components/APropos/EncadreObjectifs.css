@@ -1,0 +1,22 @@
+.containerObjectif {
+    background-image: url("../../assets/img/Encadre_Objectif6.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    min-height: 330px;
+    width: 100%;
+    max-width: 800px;
+    overflow: hidden;
+    padding: 30px;
+    padding-bottom: 40px;
+}
+
+.manette {
+    height: auto;
+    object-fit: contain;
+}
+
+.titleObjectifs {
+    font-family: Audiowide;
+    color: #8a2be2;
+}

@@ -1,0 +1,12 @@
+.buttonAdd {
+    background-image: url("../../assets/img/Bouton_Ajouter.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 400px;
+}

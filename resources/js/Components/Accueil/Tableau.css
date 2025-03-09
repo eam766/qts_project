@@ -33,6 +33,7 @@ h1 {
 
 .card:hover {
     background-color: #444;
+    transition: background-color 0.3s;
 }
 
 .icons {

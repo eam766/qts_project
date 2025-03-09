@@ -1,10 +1,8 @@
-import ButtonCyber from "@/Components/Buttons/ButtonCyber";
 import BordureCover from "@/Components/JeuxVideo/BordureCover";
-import BoutonAjouter from "../assets/img/Bouton_Ajouter.png";
 import { Head, router } from "@inertiajs/react";
 import React, { useState } from "react";
-import { LuHeart } from "react-icons/lu";
-import { FaCartArrowDown } from "react-icons/fa";
+import BoutonAjouter from "@/Components/PageProduit/BoutonAjouter";
+import BoutonListe from "@/Components/PageProduit/BoutonListe";
 
 export default function Jeux({ game, isInWishlist: initialIsInWishlist }) {
     const [mainScreenshot, setMainScreenshot] = useState(game.screenshots?.[0]);
@@ -93,49 +91,11 @@ export default function Jeux({ game, isInWishlist: initialIsInWishlist }) {
                     <br />
                     <p>CA$ 0,99</p>
                     <br />
-                    <button
-                        className="AudioWideBlue text-lg"
-                        style={{
-                            backgroundImage: `url(${BoutonAjouter})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                            border: "none",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            height: 40,
-                            width: 272,
-                        }}
-                    >
-                        <FaCartArrowDown className="mr-4" />
-                        Ajouter au panier
-                    </button>
-                    <button
-                        className="AudioWideBlue text-lg mt-2"
-                        style={{
-                            backgroundImage: `url(${BoutonAjouter})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                            border: "none",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            height: 40,
-                            width: 272,
-                        }}
-                        onClick={toggleWishlist}
-                    >
-                        <LuHeart
-                            className={`mr-4 ${
-                                inWishlist ? "text-red-500" : ""
-                            }`}
-                        />
-                        {inWishlist
-                            ? "Dans la liste de souhaits"
-                            : "Ajouter à la liste de souhaits"}
-                    </button>
+                    <BoutonAjouter></BoutonAjouter>
+                    <BoutonListe
+                        inWishlist={inWishlist}
+                        onPress={toggleWishlist}
+                    ></BoutonListe>
                 </div>
             </div>
         </div>

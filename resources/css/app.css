@@ -86,4 +86,16 @@
         position: relative;
         z-index: 1;
     }
+
+    .footer-link {
+        transition: color 0.2s;
+    }
+    .footer-link:hover {
+        color: #8a2be2;
+    }
+
+    .title-paragraph {
+        font-weight: bold;
+        font-size: larger;
+    }
 }

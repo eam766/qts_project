@@ -1,4 +1,4 @@
-import barre_recherche from "../assets/img/Barre_de_Recherche3.png";
+import barre_recherche from "../../assets/img/Barre_de_Recherche3.png";
 import { FaSearch } from "react-icons/fa";
 
 export default function SearchBar() {
