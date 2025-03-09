@@ -156,15 +156,17 @@ class GameController extends Controller
         ->limit(10)
         ->get();
 
+       
 
-
+ 
     return Inertia::render('Accueil', [
         'trendingGames'=>$trendingGames,
         'upcomingGames'=>$upcomingGames,
         'mostVisited' => $mostVisited,
         'wantToPlay' => $wantToPlay,
         'playing' => $playing,
-        'topGames'=>$topGames
+        'topGames'=>$topGames,
+      
     ]);
 
     }

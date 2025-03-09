@@ -35,6 +35,7 @@ class RegisteredUserController extends Controller
             'image' => $request->image ?? null, // Optional profile image
         ]);
  
-        return redirect()->route('connexion');
+        return redirect('/connexion');
+
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\WishlistController;
+
  
  
  
@@ -23,7 +24,7 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('l
  
 Route::inertia('/listeSouhaits', 'ListeSouhaits'); 
 Route::inertia('/panier', 'Panier'); 
-Route::inertia('/profile', 'Profile');
+Route::inertia('/profil', 'Profile');
 Route::inertia('/profil-settings', 'ProfileSettings');
  
 Route::get('/boutique', [GameController::class, 'index'])->name('games.index');
@@ -84,6 +85,14 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     Route::delete('/wishlist', [WishlistController::class, 'destroy'])
     ->name('wishlist.destroy')
     ->middleware('auth');
+
+    Route::get('/listeSouhaits', [WishlistController::class, 'index'])
+    ->middleware('auth')
+    ->name('wishlist.index');
+
+    Route::middleware('auth')->get('/wishlist-data', [WishlistController::class, 'getWishlist'])
+    ->name('wishlist.data');
+
 
    
 

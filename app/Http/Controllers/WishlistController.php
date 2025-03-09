@@ -3,9 +3,43 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Wishlist;
+use Inertia\Inertia;
+use MarcReichel\IGDBLaravel\Models\Game;
 
 class WishlistController extends Controller
-{
+{   
+
+     /**
+     * Affiche la wishlist de l'utilisateur connecté.
+     */
+    public function index(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return redirect()->route('connexion');
+        }
+
+        // Récupérer les game_id des jeux ajoutés à la wishlist
+        $gameIds = Wishlist::where('user_id', $user->id)->pluck('game_id')->toArray();
+
+        if (empty($gameIds)) {
+            return Inertia::render('ListeSouhaits', [
+                'wishlistGames' => [],
+            ]);
+        }
+
+        // Récupérer les jeux via l'API IGDB en filtrant par IDs
+        $wishlistGames = Game::whereIn('id', $gameIds)
+            ->with(['cover'])
+            ->get();
+
+        return Inertia::render('ListeSouhaits', [
+            'wishlistGames' => $wishlistGames,
+        ]);
+    }
+
     /**
      * Ajoute un jeu dans la wishlist de l'utilisateur connecté.
      */
@@ -28,6 +62,8 @@ class WishlistController extends Controller
 
         return redirect()->back()->with('success', 'Jeu ajouté à la wishlist.');
     }
+
+
     public function destroy(Request $request)
 {
     $request->validate([
@@ -39,4 +75,15 @@ class WishlistController extends Controller
 
     return redirect()->back()->with('success', 'Jeu retiré de la wishlist.');
 }
+
+public function getWishlist()
+{
+    $user = auth()->user();
+    $wishlistGames = $user ? $user->wishlist()->pluck('game_id') : collect();
+
+    return response()->json([
+        'wishlistGames' => $wishlistGames
+    ]);
+}
+
 }

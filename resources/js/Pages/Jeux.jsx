@@ -3,13 +3,23 @@ import { Head, router } from "@inertiajs/react";
 import React, { useState } from "react";
 import BoutonAjouter from "@/Components/PageProduit/BoutonAjouter";
 import BoutonListe from "@/Components/PageProduit/BoutonListe";
+import { LuHeart } from "react-icons/lu";
+import { FaCartArrowDown } from "react-icons/fa";
+import { usePage } from "@inertiajs/react";
 
 export default function Jeux({ game, isInWishlist: initialIsInWishlist }) {
     const [mainScreenshot, setMainScreenshot] = useState(game.screenshots?.[0]);
     // État local pour gérer instantanément si le jeu est dans la wishlist
     const [inWishlist, setInWishlist] = useState(initialIsInWishlist);
+    const { auth } = usePage().props;
+    const user = auth.user; // Récupérer l'utilisateur connecté
 
     const toggleWishlist = () => {
+        if (!user) {
+            router.visit("/connexion");
+            return;
+        }
+
         if (inWishlist) {
             // Si déjà dans la wishlist, on le retire
             router.delete(route("wishlist.destroy"), {
