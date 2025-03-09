@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import logo from "../../assets/img/Logo.svg";
 export default function Logo() {
     return (

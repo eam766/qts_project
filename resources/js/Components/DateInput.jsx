@@ -69,16 +69,13 @@ export default function DateInput({ value, onChange }) {
                 <DatePicker
                     id="dateNaissance"
                     name="dateNaissance"
-                    // On convertit la valeur string en objet dayjs (si non vide)
                     value={value ? dayjs(value).locale("fr") : null}
                     onChange={(newValue) => {
-                        // newValue est un objet dayjs ou null
-                        // On renvoie la date au format YYYY-MM-DD, ou chaîne vide
                         onChange(newValue ? newValue.format("YYYY-MM-DD") : "");
                     }}
                     format="DD/MM/YYYY"
-                    maxDate={dayjs().subtract(11, "year")} // La personne doit avoir au moins 11 ans
-                    minDate={dayjs().subtract(100, "year")} // Bloque à une naissance il y a 100 ans max
+                    maxDate={dayjs().subtract(11, "year")}
+                    minDate={dayjs().subtract(100, "year")}
                     slotProps={{
                         textField: {
                             placeholder: "JJ/MM/AAAA",

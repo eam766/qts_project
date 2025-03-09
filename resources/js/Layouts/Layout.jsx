@@ -101,7 +101,6 @@ export default function Layout({ children }) {
             <main className="flex justify-center min-h-screen">
                 <div className="main-container">{children}</div>
             </main>
-            <Footer></Footer>
             <CookieBanner />
             <Footer></Footer>
         </>
