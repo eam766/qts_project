@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\WishlistController;
+
  
  
  
@@ -84,6 +85,9 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     Route::get('/listeSouhaits', [WishlistController::class, 'index'])
     ->middleware('auth')
     ->name('wishlist.index');
+
+    Route::middleware('auth')->get('/wishlist-data', [WishlistController::class, 'getWishlist'])
+    ->name('wishlist.data');
 
 
    

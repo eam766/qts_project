@@ -148,6 +148,9 @@ class GameController extends Controller
         ->with(['cover', 'screenshots', 'artworks'])
         ->limit(10)
         ->get();
+
+       
+
  
     return Inertia::render('Accueil', [
         'trendingGames'=>$trendingGames,
@@ -155,7 +158,8 @@ class GameController extends Controller
         'mostVisited' => $mostVisited,
         'wantToPlay' => $wantToPlay,
         'playing' => $playing,
-        'topGames'=>$topGames
+        'topGames'=>$topGames,
+      
     ]);
  
     }
