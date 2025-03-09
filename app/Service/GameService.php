@@ -22,7 +22,7 @@ public function getGamesByCategory(){
 
 }
 
-public function getGamesByCompany(){ ejk
+public function getGamesByCompany(){ 
 
 }
 
