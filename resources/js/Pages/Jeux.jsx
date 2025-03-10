@@ -4,13 +4,16 @@ import React, { useState } from "react";
 import BoutonAjouter from "@/Components/PageProduit/BoutonAjouter";
 import BoutonListe from "@/Components/PageProduit/BoutonListe";
 import { usePage } from "@inertiajs/react";
+import { parseJson } from "../../../utils/utils.js";
 
 export default function Jeux({
     game,
     isInWishlist: initialIsInWishlist,
     isInCart: initialIsInCart,
 }) {
-    const [mainScreenshot, setMainScreenshot] = useState(game.screenshots?.[0]);
+    const [mainScreenshot, setMainScreenshot] = useState(
+        parseJson(game.screenshots)?.[0]
+    );
     const [inWishlist, setInWishlist] = useState(initialIsInWishlist);
     const [inCart, setInCart] = useState(initialIsInCart);
     const [cartLoading, setCartLoading] = useState(false);
@@ -25,7 +28,7 @@ export default function Jeux({
 
         if (inWishlist) {
             router.delete(route("wishlist.destroy"), {
-                data: { game_id: game.id },
+                data: { game_id: game.game.game_id },
                 preserveState: true,
                 preserveScroll: true,
                 onSuccess: () => setInWishlist(false),
@@ -66,7 +69,7 @@ export default function Jeux({
         } else {
             router.post(
                 route("cart.store"),
-                { game_id: game.id },
+                { game_id: game.game_id },
                 {
                     preserveState: true,
                     preserveScroll: true,
@@ -85,17 +88,17 @@ export default function Jeux({
             <div className="w-2/3 flex flex-col items-center mr-8">
                 {mainScreenshot && (
                     <img
-                        src={`https://images.igdb.com/igdb/image/upload/t_screenshot_big/${mainScreenshot.image_id}.jpg`}
+                        src={`https://images.igdb.com/igdb/image/upload/t_screenshot_big/${mainScreenshot}.jpg`}
                         alt="Main Screenshot"
                         className="mb-4"
                         style={{ height: "500px", width: "800px" }}
                     />
                 )}
                 <div className="flex flex-wrap gap-2 items-start justify-center">
-                    {game.screenshots?.map((screenshot) => (
+                    {parseJson(game.screenshots).map((screenshot, index) => (
                         <img
-                            key={screenshot.id}
-                            src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${screenshot.image_id}.jpg`}
+                            key={index}
+                            src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${screenshot}.jpg`}
                             alt={`${game.name} screenshot`}
                             className="w-24 h-auto cursor-pointer hover:opacity-75"
                             onClick={() => setMainScreenshot(screenshot)}
@@ -111,21 +114,21 @@ export default function Jeux({
 
             <div className="w-1/3 flex flex-col items-center">
                 <Head title={game.name} />
-                {game.cover && (
-                    <BordureCover>
-                        <img
-                            src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`}
-                            alt={game.name}
-                            className="w-64 h-auto"
-                        />
-                    </BordureCover>
-                )}
+
+                <BordureCover>
+                    <img
+                        src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover_image_id}.jpg`}
+                        alt={game.name}
+                        className="w-64 h-auto"
+                    />
+                </BordureCover>
+
                 <div className="flex flex-col items-center mt-12 w-96">
                     <h1 className="text-3xl font-bold text-center AudioWideBlue">
                         {game.name}
                     </h1>
                     <br />
-                    <p>CA$ 0,99</p>
+                    <p> {game.price}$</p>
                     <br />
                     <BoutonAjouter
                         inCart={inCart}

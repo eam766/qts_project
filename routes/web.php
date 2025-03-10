@@ -1,5 +1,5 @@
 <?php
- 
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -12,28 +12,32 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
 
- 
- 
- 
-Route::get('/', [GameController::class,'showTOP']);
+
+
+
+Route::get('/', [GameController::class,'acceuil'])->name('accueil');
 // Route::inertia('/connexion', 'Connexion')->name('connexion');
 
 Route::inertia('/inscription', 'Inscription')->name('inscription');
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
- 
- 
-Route::inertia('/listeSouhaits', 'ListeSouhaits'); 
-Route::inertia('/panier', 'Panier'); 
+
+
+Route::inertia('/listeSouhaits', 'ListeSouhaits');
+Route::inertia('/panier', 'Panier');
 Route::inertia('/profil', 'Profile');
 Route::inertia('/profil-settings', 'ProfileSettings');
- 
+
 Route::get('/boutique', [GameController::class, 'index'])->name('games.index');
- 
- 
- 
-Route::get('/jeux/{id}', [GameController::class, 'show']);
- 
+
+
+Route::get('/boutique/recherche', [GameController::class, 'search'])->name('games.search');
+Route::get('/boutique/filter', [GameController::class, 'filter'])->name('games.filter');
+
+
+
+Route::get('/jeux/{game_id}', [GameController::class, 'show']);
+
 Route::inertia('/a_propos', 'A_Propos');
 Route::inertia('/equipe', 'Equipe');
 Route::inertia('/termes_conditions', 'TermesConditions');
@@ -78,7 +82,7 @@ Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
 Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->middleware('guest')
     ->name('password.update');
- 
+
 
     Route::post('/wishlist', [WishlistController::class, 'store'])
     ->name('wishlist.store')
@@ -103,9 +107,8 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->name('wishlist.data');
 
 
-   
+
 
 require __DIR__.'/auth.php';
- 
- 
- 
+
+

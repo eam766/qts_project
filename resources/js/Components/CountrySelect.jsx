@@ -5,16 +5,6 @@ import BgInput from "../assets/img/ConnexionInput.png";
 export default function CountrySelect({ value, onChange }) {
     const [countries, setCountries] = useState([]);
 
-    /* useEffect(() => {
-        fetch(
-            "https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code"
-        )
-            .then((response) => response.json())
-            .then((data) => {
-                // On attend que data.countries soit un tableau d'options au format { value, label }
-                setCountries(data.countries);
-            });
-    }, []); */
     useEffect(() => {
         fetch(
             "https://restcountries.com/v3.1/all?fields=cca2,name,translations,flags"

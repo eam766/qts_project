@@ -14,7 +14,9 @@ export default function PolitiqueCookies() {
             <hr />
             <br />
             <p>
-                <p className="title-paragraph">1. QU’EST-CE QU’UN COOKIE ?</p>{" "}
+                <p className="title-paragraph AudioWideBlue">
+                    1. QU’EST-CE QU’UN COOKIE ?
+                </p>{" "}
                 Un cookie est un petit fichier texte stocké sur votre appareil
                 (ordinateur, tablette, smartphone) lorsque vous visitez un site
                 web. Les cookies nous aident à améliorer votre expérience
@@ -23,7 +25,9 @@ export default function PolitiqueCookies() {
             </p>
             <br />
             <p>
-                <p className="title-paragraph">2. TYPES DE COOKIES UTILISÉS</p>{" "}
+                <p className="title-paragraph AudioWideBlue">
+                    2. TYPES DE COOKIES UTILISÉS
+                </p>{" "}
                 Nous utilisons différents types de cookies sur notre site :
                 Cookies essentiels : nécessaires au bon fonctionnement du site
                 (ex. connexion, panier d’achats). Cookies analytiques :
@@ -35,7 +39,7 @@ export default function PolitiqueCookies() {
             </p>
             <br />
             <p>
-                <p className="title-paragraph">
+                <p className="title-paragraph AudioWideBlue">
                     3. COMMENT NOUS UTILISONS LES COOKIES
                 </p>
                 Les cookies nous aident à : Assurer le bon fonctionnement du
@@ -46,17 +50,19 @@ export default function PolitiqueCookies() {
             </p>
             <br />
             <p>
-                <p className="title-paragraph">4. GESTION DES COOKIES</p> Vous
-                pouvez gérer vos préférences en matière de cookies à tout moment
-                : En modifiant les paramètres de votre navigateur pour bloquer
-                ou supprimer les cookies. En utilisant notre outil de gestion
-                des cookies disponible sur le site.Veuillez noter que la
+                <p className="title-paragraph AudioWideBlue">
+                    4. GESTION DES COOKIES
+                </p>{" "}
+                Vous pouvez gérer vos préférences en matière de cookies à tout
+                moment : En modifiant les paramètres de votre navigateur pour
+                bloquer ou supprimer les cookies. En utilisant notre outil de
+                gestion des cookies disponible sur le site.Veuillez noter que la
                 désactivation de certains cookies peut affecter le bon
                 fonctionnement du site.
             </p>
             <br />
             <p>
-                <p className="title-paragraph">
+                <p className="title-paragraph AudioWideBlue">
                     5. MODIFICATIONS DE CETTE POLITIQUE
                 </p>
                 Nous nous réservons le droit de modifier cette politique à tout
@@ -65,9 +71,9 @@ export default function PolitiqueCookies() {
             </p>
             <br />
             <p>
-                <p className="title-paragraph">6. CONTACT</p> Pour toute
-                question concernant notre politique de cookies, vous pouvez nous
-                contacter à : ludic@gmail.com.
+                <p className="title-paragraph AudioWideBlue">6. CONTACT</p> Pour
+                toute question concernant notre politique de cookies, vous
+                pouvez nous contacter à : ludic@gmail.com.
             </p>
         </div>
     );

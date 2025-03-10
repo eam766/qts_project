@@ -15,9 +15,9 @@ export default function ListeJeux({ couvertures, visibleCount = 5 }) {
                     alignItems: "center",
                 }}
             >
-                <Link href={`/jeux/${couverture.id}`}>
+                <Link href={`/jeux/${couverture.game_id}`}>
                     <img
-                        src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${couverture.cover.image_id}.webp`}
+                        src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${couverture.cover_image_id}.webp`}
                         alt="Jeu"
                         className="jeux-cover"
                         loading="lazy"
