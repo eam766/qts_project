@@ -41,11 +41,10 @@ export default function Layout({ children }) {
                         <Link href="/a_propos">À propos</Link>
                     </div>
                     <SearchBar />
-                    <div className="flex justify-center basis-1/3">
+                    <div className="flex ml-auto mr-2">
                         {user ? (
                             <>
-                                <div className="flex justify-center basis-1/3 gap-4">
-                                    {" "}
+                                <div className="flex justify-center gap-4 mr-5">
                                     <Link
                                         href="/listeSouhaits"
                                         className="text-xl relative"

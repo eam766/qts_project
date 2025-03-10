@@ -29,8 +29,8 @@
     input:focus,
     textarea:focus,
     select:focus {
-        outline: none !important; /* Supprime le contour bleu */
-        box-shadow: none !important; /* Supprime l'ombre portée si elle existe */
+        outline: none !important;
+        box-shadow: none !important;
     }
 }
 

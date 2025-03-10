@@ -1,8 +1,8 @@
-import Carte from "../Components/ListeSouhaits/Carte";
+//import Carte from "../Components/ListeSouhaits/Carte";
 import { usePage, router } from "@inertiajs/react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import carte from "../assets/img/CartePanier.png";
+import carte from "../assets/img/CarteListeSouhait.png";
 import bouton from "../assets/img/Bouton_Inscription.png";
 
 export default function ListeSouhait() {
