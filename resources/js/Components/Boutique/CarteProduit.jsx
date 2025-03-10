@@ -13,7 +13,7 @@ let colors = [
     "#00FFB2",
 ];
 export default function CarteProduit({ index, game }) {
-    console.log(game);
+
     return (
         <JeuxBordure color={colors[index % colors.length]}>
             <Link href={`/jeux/${game.game_id}`}>

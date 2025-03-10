@@ -30,6 +30,7 @@ class GameSeeder extends Seeder
                 'summary' => $game['summary'] ?? null,
                 'hypes' => $game['hypes'] ?? null,
                 'game_type' => $game['game_type'] ?? null,
+                'price' => $game['price'] ?? null,
 
                 // Just decode JSON once, don't re-encode
                 'artworks' => isset($game['artworks']) ? json_decode($game['artworks'], true) : null,

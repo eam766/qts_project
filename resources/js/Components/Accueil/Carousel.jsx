@@ -30,7 +30,7 @@ export default function Carousel({ temps, galleryImage }) {
                    parseJson(galleryImage[indexes[1]].artworks)[0]
                 }.webp")`,
             }}
-            href={`/jeux/${galleryImage[indexes[1]].id}`}
+            href={`/jeux/${galleryImage[indexes[1]].game_id}`}
             loading="lazy"
         >
             {indexes.map((i, j) => (

@@ -29,6 +29,12 @@ Route::inertia('/profil-settings', 'ProfileSettings');
 
 Route::get('/boutique', [GameController::class, 'index'])->name('games.index');
 
+
+Route::get('/boutique/recherche', [GameController::class, 'search'])->name('games.search');
+Route::get('/boutique/filter', [GameController::class, 'filter'])->name('games.filter');
+
+
+
 Route::get('/jeux/{game_id}', [GameController::class, 'show']);
 
 Route::inertia('/a_propos', 'A_Propos');

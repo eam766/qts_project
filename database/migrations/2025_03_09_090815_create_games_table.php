@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->integer('hypes')->nullable();
             $table->integer('game_type')->nullable();
 
+
             //Tableau
             $table->text('artworks')->nullable();
             $table->text('screenshots')->nullable();
@@ -30,7 +31,7 @@ return new class extends Migration {
             $table->text('platforms')->nullable();
             $table->text('themes')->nullable();
             $table->text('external_games')->nullable();
-           
+
 
             $table->timestamps();
         });

@@ -49,16 +49,70 @@ class GameService
             ->where('total_rating', '>', 80)
             ->where('hypes', '<', 10)
             ->orderBy('total_rating', 'asc')
-            ->limit(10)
+            ->limit(9)
             ->get();
     }
+
+    // Method to get all unique genres
+    public function getAllGenres()
+    {
+
+        $games = Game::all();
+
+        $allGenres = [];
+
+        foreach ($games as $game) {
+
+            $genres = json_decode($game->genres, true);
+
+
+            if (is_array($genres)) {
+                foreach ($genres as $genre) {
+                    if (!in_array($genre, $allGenres)) {
+                        $allGenres[] = $genre;
+                    }
+                }
+            }
+        }
+
+        return $allGenres;
+    }
+    public function getAllThemes()
+    {
+
+        $games = Game::all();
+
+        $allThemes = [];
+
+        foreach ($games as $game) {
+
+            $themes = json_decode($game->themes, true);
+
+
+            if (is_array($themes)) {
+                foreach ($themes as $theme) {
+                    if (!in_array($theme, $allThemes)) {
+                        $allThemes[] = $theme;
+                    }
+                }
+            }
+        }
+
+        return $allThemes;
+    }
+public function getMaxPrice()
+{
+
+    return  Game::max('price');
+
+}
 
     public function getCheapGames()
     {
         return Game::query()
             ->whereBetween('price', [5.0, 15.0])
             ->orderBy('price', 'asc')
-            ->limit(10)
+            ->limit(9)
             ->get();
     }
 
