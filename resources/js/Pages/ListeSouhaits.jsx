@@ -1,8 +1,7 @@
-import Carte from "../Components/ListeSouhaits/Carte";
 import { usePage, router } from "@inertiajs/react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import carte from "../assets/img/CartePanier.png";
+import carte from "../assets/img/CarteListeSouhait.png";
 import bouton from "../assets/img/Bouton_Inscription.png";
 
 export default function ListeSouhait() {
@@ -11,15 +10,14 @@ export default function ListeSouhait() {
 
     const [wishlist, setWishlist] = useState(wishlistGames);
     const [showEmptyMessage, setShowEmptyMessage] = useState(false);
-    const [removingGameId, setRemovingGameId] = useState(null); // 🔥 ID du jeu en cours de suppression
-    const [confirmDelete, setConfirmDelete] = useState(null); // 🔥 ID du jeu à confirmer
+    const [removingGameId, setRemovingGameId] = useState(null);
+    const [confirmDelete, setConfirmDelete] = useState(null);
 
     console.log("User ID:", user.id);
     console.log("Wishlist games:", wishlist);
 
-    // ✅ Supprime le jeu avec animation et délai
     const removeFromWishlist = (gameId) => {
-        setRemovingGameId(gameId); // 🔥 Active l'état "Suppression en cours"
+        setRemovingGameId(gameId);
 
         router.delete(route("wishlist.destroy"), {
             data: { game_id: gameId },
@@ -40,11 +38,11 @@ export default function ListeSouhait() {
                     return updatedWishlist;
                 });
 
-                setRemovingGameId(null); // 🔥 Désactive l'état de suppression
+                setRemovingGameId(null);
             },
             onError: () => {
                 console.error("Erreur lors de la suppression du jeu.");
-                setRemovingGameId(null); // 🔥 Désactive l'état même en cas d'erreur
+                setRemovingGameId(null);
             },
         });
     };
@@ -157,7 +155,7 @@ export default function ListeSouhait() {
                                               alignItems: "center",
                                               height: "45px",
                                               width: "180px",
-                                              margin: "0 auto", // 🔥 Centre le bouton horizontalement
+                                              margin: "0 auto",
                                           }}
                                       >
                                           Ajouter au panier
@@ -214,7 +212,7 @@ export default function ListeSouhait() {
                                                   height: "50px",
                                                   width: "203px",
                                                   marginTop: "16px",
-                                                  margin: "0 auto", // 🔥 Centre le bouton horizontalement
+                                                  margin: "0 auto",
                                               }}
                                               onClick={() =>
                                                   setConfirmDelete(game.id)

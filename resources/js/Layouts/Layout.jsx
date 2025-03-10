@@ -44,8 +44,7 @@ export default function Layout({ children }) {
                     <div className="flex justify-center basis-1/3">
                         {user ? (
                             <>
-                                <div className="flex justify-center basis-1/3 gap-4">
-                                    {" "}
+                                <div className="flex flex-wrap justify-between items-center w-full lg:w-auto space-x-4">
                                     <Link
                                         href="/listeSouhaits"
                                         className="text-xl relative"
@@ -66,20 +65,24 @@ export default function Layout({ children }) {
                                             size={28}
                                         />
                                     </Link>
-                                </div>
 
-                                <Link
-                                    className="buttonLeft mr-1"
-                                    href="/profile"
-                                >
-                                    Profil
-                                </Link>
-                                <button
-                                    className="buttonRight"
-                                    onClick={() => router.post(route("logout"))}
-                                >
-                                    Déconnexion
-                                </button>
+                                    <div className="flex space-x-2">
+                                        <Link
+                                            className="buttonLeft mr-1"
+                                            href="/profile"
+                                        >
+                                            Profil
+                                        </Link>
+                                        <button
+                                            className="buttonRight"
+                                            onClick={() =>
+                                                router.post(route("logout"))
+                                            }
+                                        >
+                                            Déconnexion
+                                        </button>
+                                    </div>
+                                </div>
                             </>
                         ) : (
                             <>

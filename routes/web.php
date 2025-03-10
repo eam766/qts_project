@@ -10,12 +10,13 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CartController;
 
  
  
  
 Route::get('/', [GameController::class,'showTOP']);
-Route::inertia('/connexion', 'Connexion')->name('connexion');
+// Route::inertia('/connexion', 'Connexion')->name('connexion');
 
 Route::inertia('/inscription', 'Inscription')->name('inscription');
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
@@ -45,14 +46,15 @@ Route::get('/dashboard', function () {
  
  
  
- Route::get('/connexion', function () {
-     return Inertia::render('Connexion', [
-         'canLogin' => Route::has('login'),
+Route::get('/connexion', function () {
+    return Inertia::render('Connexion', [
+        'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-     ]);
- });
+    ]);
+})->name('connexion');
+
  
  
 Route::middleware('auth')->group(function () {
@@ -89,6 +91,13 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     Route::get('/listeSouhaits', [WishlistController::class, 'index'])
     ->middleware('auth')
     ->name('wishlist.index');
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/panier', [CartController::class, 'index'])->name('cart.index'); // Voir le panier
+        Route::post('/cart/add', [CartController::class, 'store'])->name('cart.store'); // Ajouter au panier
+        Route::delete('/cart/remove', [CartController::class, 'destroy'])->name('cart.destroy'); // Supprimer du panier
+    });
+    
 
     Route::middleware('auth')->get('/wishlist-data', [WishlistController::class, 'getWishlist'])
     ->name('wishlist.data');

@@ -3,16 +3,19 @@ import { Head, router } from "@inertiajs/react";
 import React, { useState } from "react";
 import BoutonAjouter from "@/Components/PageProduit/BoutonAjouter";
 import BoutonListe from "@/Components/PageProduit/BoutonListe";
-import { LuHeart } from "react-icons/lu";
-import { FaCartArrowDown } from "react-icons/fa";
 import { usePage } from "@inertiajs/react";
 
-export default function Jeux({ game, isInWishlist: initialIsInWishlist }) {
+export default function Jeux({
+    game,
+    isInWishlist: initialIsInWishlist,
+    isInCart: initialIsInCart,
+}) {
     const [mainScreenshot, setMainScreenshot] = useState(game.screenshots?.[0]);
-    // État local pour gérer instantanément si le jeu est dans la wishlist
     const [inWishlist, setInWishlist] = useState(initialIsInWishlist);
+    const [inCart, setInCart] = useState(initialIsInCart);
+    const [cartLoading, setCartLoading] = useState(false);
     const { auth } = usePage().props;
-    const user = auth.user; // Récupérer l'utilisateur connecté
+    const user = auth.user;
 
     const toggleWishlist = () => {
         if (!user) {
@@ -21,34 +24,57 @@ export default function Jeux({ game, isInWishlist: initialIsInWishlist }) {
         }
 
         if (inWishlist) {
-            // Si déjà dans la wishlist, on le retire
             router.delete(route("wishlist.destroy"), {
                 data: { game_id: game.id },
                 preserveState: true,
                 preserveScroll: true,
-                onSuccess: () => {
-                    setInWishlist(false);
-                },
-                onError: () => {
-                    console.error(
-                        "Erreur lors de la suppression de la wishlist."
-                    );
-                },
+                onSuccess: () => setInWishlist(false),
+                onError: () => console.error("Erreur lors de la suppression."),
             });
         } else {
-            // Sinon, on l'ajoute
             router.post(
                 route("wishlist.store"),
                 { game_id: game.id },
                 {
                     preserveState: true,
                     preserveScroll: true,
+                    onSuccess: () => setInWishlist(true),
+                    onError: () => console.error("Erreur lors de l'ajout."),
+                }
+            );
+        }
+    };
+
+    const toggleCart = () => {
+        if (!user) {
+            router.visit("/connexion");
+            return;
+        }
+
+        setCartLoading(true);
+        if (inCart) {
+            router.delete(route("cart.destroy"), {
+                data: { game_id: game.id },
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    setInCart(false);
+                    setCartLoading(false);
+                },
+                onError: () => setCartLoading(false),
+            });
+        } else {
+            router.post(
+                route("cart.store"),
+                { game_id: game.id },
+                {
+                    preserveState: true,
+                    preserveScroll: true,
                     onSuccess: () => {
-                        setInWishlist(true);
+                        setInCart(true);
+                        setCartLoading(false);
                     },
-                    onError: () => {
-                        console.error("Erreur lors de l'ajout à la wishlist.");
-                    },
+                    onError: () => setCartLoading(false),
                 }
             );
         }
@@ -101,11 +127,16 @@ export default function Jeux({ game, isInWishlist: initialIsInWishlist }) {
                     <br />
                     <p>CA$ 0,99</p>
                     <br />
-                    <BoutonAjouter></BoutonAjouter>
+                    <BoutonAjouter
+                        inCart={inCart}
+                        cartLoading={cartLoading}
+                        onPress={toggleCart}
+                    />
+
                     <BoutonListe
                         inWishlist={inWishlist}
                         onPress={toggleWishlist}
-                    ></BoutonListe>
+                    />
                 </div>
             </div>
         </div>
