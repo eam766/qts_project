@@ -32,6 +32,10 @@ Route::get('/boutique', [GameController::class, 'index'])->name('games.index');
 Route::get('/jeux/{game_id}', [GameController::class, 'show']);
 
 Route::inertia('/a_propos', 'A_Propos');
+Route::inertia('/equipe', 'Equipe');
+Route::inertia('/termes_conditions', 'TermesConditions');
+Route::inertia('/politique_cookies', 'PolitiqueCookies');
+Route::inertia('/contact', 'Contact');
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

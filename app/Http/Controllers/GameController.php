@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
-//use MarcReichel\IGDBLaravel\Models\Game;
+use MarcReichel\IGDBLaravel\Models\Game;
 use MarcReichel\IGDBLaravel\Models\PopularityPrimitive;
 use App\Models\Game;
 use App\Services\GameService;
@@ -36,13 +36,13 @@ class GameController extends Controller
         $game = Game::query()->where('game_id', $game_id)->first();
 
         // Déterminer si le jeu est dans la wishlist de l'utilisateur connecté
-         $isInWishlist = false;
-         if (auth()->check()) {
-             $isInWishlist = auth()->user()
-                 ->wishlist()
-                 ->where('game_id', $game_id)
-                 ->exists();
-         }
+        $isInWishlist = false;
+        if (auth()->check()) {
+            $isInWishlist = auth()->user()
+                ->wishlist()
+                ->where('game_id', $id)
+                ->exists();
+        }
 
         return Inertia::render('Jeux', [
             'game' => $game,
@@ -68,5 +68,8 @@ class GameController extends Controller
 
 
     ]);
+
     }
+
+
 }

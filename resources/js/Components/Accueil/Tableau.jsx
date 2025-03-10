@@ -138,7 +138,7 @@ function JeuxList({ jeux }) {
                                                         jeu.game_id
                                                     )
                                                         ? "#FF007F"
-                                                        : "#FFFFFF",
+                                                        : "#02d7f2",
                                                 }}
                                             />
                                         </IconButton>

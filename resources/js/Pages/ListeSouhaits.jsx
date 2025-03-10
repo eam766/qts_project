@@ -1,3 +1,4 @@
+import Carte from "../Components/ListeSouhaits/Carte";
 import { usePage, router } from "@inertiajs/react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";

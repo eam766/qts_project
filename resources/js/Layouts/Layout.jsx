@@ -1,10 +1,9 @@
 import { usePage, router, Link } from "@inertiajs/react";
 import main_border from "../assets/img/Main_Bordure20.png";
-
-import Logo from "@/Components/Logo";
-import SearchBar from "@/Components/SearchBar";
-import CookieBanner from "@/Components/CookieBanner";
-import Footer from "@/Components/Footer";
+import Logo from "@/Components/LayoutC/Logo";
+import SearchBar from "@/Components/LayoutC/SearchBar";
+import CookieBanner from "@/Components/LayoutC/CookieBanner";
+import Footer from "@/Components/LayoutC/Footer";
 import { StrictMode } from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -102,8 +101,8 @@ export default function Layout({ children }) {
             <main className="flex justify-center min-h-screen">
                 <div className="main-container">{children}</div>
             </main>
-            <Footer></Footer>
             <CookieBanner />
+            <Footer></Footer>
         </>
     );
 }

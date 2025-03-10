@@ -8,6 +8,8 @@
     height: 300px;
     object-fit: cover;
     margin: 0 5px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s ease-in-out;
 }
 
 .jeux-cover:hover {
