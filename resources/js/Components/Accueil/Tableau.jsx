@@ -11,6 +11,7 @@ import { Tooltip } from "@mui/material";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import "./Tableau.css";
 import { motion } from "framer-motion";
+import {parseJson} from "../../../../utils/utils.js";
 
 // Composant pour le contenu d'un onglet
 function CustomTabPanel(props) {
@@ -89,15 +90,15 @@ function JeuxList({ jeux }) {
         <div className="jeux-grid">
             {jeux &&
                 jeux.map((jeu) => {
-                    const isInWishlist = wishlist.includes(jeu.id);
+                    const isInWishlist = wishlist.includes(jeu.game_id);
                     return (
-                        <div key={jeu.id} className="card">
+                        <div key={jeu.game_id} className="card">
                             <Link
                                 className="card-link"
-                                href={`/jeux/${jeu.id}`}
+                                href={`/jeux/${jeu.game_id}`}
                             >
                                 <img
-                                    src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${jeu.cover.image_id}.jpg`}
+                                    src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${jeu.cover_image_id}.jpg`}
                                     alt={jeu.name}
                                     style={{
                                         width: 100,
@@ -107,7 +108,7 @@ function JeuxList({ jeux }) {
                                 />
                                 <div>
                                     <h1>{jeu.name}</h1>
-                                    <div>19.99$</div>
+                                    <div>{jeu.price}</div>
                                 </div>
                             </Link>
                             <div>
@@ -127,14 +128,14 @@ function JeuxList({ jeux }) {
                                     >
                                         <IconButton
                                             onClick={() =>
-                                                toggleWishlist(jeu.id)
+                                                toggleWishlist(jeu.game_id)
                                             }
                                         >
                                             <PlaylistAddIcon
                                                 className="icons"
                                                 style={{
                                                     color: wishlist.includes(
-                                                        jeu.id
+                                                        jeu.game_id
                                                     )
                                                         ? "#FF007F"
                                                         : "#02d7f2",
