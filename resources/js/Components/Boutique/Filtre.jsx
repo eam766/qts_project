@@ -53,7 +53,7 @@ export default function Filtre() {
                     <FormGroup>
                         <FormControlLabel
                             control={<Checkbox style={{ color: "#02D7F2" }} />}
-                            label="Label"
+                            label="Pinball"
                         />
                         <FormControlLabel
                             control={<Checkbox style={{ color: "#02D7F2" }} />}
@@ -81,7 +81,7 @@ export default function Filtre() {
                     id="panel1-header"
                     style={{ height: 50 }}
                 >
-                    <Typography component="span">Catégorie</Typography>
+                    <Typography component="span">Thèmes</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <FormGroup>
@@ -115,7 +115,7 @@ export default function Filtre() {
                     id="panel1-header"
                     style={{ height: 50 }}
                 >
-                    <Typography component="span">Companie</Typography>
+                    <Typography component="span">Companies</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <FormGroup>

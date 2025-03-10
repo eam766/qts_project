@@ -2,36 +2,30 @@ import React from "react";
 import { Head, Link } from "@inertiajs/react";
 
 import CarteProduit from "@/Components/Boutique/CarteProduit";
-import Pagination from "@/Components/Boutique/Pagination";
 import Filtre from "@/Components/Boutique/Filtre";
+import Pagination from "@/Components/Boutique/Pagination.jsx";
 
-export default function Boutique({
-    games,
-    currentPage,
-    totalPages,
-    pageRange,
-}) {
+
+export default function Boutique({games}) {
+    console.log(games)
+
     return (
-        <div className="container mx-auto m-14" style={{ display: "flex" }}>
+
+        <div className="container mx-auto m-14" style={{ display: "flex", flexDirection:'column', alignItems:'center' }}>
             <Head title={"Boutique"} />
+            <div style={{ display: "flex", flexDirection:'row' }} >
             <div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-11">
-                    {games
-                        .filter((jeu) => jeu.cover)
-                        .map((jeu, index) => (
-                            <CarteProduit
-                                key={jeu.id}
-                                jeu={jeu}
-                                index={index}
-                            />
-                        ))}
+                    {games.data && games.data.map((game, index) => (
+                        <CarteProduit
+                            key={game.id}
+                            game={game}  // Pass the game object from games.data
+                            index={index}
+                        />
+                    ))}
                 </div>
                 <br />
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    pageRange={pageRange}
-                />
+
             </div>
 
             <div style={{ paddingLeft: 15 }}>
@@ -45,6 +39,8 @@ export default function Boutique({
                 />
                 <Filtre />
             </div>
+            </div>
+           <Pagination links={games.links}/>
         </div>
     );
 }
