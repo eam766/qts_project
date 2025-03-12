@@ -1,7 +1,7 @@
 import "./Carte.css";
 export default function Carte() {
     return (
-        <div className="container">
+        <div className="container-cart">
             <div className="bg-gray-500 jeu"></div>
             <div className="flex flex-col justify-between pb-12">
                 <p className="ml-5">Titre du jeu</p>

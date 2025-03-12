@@ -1,26 +1,41 @@
 import { Link } from "@inertiajs/react";
 
-export default function Pagination({ links }) {
+import { router, usePage } from "@inertiajs/react";
+import * as buttons from "framer-motion/m";
+
+export default function Pagination({ games }) {
+    const { filters } = usePage().props; // Retrieve applied filters
+console.log(games);
+    const handlePageChange = (url) => {
+        if (url) {
+            router.get(url, filters, { preserveScroll: true, preserveState: true }); // Append filters & keep scroll position
+        }
+    };
+
     return (
-        <div className="py-12 px-4">
-            {links.map((link) =>
-                link.url ? (
-                    <Link
-                        key={link.label}
-                        href={link.url}
-                        dangerouslySetInnerHTML={{ __html: link.label }}
-                        className={`p-1 mx-1" ${
-                            link.active ? "text-blue-500 font-bold" : ""
-                        }`}
-                    />
-                ) : (
-                    <span
-                        key={link.label}
-                        dangerouslySetInnerHTML={{ __html: link.label }}
-                        className="p-1 mx-1 text-slate-300"
-                    ></span>
-                )
-            )}
-        </div>
+        <nav className="flex justify-center mt-6">
+            <ul className="flex space-x-2">
+
+                {
+
+
+                    games.links.map((link, index) => (
+                    <li key={index} className={`page-item ${link.active ? "active font-bold text-pink-500" : ""}`}>
+                        <button
+                            className={`px-1 py-2 ${
+                                link.active ? " text-white" : " hover:text-pink-500"
+                            }`}
+                            onClick={() => handlePageChange(link.url)}
+                            dangerouslySetInnerHTML={{ __html: (link.label).includes("Previous")? "Précédent": (link.label).includes("Next")? "Suivant":link.label  }}
+                        />
+                    </li>
+
+
+                ))
+
+
+                }
+            </ul>
+        </nav>
     );
 }

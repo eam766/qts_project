@@ -12,17 +12,19 @@ export default function UpdateProfileInformation({
 }) {
     const user = usePage().props.auth.user;
 
-    const [localData, setLocalData] = useState({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        dateOfBirth: user.dateOfBirth,
-        country: user.country,
-        username: user.username,
-        email: user.email,
-    });
+    // ✅ Utilisation de useForm pour gérer les données envoyées au backend
+    const { data, setData, patch, errors, processing, recentlySuccessful } =
+        useForm({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            dateOfBirth: user.dateOfBirth,
+            country: user.country,
+            username: user.username,
+            email: user.email,
+        });
 
-    const { setData, patch, errors, processing, recentlySuccessful } =
-        useForm(localData);
+    // ✅ Utilisation de useState pour éviter le rechargement visuel
+    const [localData, setLocalData] = useState({ ...data });
 
     const submit = (e) => {
         e.preventDefault();
@@ -31,10 +33,8 @@ export default function UpdateProfileInformation({
             preserveState: true,
             preserveScroll: true,
             onSuccess: () => {
-                console.log("Profil mis à jour !");
-            },
-            onError: (error) => {
-                console.error("Erreur mise à jour profil:", error);
+                // ✅ Met à jour l'état local après mise à jour de la BD
+                setLocalData({ ...data });
             },
         });
     };
@@ -45,6 +45,7 @@ export default function UpdateProfileInformation({
                 <h2 className="text-lg font-medium text-white">
                     Informations du profil
                 </h2>
+
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                     Mettez à jour les informations de profil et l'adresse e-mail
                     de votre compte.
@@ -57,19 +58,22 @@ export default function UpdateProfileInformation({
                         <label htmlFor="username" className="AudioWideBlue">
                             Identifiant
                         </label>
+
                         <input
                             id="username"
                             className="bg-transparent bgInput"
                             value={localData.username}
-                            onChange={(e) =>
+                            onChange={(e) => {
+                                setData("username", e.target.value);
                                 setLocalData({
                                     ...localData,
                                     username: e.target.value,
-                                })
-                            }
+                                });
+                            }}
                             required
                             autoComplete="username"
                         />
+
                         <InputError
                             className="mt-2"
                             message={errors.username}
@@ -79,19 +83,22 @@ export default function UpdateProfileInformation({
                         <label htmlFor="lastName" className="AudioWideBlue">
                             Nom
                         </label>
+
                         <input
                             id="lastName"
                             className="bg-transparent bgInput"
                             value={localData.lastName}
-                            onChange={(e) =>
+                            onChange={(e) => {
+                                setData("lastName", e.target.value);
                                 setLocalData({
                                     ...localData,
                                     lastName: e.target.value,
-                                })
-                            }
+                                });
+                            }}
                             required
                             autoComplete="lastName"
                         />
+
                         <InputError
                             className="mt-2"
                             message={errors.lastName}
@@ -104,39 +111,46 @@ export default function UpdateProfileInformation({
                         <label htmlFor="email" className="AudioWideBlue">
                             Courriel
                         </label>
+
                         <input
                             id="email"
                             type="email"
                             className="bg-transparent bgInput"
                             value={localData.email}
-                            onChange={(e) =>
+                            onChange={(e) => {
+                                setData("email", e.target.value);
                                 setLocalData({
                                     ...localData,
                                     email: e.target.value,
-                                })
-                            }
+                                });
+                            }}
                             required
                             autoComplete="email"
                         />
+
                         <InputError className="mt-2" message={errors.email} />
                     </div>
                     <div className="flex flex-col">
                         <label htmlFor="firstName" className="AudioWideBlue">
                             Prénom
                         </label>
+
                         <input
                             id="firstName"
-                            className="bg-transparent bgInput pl-3"
+                            type="text"
+                            className="bg-transparent bgInput"
                             value={localData.firstName}
-                            onChange={(e) =>
+                            onChange={(e) => {
+                                setData("firstName", e.target.value);
                                 setLocalData({
                                     ...localData,
                                     firstName: e.target.value,
-                                })
-                            }
+                                });
+                            }}
                             required
                             autoComplete="firstName"
                         />
+
                         <InputError
                             className="mt-2"
                             message={errors.firstName}
@@ -151,17 +165,16 @@ export default function UpdateProfileInformation({
                         </label>
                         <DateInput
                             value={localData.dateOfBirth}
-                            onChange={(value) =>
+                            onChange={(value) => {
+                                setData("dateOfBirth", value);
                                 setLocalData({
                                     ...localData,
                                     dateOfBirth: value,
-                                })
-                            }
+                                });
+                            }}
                         />
-                        <InputError
-                            className="mt-2"
-                            message={errors.dateOfBirth}
-                        />
+
+                        <InputError className="mt-2" message={errors.email} />
                     </div>
                     <div className="flex flex-col">
                         <label htmlFor="country" className="AudioWideBlue">
@@ -169,9 +182,13 @@ export default function UpdateProfileInformation({
                         </label>
                         <CountrySelect
                             value={localData.country}
-                            onChange={(value) =>
-                                setLocalData({ ...localData, country: value })
-                            }
+                            onChange={(value) => {
+                                setData("country", value);
+                                setLocalData({
+                                    ...localData,
+                                    country: value,
+                                });
+                            }}
                         />
                         <InputError className="mt-2" message={errors.country} />
                     </div>

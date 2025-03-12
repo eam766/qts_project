@@ -1,19 +1,19 @@
 .p-dataview-content {
-    background-color: #121214 !important;
+    background-color: #121214 ;
     border-top: solid 1px #02d7f2;
     border-radius: 15px 15px 0 0;
     width: 450px;
 }
 .p-dataview .p-paginator {
-    background-color: #121214 !important;
-    color: white !important;
+    background-color: #121214 ;
+    color: white ;
     border-bottom: solid 1px #02d7f2;
     border-top: solid 1px #02d7f2;
     border-radius: 15px;
 }
 
 .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-    color: #02d7f2 !important;
+    color: #02d7f2 ;
 }
 
 h1 {
