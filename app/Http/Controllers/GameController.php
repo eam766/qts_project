@@ -40,7 +40,7 @@ class GameController extends Controller
 
     public function show($id)
     {
-        $game = Game::where('game_id', $id)->first(); // ← Vérifie bien ici
+        $game = Game::where('game_id', $game_id)->first(); // ← Vérifie bien ici
 
         if (!$game) {
             abort(404, "Jeu non trouvé");
@@ -48,8 +48,8 @@ class GameController extends Controller
 
         return inertia('Jeux', [
             'game' => $game,
-            'isInWishlist' => auth()->check() ? auth()->user()->wishlist()->where('game_id', $id)->exists() : false,
-            'isInCart' => auth()->check() ? auth()->user()->cart()->where('game_id', $id)->exists() : false,
+            'isInWishlist' => auth()->check() ? auth()->user()->wishlist()->where('game_id', $game_id)->exists() : false,
+            'isInCart' => auth()->check() ? auth()->user()->cart()->where('game_id', $game_id)->exists() : false,
         ]);
     }
 

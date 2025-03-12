@@ -180,22 +180,13 @@ export default function Jeux({ game }) {
                         inCart={isInCart}
                         cartLoading={loadingCart}
                         onPress={toggleCart}
-                        buttonColor={isInCart ? "bg-yellow-500" : "bg-gray-500"}
                     />
 
                     {/* ✅ Bouton Ajouter à la liste de souhaits avec message dynamique */}
                     <BoutonListe
                         inWishlist={isInWishlist}
                         onPress={toggleWishlist}
-                        label={
-                            loadingWishlist
-                                ? isInWishlist
-                                    ? "Retrait en cours..."
-                                    : "Ajout en cours..."
-                                : isInWishlist
-                                ? "Dans la liste de souhaits"
-                                : "Ajouter à la liste de souhaits"
-                        }
+                        wishlistLoading={loadingWishlist}
                     />
                 </div>
             </div>
