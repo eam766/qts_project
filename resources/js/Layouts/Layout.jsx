@@ -44,41 +44,48 @@ export default function Layout({ children }) {
                     <div className="flex ml-auto mr-2">
                         {user ? (
                             <>
-                                <div className="flex justify-center gap-4 mr-5">
-                                    <Link
-                                        href="/listeSouhaits"
-                                        className="text-xl relative"
-                                    >
-                                        <FaHeart
-                                            className="text-white hover:text-red-500"
-                                            size={28}
-                                        />
-                                        {wishlistCount > 0 && (
-                                            <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2">
-                                                {wishlistCount}
-                                            </span>
-                                        )}
-                                    </Link>
-                                    <Link href="/panier" className="text-xl">
-                                        <FaShoppingCart
-                                            className="text-white hover:text-yellow-500"
-                                            size={28}
-                                        />
-                                    </Link>
-                                </div>
+                                <div className="flex justify-center ">
+                                    <div className="flex flex-row gap-4 mr-5">
+                                        <Link
+                                            href="/listeSouhaits"
+                                            className="text-xl relative"
+                                        >
+                                            <FaHeart
+                                                className="text-white hover:text-red-500"
+                                                size={28}
+                                            />
+                                            {wishlistCount > 0 && (
+                                                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2">
+                                                    {wishlistCount}
+                                                </span>
+                                            )}
+                                        </Link>
+                                        <Link
+                                            href="/panier"
+                                            className="text-xl"
+                                        >
+                                            <FaShoppingCart
+                                                className="text-white hover:text-yellow-500"
+                                                size={28}
+                                            />
+                                        </Link>
+                                    </div>
 
-                                <Link
-                                    className="buttonLeft mr-1"
-                                    href="/profile"
-                                >
-                                    Profil
-                                </Link>
-                                <button
-                                    className="buttonRight"
-                                    onClick={() => router.post(route("logout"))}
-                                >
-                                    Déconnexion
-                                </button>
+                                    <Link
+                                        className="buttonLeft mr-1"
+                                        href="/dashboard"
+                                    >
+                                        Profil
+                                    </Link>
+                                    <button
+                                        className="buttonRight"
+                                        onClick={() =>
+                                            router.post(route("logout"))
+                                        }
+                                    >
+                                        Déconnexion
+                                    </button>
+                                </div>
                             </>
                         ) : (
                             <>

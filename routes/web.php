@@ -10,12 +10,13 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CartController;
 
 
 
 
 Route::get('/', [GameController::class,'acceuil'])->name('accueil');
-Route::inertia('/connexion', 'Connexion')->name('connexion');
+// Route::inertia('/connexion', 'Connexion')->name('connexion');
 
 Route::inertia('/inscription', 'Inscription')->name('inscription');
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
@@ -35,7 +36,8 @@ Route::get('/boutique/filter', [GameController::class, 'filter'])->name('games.f
 
 
 
-Route::get('/jeux/{game_id}', [GameController::class, 'show']);
+Route::get('/jeux/{id}', [GameController::class, 'show'])->name('games.show');
+
 
 Route::inertia('/a_propos', 'A_Propos');
 Route::inertia('/equipe', 'Equipe');
@@ -45,23 +47,25 @@ Route::inertia('/contact', 'Contact');
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-
-
-
- Route::get('/connexion', function () {
-     return Inertia::render('Connexion', [
-         'canLogin' => Route::has('login'),
+ 
+ 
+ 
+ 
+Route::get('/connexion', function () {
+    return Inertia::render('Connexion', [
+        'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-     ]);
- });
+    ]);
+})->name('connexion');
 
-
+ 
+ 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
@@ -94,8 +98,21 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->middleware('auth')
     ->name('wishlist.index');
 
+    Route::middleware('auth')->group(function () {
+        Route::get('/panier', [CartController::class, 'index'])->name('cart.index'); // Voir le panier
+        Route::post('/cart/add', [CartController::class, 'store'])->name('cart.store'); // Ajouter au panier
+        Route::delete('/cart/remove', [CartController::class, 'destroy'])->name('cart.destroy'); // Supprimer du panier
+    });
+    
+
     Route::middleware('auth')->get('/wishlist-data', [WishlistController::class, 'getWishlist'])
     ->name('wishlist.data');
+
+    Route::middleware('auth')->get('/cart-data', [CartController::class, 'getCart'])
+    ->name('cart.data');
+
+
+
 
 
 

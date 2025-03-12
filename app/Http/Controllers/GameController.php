@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-
 use Inertia\Inertia;
 use App\Models\Game;
 use App\Services\GameService;
-
-
 
 
 class GameController extends Controller
@@ -22,7 +18,6 @@ class GameController extends Controller
     {
         $this->gameService = $gameService;
     }
-
     public function index()
     {
         $games = Game::query()
@@ -42,27 +37,23 @@ class GameController extends Controller
     }
 
 
+
     public function show($game_id)
     {
-        $game = Game::query()->where('game_id', $game_id)->first();
+        $game = Game::where('game_id', $id)->first(); // ← Vérifie bien ici
 
-        // Déterminer si le jeu est dans la wishlist de l'utilisateur connecté
-        $isInWishlist = false;
-        if (auth()->check()) {
-            $isInWishlist = auth()->user()
-                ->wishlist()
-                ->where('game_id', $game_id)
-                ->exists();
+        if (!$game) {
+            abort(404, "Jeu non trouvé");
         }
 
-        return Inertia::render('Jeux', [
+        return inertia('Jeux', [
             'game' => $game,
-            'isInWishlist' => $isInWishlist,
+            'isInWishlist' => auth()->check() ? auth()->user()->wishlist()->where('game_id', $id)->exists() : false,
+            'isInCart' => auth()->check() ? auth()->user()->cart()->where('game_id', $id)->exists() : false,
         ]);
     }
 
-    public function acceuil()
-    {
+    public function acceuil(){
         $cheapGames = $this->gameService->getCheapGames();
         $upcomingGames = $this->gameService->getUpcomingGames();
         $bestRatedGames = $this->gameService->getBestRatedGames();
@@ -79,7 +70,7 @@ class GameController extends Controller
             'cheapGames' => $cheapGames
 
 
-        ]);
+    ]);
 
     }
 
@@ -122,7 +113,6 @@ class GameController extends Controller
         // Filter out empty values
         $selectedGenres = array_filter($selectedGenres);
         $selectedThemes = array_filter($selectedThemes);
-
 
         $games = Game::query();
 
@@ -169,6 +159,4 @@ class GameController extends Controller
         ]);
     }
 
-
 }
-

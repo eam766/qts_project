@@ -6,9 +6,12 @@ import titre_2 from "@/assets/img/TitreCarrousel2.png";
 import Tableau from "@/Components/Accueil/Tableau";
 
 export default function Accueil({
-
-    upcomingGames, bestRatedGames,wantedGames, recentReleases,hiddenGems, cheapGames
-
+    upcomingGames,
+    bestRatedGames,
+    wantedGames,
+    recentReleases,
+    hiddenGems,
+    cheapGames,
 }) {
     return (
         <div
@@ -19,15 +22,14 @@ export default function Accueil({
                 position: "relative",
             }}
         >
-
             <Carousel temps={5000} galleryImage={wantedGames} />
             <div className="flex flex-col items-start">
                 <img
                     className=" mt-10"
-                    src={titre_2}
+                    src={titre_1}
                     alt=""
-                    width={440}
-                    height={440}
+                    width={500}
+                    height={500}
                 />
                 <br />
                 <ListeJeux couvertures={bestRatedGames} />
@@ -41,7 +43,7 @@ export default function Accueil({
             <div className="flex flex-col items-start">
                 <img
                     className="mb-4"
-                    src={titre_1}
+                    src={titre_2}
                     alt=""
                     width={500}
                     height={500}

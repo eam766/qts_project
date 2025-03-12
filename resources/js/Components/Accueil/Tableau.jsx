@@ -1,5 +1,5 @@
-// Dans Tableau.jsx (exemple complet)
-import React, { useState } from "react";
+// Dans Tableau.jsx
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -9,11 +9,10 @@ import IconButton from "@mui/material/IconButton";
 import { Link, usePage, router } from "@inertiajs/react";
 import { Tooltip } from "@mui/material";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import "./Tableau.css";
 import { motion } from "framer-motion";
-import {parseJson} from "../../../../utils/utils.js";
+import axios from "axios";
+import "./Tableau.css";
 
-// Composant pour le contenu d'un onglet
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -44,10 +43,33 @@ function a11yProps(index) {
 }
 
 function JeuxList({ jeux }) {
-    const { auth, wishlistGames } = usePage().props;
+    const { auth } = usePage().props;
     const user = auth.user;
-    const [wishlist, setWishlist] = useState(wishlistGames || []);
 
+    // ✅ États pour wishlist et cart
+    const [wishlist, setWishlist] = useState([]);
+    const [cart, setCart] = useState([]);
+
+    // ✅ Charger les données depuis le backend au chargement
+    useEffect(() => {
+        if (user) {
+            axios
+                .get(route("wishlist.data"))
+                .then((response) => setWishlist(response.data.wishlistGames))
+                .catch((error) =>
+                    console.error("Erreur chargement wishlist:", error)
+                );
+
+            axios
+                .get(route("cart.data"))
+                .then((response) => setCart(response.data.cartGames))
+                .catch((error) =>
+                    console.error("Erreur chargement panier:", error)
+                );
+        }
+    }, [user]);
+
+    // ✅ Fonction pour gérer la liste de souhaits
     const toggleWishlist = (gameId) => {
         if (!user) {
             router.visit("/connexion");
@@ -61,12 +83,9 @@ function JeuxList({ jeux }) {
                 data: { game_id: gameId },
                 preserveState: true,
                 preserveScroll: true,
-                onSuccess: () => {
-                    setWishlist((prev) => prev.filter((id) => id !== gameId));
-                },
-                onError: () => {
-                    console.error("Erreur lors de la suppression du jeu.");
-                },
+                onSuccess: () =>
+                    setWishlist((prev) => prev.filter((id) => id !== gameId)),
+                onError: () => console.error("Erreur suppression wishlist."),
             });
         } else {
             router.post(
@@ -75,12 +94,40 @@ function JeuxList({ jeux }) {
                 {
                     preserveState: true,
                     preserveScroll: true,
-                    onSuccess: () => {
-                        setWishlist((prev) => [...prev, gameId]);
-                    },
-                    onError: () => {
-                        console.error("Erreur lors de l'ajout à la wishlist.");
-                    },
+                    onSuccess: () => setWishlist((prev) => [...prev, gameId]),
+                    onError: () => console.error("Erreur ajout wishlist."),
+                }
+            );
+        }
+    };
+
+    // ✅ Fonction pour gérer le panier
+    const toggleCart = (gameId) => {
+        if (!user) {
+            router.visit("/connexion");
+            return;
+        }
+
+        const isInCart = cart.includes(gameId);
+
+        if (isInCart) {
+            router.delete(route("cart.destroy"), {
+                data: { game_id: gameId },
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () =>
+                    setCart((prev) => prev.filter((id) => id !== gameId)),
+                onError: () => console.error("Erreur suppression panier."),
+            });
+        } else {
+            router.post(
+                route("cart.store"),
+                { game_id: gameId },
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    onSuccess: () => setCart((prev) => [...prev, gameId]),
+                    onError: () => console.error("Erreur ajout panier."),
                 }
             );
         }
@@ -88,75 +135,97 @@ function JeuxList({ jeux }) {
 
     return (
         <div className="jeux-grid">
-            {jeux &&
-                jeux.map((jeu) => {
-                    const isInWishlist = wishlist.includes(jeu.game_id);
-                    return (
-                        <div key={jeu.game_id} className="card">
-                            <Link
-                                className="card-link"
-                                href={`/jeux/${jeu.game_id}`}
-                            >
-                                <img
-                                    src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${jeu.cover_image_id}.jpg`}
-                                    alt={jeu.name}
-                                    style={{
-                                        width: 100,
-                                        height: "auto",
-                                        padding: 10,
-                                    }}
-                                />
-                                <div>
-                                    <h1>{jeu.name}</h1>
-                                    <div>{jeu.price}</div>
-                                </div>
-                            </Link>
-                            <div>
-                                <Tooltip title="Ajouter à la liste de souhaits">
-                                    <motion.div
-                                        whileTap={{ scale: 0.8 }} // 🔥 Effet de "pouls" au clic
-                                        animate={{
-                                            rotate: wishlist.includes(jeu.id)
-                                                ? 360
-                                                : 0,
-                                        }} // 🔥 Tourne à 360° quand ajouté
-                                        transition={{
-                                            type: "spring",
-                                            stiffness: 200,
-                                            damping: 10,
-                                        }}
-                                    >
-                                        <IconButton
-                                            onClick={() =>
-                                                toggleWishlist(jeu.game_id)
-                                            }
-                                        >
-                                            <PlaylistAddIcon
-                                                className="icons"
-                                                style={{
-                                                    color: wishlist.includes(
-                                                        jeu.game_id
-                                                    )
-                                                        ? "#FF007F"
-                                                        : "#02d7f2",
-                                                }}
-                                            />
-                                        </IconButton>
-                                    </motion.div>
-                                </Tooltip>
+            {jeux.map((jeu) => {
+                const isInWishlist = wishlist.includes(jeu.game_id);
+                const isInCart = cart.includes(jeu.game_id);
 
-                                <Tooltip title="Ajouter au panier">
-                                    <IconButton
-                                        aria-label="Ajouter au panier"
-                                        className="icon-button"
-                                    >
-                                        <AddShoppingCartIcon className="icons" />
-                                    </IconButton>
-                                </Tooltip>
+                return (
+                    <div key={jeu.game_id} className="card">
+                        <Link
+                            className="card-link"
+                            href={`/jeux/${jeu.game_id}`}
+                        >
+                            <img
+                                src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${jeu.cover_image_id}.jpg`}
+                                alt={jeu.name}
+                                style={{
+                                    width: 100,
+                                    height: "auto",
+                                    padding: 10,
+                                }}
+                            />
+                            <div>
+                                <h1>{jeu.name}</h1>
+                                <div>{jeu.price}$</div>
                             </div>
+                        </Link>
+
+                        <div>
+                            {/* Bouton Wishlist avec effet */}
+                            <Tooltip title="Ajouter à la liste de souhaits">
+                                <motion.div
+                                    whileTap={{ scale: 0.8 }}
+                                    animate={{
+                                        rotate: isInWishlist ? 360 : 0,
+                                    }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 200,
+                                        damping: 10,
+                                    }}
+                                >
+                                    <IconButton
+                                        onClick={() =>
+                                            toggleWishlist(jeu.game_id)
+                                        }
+                                    >
+                                        <PlaylistAddIcon
+                                            className="icons"
+                                            style={{
+                                                color: isInWishlist
+                                                    ? "#FF007F"
+                                                    : "#02d7f2",
+                                            }}
+                                        />
+                                    </IconButton>
+                                </motion.div>
+                            </Tooltip>
+
+                            {/* Bouton Panier avec effet */}
+                            <Tooltip
+                                title={
+                                    isInCart
+                                        ? "Retirer du panier"
+                                        : "Ajouter au panier"
+                                }
+                            >
+                                <motion.div
+                                    whileTap={{ scale: 0.8 }}
+                                    animate={{ rotate: isInCart ? 720 : 0 }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 200,
+                                        damping: 10,
+                                    }}
+                                >
+                                    <IconButton
+                                        onClick={() => toggleCart(jeu.game_id)}
+                                    >
+                                        <AddShoppingCartIcon
+                                            className="icons"
+                                            style={{
+                                                color: isInCart
+                                                    ? "#FFA500"
+                                                    : "#02d7f2",
+                                            }}
+                                        />
+                                    </IconButton>
+                                </motion.div>
+                            </Tooltip>
                         </div>
-                    );
-                })}
+                    </div>
+                );
+            })}
         </div>
     );
 }
@@ -188,8 +257,8 @@ export default function Tableau({ upcomingGames, playing, topGames }) {
                     }}
                 >
                     <Tab label="Sorties les plus attendues" {...a11yProps(0)} />
-                    <Tab label="Succès du moment" {...a11yProps(1)} />
-                    <Tab label="Mieux notés" {...a11yProps(2)} />
+                    <Tab label="Le fun sans se ruiner" {...a11yProps(1)} />
+                    <Tab label="Sous le radar" {...a11yProps(2)} />
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
