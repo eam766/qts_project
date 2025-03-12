@@ -25,11 +25,11 @@ export default function Edit({ mustVerifyEmail, status }) {
                     </div>
 
                     <div className="bg-[#1A1A1A] p-4 shadow  sm:p-8 ">
-                        <UpdatePasswordForm className="max-w-xl" />
+                        <UpdatePasswordForm />
                     </div>
 
                     <div className="bg-[#1A1A1A] p-4 shadow  sm:p-8">
-                        <DeleteUserForm className="max-w-xl" />
+                        <DeleteUserForm />
                     </div>
                 </div>
             </div>
