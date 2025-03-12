@@ -14,7 +14,7 @@ class GameService
             ->where('release_date', '>', now())
             ->where('hypes', '>', 0)
             ->orderBy('hypes', 'desc')
-            ->limit(10      )->get();
+            ->limit(9      )->get();
 
 
     }
@@ -53,7 +53,7 @@ class GameService
             ->where('total_rating', '>', 80)
             ->where('hypes', '<', 10)
             ->orderBy('total_rating', 'asc')
-            ->limit(10)
+            ->limit(9)
             ->get();
     }
 
