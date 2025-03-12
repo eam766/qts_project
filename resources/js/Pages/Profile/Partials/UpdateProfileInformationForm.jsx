@@ -1,3 +1,4 @@
+import { useState } from "react";
 import InputError from "@/Components/InputError";
 import { Transition } from "@headlessui/react";
 import { Link, useForm, usePage } from "@inertiajs/react";
@@ -11,20 +12,32 @@ export default function UpdateProfileInformation({
 }) {
     const user = usePage().props.auth.user;
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
-        useForm({
-            firstName: user.firstName,
-            lastName: user.lastName,
-            dateOfBirth: user.dateOfBirth,
-            country: user.country,
-            username: user.username,
-            email: user.email,
-        });
+    // ✅ États locaux pour stocker les données sans recharger la page
+    const [localData, setLocalData] = useState({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        dateOfBirth: user.dateOfBirth,
+        country: user.country,
+        username: user.username,
+        email: user.email,
+    });
+
+    const { setData, patch, errors, processing, recentlySuccessful } =
+        useForm(localData);
 
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route("profile.update"));
+        patch(route("profile.update"), {
+            preserveState: true, // ✅ Empêche le reload complet
+            preserveScroll: true, // ✅ Garde la position de la page
+            onSuccess: () => {
+                console.log("Profil mis à jour !");
+            },
+            onError: (error) => {
+                console.error("Erreur mise à jour profil:", error);
+            },
+        });
     };
 
     return (
@@ -33,7 +46,6 @@ export default function UpdateProfileInformation({
                 <h2 className="text-lg font-medium text-white">
                     Informations du profil
                 </h2>
-
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                     Mettez à jour les informations de profil et l'adresse e-mail
                     de votre compte.
@@ -41,24 +53,25 @@ export default function UpdateProfileInformation({
             </header>
 
             <form onSubmit={submit} method="PATCH" className="mt-6 space-y-6">
+                {/* 🔥 Identifiant et Nom */}
                 <div className="flex flex-row gap-16">
                     <div className="flex flex-col">
                         <label htmlFor="username" className="AudioWideBlue">
                             Identifiant
                         </label>
-
                         <input
                             id="username"
                             className="bg-transparent bgInput"
-                            value={data.username}
+                            value={localData.username}
                             onChange={(e) =>
-                                setData("username", e.target.value)
+                                setLocalData({
+                                    ...localData,
+                                    username: e.target.value,
+                                })
                             }
                             required
-                            isFocused
                             autoComplete="username"
                         />
-
                         <InputError
                             className="mt-2"
                             message={errors.username}
@@ -68,19 +81,19 @@ export default function UpdateProfileInformation({
                         <label htmlFor="lastName" className="AudioWideBlue">
                             Nom
                         </label>
-
                         <input
                             id="lastName"
                             className="bg-transparent bgInput"
-                            value={data.lastName}
+                            value={localData.lastName}
                             onChange={(e) =>
-                                setData("lastName", e.target.value)
+                                setLocalData({
+                                    ...localData,
+                                    lastName: e.target.value,
+                                })
                             }
                             required
-                            isFocused
                             autoComplete="lastName"
                         />
-
                         <InputError
                             className="mt-2"
                             message={errors.lastName}
@@ -88,77 +101,91 @@ export default function UpdateProfileInformation({
                     </div>
                 </div>
 
+                {/* 🔥 Courriel et Prénom */}
                 <div className="flex flex-row gap-16">
                     <div className="flex flex-col">
                         <label htmlFor="email" className="AudioWideBlue">
                             Courriel
                         </label>
-
                         <input
                             id="email"
                             type="email"
                             className="bg-transparent bgInput"
-                            value={data.email}
-                            onChange={(e) => setData("email", e.target.value)}
+                            value={localData.email}
+                            onChange={(e) =>
+                                setLocalData({
+                                    ...localData,
+                                    email: e.target.value,
+                                })
+                            }
                             required
                             autoComplete="email"
                         />
-
                         <InputError className="mt-2" message={errors.email} />
                     </div>
                     <div className="flex flex-col">
                         <label htmlFor="firstName" className="AudioWideBlue">
                             Prénom
                         </label>
-
                         <input
                             id="firstName"
-                            type="firstName"
                             className="bg-transparent bgInput pl-3"
-                            value={data.firstName}
+                            value={localData.firstName}
                             onChange={(e) =>
-                                setData("firstName", e.target.value)
+                                setLocalData({
+                                    ...localData,
+                                    firstName: e.target.value,
+                                })
                             }
                             required
                             autoComplete="firstName"
                         />
-
                         <InputError
                             className="mt-2"
                             message={errors.firstName}
                         />
                     </div>
                 </div>
+
+                {/* 🔥 Date de naissance et Pays */}
                 <div className="flex flex-row gap-16">
                     <div className="flex flex-col">
                         <label htmlFor="dateOfBirth" className="AudioWideBlue">
                             Date de naissance
                         </label>
                         <DateInput
-                            value={data.dateOfBirth}
-                            onChange={(e) =>
-                                setData("dateOfBirth", e.target.value)
+                            value={localData.dateOfBirth}
+                            onChange={(value) =>
+                                setLocalData({
+                                    ...localData,
+                                    dateOfBirth: value,
+                                })
                             }
-                        ></DateInput>
-
-                        <InputError className="mt-2" message={errors.email} />
+                        />
+                        <InputError
+                            className="mt-2"
+                            message={errors.dateOfBirth}
+                        />
                     </div>
                     <div className="flex flex-col">
                         <label htmlFor="country" className="AudioWideBlue">
                             Pays
                         </label>
                         <CountrySelect
-                            value={data.country}
-                            onChange={(e) => setData("country", e.target.value)}
-                        ></CountrySelect>
+                            value={localData.country}
+                            onChange={(value) =>
+                                setLocalData({ ...localData, country: value })
+                            }
+                        />
                         <InputError className="mt-2" message={errors.country} />
                     </div>
                 </div>
 
+                {/* 🔥 Vérification du courriel */}
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
                         <p className="mt-2 text-sm text-gray-800 dark:text-gray-200">
-                            Votre courriel n'est pas vérifiée.
+                            Votre courriel n'est pas vérifié.
                             <Link
                                 href={route("verification.send")}
                                 method="post"
@@ -179,28 +206,30 @@ export default function UpdateProfileInformation({
                     </div>
                 )}
 
+                {/* 🔥 Bouton Enregistrer avec animation */}
                 <div className="flex items-center gap-4">
                     <button
                         type="submit"
                         disabled={processing}
                         className="buttonLeft AudioWideBlue ml-auto"
                     >
-                        Enregistrer
+                        {processing ? "Enregistrement..." : "Enregistrer"}
                     </button>
-
-                    <Transition
-                        show={recentlySuccessful}
-                        enter="transition ease-in-out"
-                        enterFrom="opacity-0"
-                        leave="transition ease-in-out"
-                        leaveTo="opacity-0"
-                    >
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Enregistrée.
-                        </p>
-                    </Transition>
                 </div>
             </form>
+
+            {/* ✅ Notification flottante pour succès */}
+            <Transition
+                show={recentlySuccessful}
+                enter="transition ease-in-out duration-300"
+                enterFrom="opacity-0 translate-y-5"
+                leave="transition ease-in-out duration-300"
+                leaveTo="opacity-0 translate-y-5"
+            >
+                <div className="fixed bottom-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+                    Profil mis à jour avec succès !
+                </div>
+            </Transition>
         </section>
     );
 }
