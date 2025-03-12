@@ -22,7 +22,7 @@ export default function Accueil({
                 position: "relative",
             }}
         >
-            <Carousel temps={5000} galleryImage={wantedGames} />
+            <Carousel temps={15000} galleryImage={wantedGames} />
             <div className="flex flex-col items-start">
                 <img
                     className=" mt-10"
