@@ -35,24 +35,21 @@ class GameController extends Controller
 
 
 
-    public function show($game_id)
+    public function show($id)
     {
-        $game = Game::query()->where('game_id', $game_id)->first();
-
-        // Déterminer si le jeu est dans la wishlist de l'utilisateur connecté
-        $isInWishlist = false;
-        if (auth()->check()) {
-            $isInWishlist = auth()->user()
-                ->wishlist()
-                ->where('game_id', $game_id)
-                ->exists();
+        $game = Game::where('game_id', $id)->first(); // ← Vérifie bien ici
+        
+        if (!$game) {
+            abort(404, "Jeu non trouvé");
         }
-
-        return Inertia::render('Jeux', [
+    
+        return inertia('Jeux', [
             'game' => $game,
-            'isInWishlist' => $isInWishlist,
+            'isInWishlist' => auth()->check() ? auth()->user()->wishlist()->where('game_id', $id)->exists() : false,
+            'isInCart' => auth()->check() ? auth()->user()->cart()->where('game_id', $id)->exists() : false,
         ]);
     }
+    
 
     public function acceuil(){
         $cheapGames = $this->gameService->getCheapGames();

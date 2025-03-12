@@ -65,20 +65,22 @@ export default function Layout({ children }) {
                                             size={28}
                                         />
                                     </Link>
-                                </div>
 
-                                <Link
-                                    className="buttonLeft mr-1"
-                                    href="/dashboard"
-                                >
-                                    Profil
-                                </Link>
-                                <button
-                                    className="buttonRight"
-                                    onClick={() => router.post(route("logout"))}
-                                >
-                                    Déconnexion
-                                </button>
+                                    <Link
+                                        className="buttonLeft mr-1"
+                                        href="/dashboard"
+                                    >
+                                        Profil
+                                    </Link>
+                                    <button
+                                        className="buttonRight"
+                                        onClick={() =>
+                                            router.post(route("logout"))
+                                        }
+                                    >
+                                        Déconnexion
+                                    </button>
+                                </div>
                             </>
                         ) : (
                             <>
