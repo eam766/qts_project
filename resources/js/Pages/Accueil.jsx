@@ -10,9 +10,6 @@ export default function Accueil({
     upcomingGames, bestRatedGames,wantedGames, recentReleases,hiddenGems, cheapGames
 
 }) {
-
-
-
     return (
         <div
             style={{
@@ -22,7 +19,8 @@ export default function Accueil({
                 position: "relative",
             }}
         >
-            <Carousel temps={5000} galleryImage={bestRatedGames} />
+
+            <Carousel temps={5000} galleryImage={wantedGames} />
             <div className="flex flex-col items-start">
                 <img
                     className=" mt-10"
@@ -32,7 +30,7 @@ export default function Accueil({
                     height={440}
                 />
                 <br />
-                <ListeJeux couvertures={wantedGames} />
+                <ListeJeux couvertures={bestRatedGames} />
             </div>
             <img
                 className="m-6"

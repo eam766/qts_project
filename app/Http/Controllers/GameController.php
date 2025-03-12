@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+
 use Inertia\Inertia;
 use App\Models\Game;
 use App\Services\GameService;
+
+
 
 
 class GameController extends Controller
@@ -18,9 +22,13 @@ class GameController extends Controller
     {
         $this->gameService = $gameService;
     }
+
     public function index()
     {
-        $games = Game::paginate(10);
+        $games = Game::query()
+            ->orderBy('total_rating', 'desc')
+            ->paginate(12);
+
         $genres = $this->gameService->getAllGenres();
         $themes = $this->gameService->getAllThemes();
         $maxPrice = $this->gameService->getMaxPrice();
@@ -32,7 +40,6 @@ class GameController extends Controller
             'maxPrice' => $maxPrice
         ]);
     }
-
 
 
     public function show($game_id)
@@ -54,7 +61,8 @@ class GameController extends Controller
         ]);
     }
 
-    public function acceuil(){
+    public function acceuil()
+    {
         $cheapGames = $this->gameService->getCheapGames();
         $upcomingGames = $this->gameService->getUpcomingGames();
         $bestRatedGames = $this->gameService->getBestRatedGames();
@@ -63,15 +71,15 @@ class GameController extends Controller
         $hiddenGems = $this->gameService->getHiddenGems();
 
         return Inertia::render('Accueil', [
-            'upcomingGames'=>$upcomingGames,
-            'bestRatedGames'=>$bestRatedGames,
-            'wantedGames'=>$wantedGames,
-            'recentReleases'=>$recentReleases,
-            'hiddenGems'=>$hiddenGems,
-            'cheapGames'=>$cheapGames
+            'upcomingGames' => $upcomingGames,
+            'bestRatedGames' => $bestRatedGames,
+            'wantedGames' => $wantedGames,
+            'recentReleases' => $recentReleases,
+            'hiddenGems' => $hiddenGems,
+            'cheapGames' => $cheapGames
 
 
-    ]);
+        ]);
 
     }
 
@@ -90,42 +98,12 @@ class GameController extends Controller
         return Inertia::render('Boutique', [
             'games' => $games,
             'filters' => $request->only('search'),
-              'genres' => $genres,
+            'genres' => $genres,
             'themes' => $themes,
             'maxPrice' => $maxPrice
         ]);
     }
 
-
-//    public function filter(Request $request)
-//    {
-//        $selectedGenres = $request->input('genres', []);
-//        $selectedThemes = $request->input('themes', []);
-//
-//        $games = Game::query();
-//
-//        if (!empty($selectedGenres) && !empty($selectedThemes)) {
-//            $games->where(function ($query) use ($selectedGenres) {
-//                foreach ($selectedGenres as $genre) {
-//
-//                    $query->whereRaw("JSON_EXTRACT(genres, '$') LIKE ?", ['%"' . str_replace('"', '\\"', $genre) . '"%']);
-//                }
-//            });
-//        }
-//
-//        $games = $games->paginate(10);
-//
-//        $genres = $this->gameService->getAllGenres();
-//        $themes = $this->gameService->getAllThemes();
-//        $maxPrice = $this->gameService->getMaxPrice();
-//
-//        return Inertia::render('Boutique', [
-//            'games' => $games,
-//            'genres' => $genres,
-//            'themes' => $themes,
-//            'maxPrice' => $maxPrice
-//        ]);
-//    }
 
     public function filter(Request $request)
     {
@@ -138,9 +116,13 @@ class GameController extends Controller
             ? $request->input('themes')
             : explode(',', $request->input('themes', ''));
 
+        $prices = request('prices') ? explode(',', request('prices')) : [0, 100];
+
+
         // Filter out empty values
         $selectedGenres = array_filter($selectedGenres);
         $selectedThemes = array_filter($selectedThemes);
+
 
         $games = Game::query();
 
@@ -162,18 +144,31 @@ class GameController extends Controller
             });
         }
 
-        $games = $games->paginate(10);
+        if (count($prices) === 2) {
+            $games->whereBetween('price', [$prices[0], $prices[1]]);
+        }
+
+        $games = $games->paginate(12);
 
         $genres = $this->gameService->getAllGenres();
         $themes = $this->gameService->getAllThemes();
         $maxPrice = $this->gameService->getMaxPrice();
 
+
         return Inertia::render('Boutique', [
             'games' => $games,
             'genres' => $genres,
             'themes' => $themes,
-            'maxPrice' => $maxPrice
+            'prices' => $prices,
+            'maxPrice' => $maxPrice,
+            'filters' => [
+                'genres' => $selectedGenres,
+                'themes' => $selectedThemes,
+                'prices' => $prices
+            ],
         ]);
     }
 
+
 }
+

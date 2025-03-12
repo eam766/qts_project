@@ -1,32 +1,46 @@
 import Slider from "@mui/material/Slider";
-import {useState} from "react";
-
-export default  function Curseur({maxPrice}) {
+import {useEffect, useState} from "react";
+export default function Curseur({ maxPrice, onPriceChange, selectedFilters }) {
     function valuetext(value) {
-        return `${value}°C`;
+        return `${value}`;
     }
     const minDistance = 10;
 
-    const [value, setValue] = useState([0,10]);
 
+    const [value, setValue] = useState(selectedFilters.length === 2 ? selectedFilters : [0, maxPrice]);
+
+
+    useEffect(() => {
+        setValue(selectedFilters);
+    }, [selectedFilters]);
 
     const handleChange = (event, newValue, activeThumb) => {
         if (!Array.isArray(newValue)) {
             return;
         }
 
+        let updatedValue = [...value];
+
         if (activeThumb === 0) {
-            setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
+            updatedValue = [Math.min(newValue[0], value[1] - minDistance), value[1]];
         } else {
-            setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
+            updatedValue = [value[0], Math.max(newValue[1], value[0] + minDistance)];
         }
+
+        setValue(updatedValue);
+        onPriceChange("prices", updatedValue);
     };
 
-    return ( <Slider getAriaLabel={() => 'Price Range'}
-                     value={value}
-                     max={Math.round(maxPrice)}
-                     onChange={handleChange}
-                     valueLabelDisplay="auto"
-                     getAriaValueText={valuetext} color="secondary"
-                     disableSwap></Slider>);
+    return (
+        <Slider
+            getAriaLabel={() => "Price Range"}
+            value={value}
+            max={Math.round(maxPrice)}
+            onChange={handleChange}
+            valueLabelDisplay="auto"
+            getAriaValueText={valuetext}
+            color="secondary"
+            disableSwap
+        />
+    );
 }

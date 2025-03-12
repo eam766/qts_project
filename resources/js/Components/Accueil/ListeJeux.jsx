@@ -1,8 +1,5 @@
 import "./ListeJeux.css";
 import { Carousel } from "primereact/carousel";
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
 import { Link } from "@inertiajs/react";
 
 export default function ListeJeux({ couvertures, visibleCount = 5 }) {
@@ -17,10 +14,9 @@ export default function ListeJeux({ couvertures, visibleCount = 5 }) {
             >
                 <Link href={`/jeux/${couverture.game_id}`}>
                     <img
-                        src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${couverture.cover_image_id}.webp`}
+                        src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${couverture.cover_image_id}.png`}
                         alt="Jeu"
                         className="jeux-cover"
-                        loading="lazy"
                     />
                 </Link>
             </div>

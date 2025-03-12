@@ -28,7 +28,7 @@ export default function Footer() {
                             className="mr-12"
                             style={{ height: "50px", width: "50px" }}
                         />
-                        <p className="text-sm tracking-widest">
+                        <div className="text-sm tracking-widest">
                             <Link className="footer-link" href="/">
                                 Accueil
                             </Link>{" "}
@@ -44,7 +44,7 @@ export default function Footer() {
                             <Link className="footer-link" href="/connexion">
                                 Connexion
                             </Link>
-                            <p className="mt-3">
+                            <div className="mt-3">
                                 <Link className="footer-link" href="/a_propos">
                                     À propos
                                 </Link>{" "}
@@ -63,8 +63,8 @@ export default function Footer() {
                                 >
                                     Politique cookies
                                 </Link>
-                            </p>
-                        </p>
+                            </div>
+                        </div>
                     </div>
                     <p className="text-xs mt-4">
                         @ QTS Montréal. Tous droits réservés. Toutes les marques
