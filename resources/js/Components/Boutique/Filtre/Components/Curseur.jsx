@@ -7,7 +7,7 @@ export default function Curseur({ maxPrice, onPriceChange, selectedFilters }) {
     const minDistance = 10;
 
 
-    const [value, setValue] = useState(selectedFilters.length === 2 ? selectedFilters : [0, maxPrice]);
+    const [value, setValue] = useState(selectedFilters.length === 2 ? selectedFilters : [0, Math.round(maxPrice)]);
 
 
     useEffect(() => {

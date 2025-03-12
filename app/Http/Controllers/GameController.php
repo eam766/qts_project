@@ -98,25 +98,16 @@ class GameController extends Controller
 
     public function filter(Request $request)
     {
-        // Get and format selected filters
-        $selectedGenres = is_array($request->input('genres'))
-            ? $request->input('genres')
-            : explode(',', $request->input('genres', ''));
+        $selectedGenres = $this->getFilteredInput($request, 'genres');
+        $selectedThemes = $this->getFilteredInput($request, 'themes');
 
-        $selectedThemes = is_array($request->input('themes'))
-            ? $request->input('themes')
-            : explode(',', $request->input('themes', ''));
+        $prices = $this->getPrices($request);
 
-        $prices = request('prices') ? explode(',', request('prices')) : [0, 100];
-
-
-        // Filter out empty values
         $selectedGenres = array_filter($selectedGenres);
         $selectedThemes = array_filter($selectedThemes);
 
         $games = Game::query();
 
-        // Apply genre filters if any are selected
         if (!empty($selectedGenres)) {
             $games->where(function ($query) use ($selectedGenres) {
                 foreach ($selectedGenres as $genre) {
@@ -125,7 +116,6 @@ class GameController extends Controller
             });
         }
 
-        // Apply theme filters if any are selected
         if (!empty($selectedThemes)) {
             $games->where(function ($query) use ($selectedThemes) {
                 foreach ($selectedThemes as $theme) {
@@ -144,7 +134,6 @@ class GameController extends Controller
         $themes = $this->gameService->getAllThemes();
         $maxPrice = $this->gameService->getMaxPrice();
 
-
         return Inertia::render('Boutique', [
             'games' => $games,
             'genres' => $genres,
@@ -158,5 +147,28 @@ class GameController extends Controller
             ],
         ]);
     }
+
+    private function getFilteredInput(Request $request, $field)
+    {
+        $input = $request->input($field);
+        if (is_array($input)) {
+            return $input;
+        }
+
+        return $input ? explode(',', $input) : [];
+    }
+
+    private function getPrices(Request $request)
+    {
+        $prices = $request->input('prices');
+
+        if (is_string($prices)) {
+            return explode(',', $prices);
+        }
+
+        return $prices ?: [0, 100];
+    }
+
+
 
 }

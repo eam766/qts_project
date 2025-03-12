@@ -19,7 +19,7 @@ export default function BoutonAjouter({ inCart, cartLoading, onPress }) {
                 ? inCart
                     ? "Retrait en cours..."
                     : "Ajout en cours..."
-                : !inCart
+                : inCart
                 ? "Ajouter au panier"
                 : "Dans votre panier"}
         </button>
