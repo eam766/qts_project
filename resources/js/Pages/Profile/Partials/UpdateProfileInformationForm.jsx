@@ -12,7 +12,6 @@ export default function UpdateProfileInformation({
 }) {
     const user = usePage().props.auth.user;
 
-    // ✅ États locaux pour stocker les données sans recharger la page
     const [localData, setLocalData] = useState({
         firstName: user.firstName,
         lastName: user.lastName,
@@ -29,8 +28,8 @@ export default function UpdateProfileInformation({
         e.preventDefault();
 
         patch(route("profile.update"), {
-            preserveState: true, // ✅ Empêche le reload complet
-            preserveScroll: true, // ✅ Garde la position de la page
+            preserveState: true,
+            preserveScroll: true,
             onSuccess: () => {
                 console.log("Profil mis à jour !");
             },
@@ -53,7 +52,6 @@ export default function UpdateProfileInformation({
             </header>
 
             <form onSubmit={submit} method="PATCH" className="mt-6 space-y-6">
-                {/* 🔥 Identifiant et Nom */}
                 <div className="flex flex-row gap-16">
                     <div className="flex flex-col">
                         <label htmlFor="username" className="AudioWideBlue">
@@ -101,7 +99,6 @@ export default function UpdateProfileInformation({
                     </div>
                 </div>
 
-                {/* 🔥 Courriel et Prénom */}
                 <div className="flex flex-row gap-16">
                     <div className="flex flex-col">
                         <label htmlFor="email" className="AudioWideBlue">
@@ -147,7 +144,6 @@ export default function UpdateProfileInformation({
                     </div>
                 </div>
 
-                {/* 🔥 Date de naissance et Pays */}
                 <div className="flex flex-row gap-16">
                     <div className="flex flex-col">
                         <label htmlFor="dateOfBirth" className="AudioWideBlue">
@@ -181,7 +177,6 @@ export default function UpdateProfileInformation({
                     </div>
                 </div>
 
-                {/* 🔥 Vérification du courriel */}
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
                         <p className="mt-2 text-sm text-gray-800 dark:text-gray-200">
@@ -206,7 +201,6 @@ export default function UpdateProfileInformation({
                     </div>
                 )}
 
-                {/* 🔥 Bouton Enregistrer avec animation */}
                 <div className="flex items-center gap-4">
                     <button
                         type="submit"
@@ -218,7 +212,6 @@ export default function UpdateProfileInformation({
                 </div>
             </form>
 
-            {/* ✅ Notification flottante pour succès */}
             <Transition
                 show={recentlySuccessful}
                 enter="transition ease-in-out duration-300"

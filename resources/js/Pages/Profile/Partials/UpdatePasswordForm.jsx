@@ -58,13 +58,12 @@ export default function UpdatePasswordForm({ className = "" }) {
             </header>
 
             <form onSubmit={updatePassword} className="mt-6 space-y-6">
-                <div>
-                    <InputLabel
-                        htmlFor="current_password"
-                        value="Current Password"
-                    />
+                <div className="flex flex-col">
+                    <label htmlFor="current_password" className="AudioWideBlue">
+                        Mot de passe actuel
+                    </label>
 
-                    <TextInput
+                    <input
                         id="current_password"
                         ref={currentPasswordInput}
                         value={data.current_password}
@@ -72,7 +71,7 @@ export default function UpdatePasswordForm({ className = "" }) {
                             setData("current_password", e.target.value)
                         }
                         type="password"
-                        className="mt-1 block w-full"
+                        className="bg-transparent bgInput"
                         autoComplete="current-password"
                     />
 
@@ -82,36 +81,41 @@ export default function UpdatePasswordForm({ className = "" }) {
                     />
                 </div>
 
-                <div>
-                    <InputLabel htmlFor="password" value="New Password" />
+                <div className="flex flex-col">
+                    <label htmlFor="password" className="AudioWideBlue">
+                        Nouveau mot de passe
+                    </label>
 
-                    <TextInput
+                    <input
                         id="password"
                         ref={passwordInput}
                         value={data.password}
                         onChange={(e) => setData("password", e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        c
+                        className="bg-transparent bgInput"
                         autoComplete="new-password"
                     />
 
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
-                <div>
-                    <InputLabel
+                <div className="flex flex-col">
+                    <label
                         htmlFor="password_confirmation"
-                        value="Confirm Password"
-                    />
+                        className="AudioWideBlue"
+                    >
+                        Confirmer le mot de passe
+                    </label>
 
-                    <TextInput
+                    <input
                         id="password_confirmation"
                         value={data.password_confirmation}
                         onChange={(e) =>
                             setData("password_confirmation", e.target.value)
                         }
                         type="password"
-                        className="mt-1 block w-full"
+                        className="bg-transparent bgInput"
                         autoComplete="new-password"
                     />
 
@@ -122,18 +126,24 @@ export default function UpdatePasswordForm({ className = "" }) {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <button
+                        type="submit"
+                        disabled={processing}
+                        className="buttonLeft AudioWideBlue ml-auto"
+                    >
+                        {processing ? "Enregistrement..." : "Enregistrer"}
+                    </button>
 
                     <Transition
                         show={recentlySuccessful}
-                        enter="transition ease-in-out"
-                        enterFrom="opacity-0"
-                        leave="transition ease-in-out"
-                        leaveTo="opacity-0"
+                        enter="transition ease-in-out duration-300"
+                        enterFrom="opacity-0 translate-y-5"
+                        leave="transition ease-in-out duration-300"
+                        leaveTo="opacity-0 translate-y-5"
                     >
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Saved.
-                        </p>
+                        <div className="fixed bottom-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+                            Mot de passe mis à jour avec succès !
+                        </div>
                     </Transition>
                 </div>
             </form>
