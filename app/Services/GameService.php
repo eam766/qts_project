@@ -23,7 +23,7 @@ class GameService
     {
         return Game::query()
             ->orderBy('total_rating', 'desc')
-            ->limit(9)
+            ->limit(10)
             ->get();
     }
     public function getWantedGames()
@@ -33,14 +33,15 @@ class GameService
             ->whereBetween('release_date', [now()->subYear(), now()])
             ->where('hypes', '>', 0)
             ->orderBy('hypes', 'desc')
-            ->limit(9)
+            ->limit(10)
             ->get();
     }
     public function getRecentReleases()
     {
         return Game::query()
-            ->whereBetween('release_date', [now()->subMonths(3), now()])
+            ->whereBetween('release_date', [now()->subMonths(5), now()])
             ->orderBy('release_date', 'desc')
+            ->limit(10)
             ->get();
     }
     public function getHiddenGems()

@@ -11,7 +11,7 @@ import { Tooltip } from "@mui/material";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import "./Tableau.css";
 import { motion } from "framer-motion";
-import {parseJson} from "../../../../utils/utils.js";
+import { parseJson } from "../../../../utils/utils.js";
 
 // Composant pour le contenu d'un onglet
 function CustomTabPanel(props) {
@@ -188,8 +188,8 @@ export default function Tableau({ upcomingGames, playing, topGames }) {
                     }}
                 >
                     <Tab label="Sorties les plus attendues" {...a11yProps(0)} />
-                    <Tab label="Succès du moment" {...a11yProps(1)} />
-                    <Tab label="Mieux notés" {...a11yProps(2)} />
+                    <Tab label="Le fun sans se ruiner" {...a11yProps(1)} />
+                    <Tab label="Sous le radar" {...a11yProps(2)} />
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
