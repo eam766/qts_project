@@ -10,10 +10,8 @@ export default function Filtre({ genres, themes, maxPrice }) {
     const [filterState, setFilterState] = useState({
         genres: [],
         themes: [],
-        prices:[0, maxPrice]
+        prices: [0, Math.round(maxPrice)]
     });
-
-    console.log(filterState);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -27,19 +25,15 @@ export default function Filtre({ genres, themes, maxPrice }) {
         setFilterState({
             genres: initialGenres,
             themes: initialThemes,
-            prices: initialPrices.length === 2 ? initialPrices : [0, maxPrice], // ✅ Assurer que c'est un tableau valide
-
+            prices: initialPrices.length === 2 ? initialPrices : [0, Math.round(maxPrice)], // Ensure valid prices
         });
     }, [maxPrice]);
-
-
 
     const handleFilterChange = (filterType, newValue) => {
         setFilterState(prevState => ({
             ...prevState,
             [filterType]: newValue
         }));
-
     };
 
     const applyFilters = () => {
@@ -53,12 +47,12 @@ export default function Filtre({ genres, themes, maxPrice }) {
             params.themes = filterState.themes.join(',');
         }
 
-        // Ajout du prix
         if (filterState.prices.length === 2) {
             params.prices = filterState.prices.join(',');
         }
 
-        router.get(route('games.filter'), params);
+        // Dynamically update URL without reloading the page
+        router.get(route('games.filter'), params, { preserveState: true });
     };
 
     const handleSubmit = (e) => {
@@ -66,46 +60,34 @@ export default function Filtre({ genres, themes, maxPrice }) {
         applyFilters();
     };
 
-    const emptyArray = ()=>{
-
+    const emptyArray = () => {
         setFilterState({
             genres: [],
             themes: [],
-            prices: [0, maxPrice],
+            prices: [0, Math.round(maxPrice)],
         });
 
-        router.get(route('games.filter'));
-
-    }
-
+        // Dynamically reset filters in the URL
+        router.get(route('games.filter'), {}, { preserveState: true });
+    };
 
     return (
-        <form onSubmit={handleSubmit} style={{position: "relative", height: 100, width: "80vw"}}>
-            <Accordion
-                multiple
-                className="top-accordion"
-
-            >
+        <form onSubmit={handleSubmit} style={{ position: "relative", height: 100, width: "80vw" }}>
+            <Accordion multiple className="top-accordion">
                 <AccordionTab
                     header="Filtre"
                     headerClassName="accordion-tab-header"
                     className="accordion-tab"
-
                 >
                     <Accordion multiple>
-                        <AccordionTab
-                            header="Prix"
-                            className="accordion-inner-tab"
-                        >
-                           <Curseur maxPrice={maxPrice}
-                                    selectedFilters={filterState.prices}
-                           onPriceChange={handleFilterChange}
-                           />
+                        <AccordionTab header="Prix" className="accordion-inner-tab">
+                            <Curseur
+                                maxPrice={maxPrice}
+                                selectedFilters={filterState.prices}
+                                onPriceChange={handleFilterChange}
+                            />
                         </AccordionTab>
-                        <AccordionTab
-                            header="Genres"
-                            className="accordion-inner-tab"
-                        >
+                        <AccordionTab header="Genres" className="accordion-inner-tab">
                             <Checkboxes
                                 filters={genres}
                                 filterType="genres"
@@ -114,10 +96,7 @@ export default function Filtre({ genres, themes, maxPrice }) {
                             />
                         </AccordionTab>
 
-                        <AccordionTab
-                            header="Thèmes"
-                            className="accordion-inner-tab"
-                        >
+                        <AccordionTab header="Thèmes" className="accordion-inner-tab">
                             <Checkboxes
                                 filters={themes}
                                 filterType="themes"
@@ -127,21 +106,10 @@ export default function Filtre({ genres, themes, maxPrice }) {
                         </AccordionTab>
                     </Accordion>
                     <div className="gap-2 flex">
-                        <Button
-                            variant="outlined"
-                            type="submit"
-                            className="filter-button"
-
-                        >
+                        <Button variant="outlined" type="submit" className="filter-button">
                             Filtrer
                         </Button>
-                        <Button
-                            variant="outlined"
-                            type="button"
-                            className="filter-button"
-                            onClick={emptyArray}
-
-                        >
+                        <Button variant="outlined" type="button" className="filter-button" onClick={emptyArray}>
                             Effacer filtre
                         </Button>
                     </div>
@@ -149,5 +117,4 @@ export default function Filtre({ genres, themes, maxPrice }) {
             </Accordion>
         </form>
     );
-
 }
