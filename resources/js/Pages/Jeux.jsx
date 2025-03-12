@@ -1,70 +1,111 @@
 import BordureCover from "@/Components/JeuxVideo/BordureCover";
-import { Head, router } from "@inertiajs/react";
-import React, { useState } from "react";
+import { Head, router, usePage } from "@inertiajs/react";
+import React, { useEffect, useState } from "react";
 import BoutonAjouter from "@/Components/PageProduit/BoutonAjouter";
 import BoutonListe from "@/Components/PageProduit/BoutonListe";
-import { usePage } from "@inertiajs/react";
+import axios from "axios"; // ✅ Import axios pour fetch backend
 import { parseJson } from "../../../utils/utils.js";
 
-export default function Jeux({
-    game,
-    isInWishlist: initialIsInWishlist,
-    isInCart: initialIsInCart,
-}) {
-    const [mainScreenshot, setMainScreenshot] = useState(
-        parseJson(game.screenshots)?.[0]
-    );
-    const [inWishlist, setInWishlist] = useState(initialIsInWishlist);
-    const [inCart, setInCart] = useState(initialIsInCart);
-    const [cartLoading, setCartLoading] = useState(false);
+export default function Jeux({ game }) {
     const { auth } = usePage().props;
     const user = auth.user;
 
+    const [mainScreenshot, setMainScreenshot] = useState(
+        parseJson(game.screenshots)?.[0]
+    );
+    const [wishlist, setWishlist] = useState([]);
+    const [cart, setCart] = useState([]);
+    const [loadingWishlist, setLoadingWishlist] = useState(false);
+    const [loadingCart, setLoadingCart] = useState(false);
+
+    // ✅ Charger l'état de la wishlist et du panier depuis le backend
+    useEffect(() => {
+        if (user) {
+            axios
+                .get(route("wishlist.data"))
+                .then((response) => setWishlist(response.data.wishlistGames))
+                .catch((error) =>
+                    console.error("Erreur chargement wishlist:", error)
+                );
+
+            axios
+                .get(route("cart.data"))
+                .then((response) => setCart(response.data.cartGames))
+                .catch((error) =>
+                    console.error("Erreur chargement panier:", error)
+                );
+        }
+    }, [user]);
+
+    // ✅ Vérifier si le jeu est dans la liste de souhaits / panier
+    const isInWishlist = wishlist.includes(game.game_id);
+    const isInCart = cart.includes(game.game_id);
+
+    // ✅ Fonction pour gérer la wishlist
     const toggleWishlist = () => {
         if (!user) {
             router.visit("/connexion");
             return;
         }
 
-        if (inWishlist) {
+        setLoadingWishlist(true);
+        if (isInWishlist) {
             router.delete(route("wishlist.destroy"), {
-                data: { game_id: game.game.game_id },
+                data: { game_id: game.game_id },
                 preserveState: true,
                 preserveScroll: true,
-                onSuccess: () => setInWishlist(false),
-                onError: () => console.error("Erreur lors de la suppression."),
+                onSuccess: () => {
+                    setWishlist((prev) =>
+                        prev.filter((id) => id !== game.game_id)
+                    );
+                    setLoadingWishlist(false);
+                },
+                onError: () => {
+                    console.error("Erreur suppression wishlist.");
+                    setLoadingWishlist(false);
+                },
             });
         } else {
             router.post(
                 route("wishlist.store"),
-                { game_id: game.id },
+                { game_id: game.game_id },
                 {
                     preserveState: true,
                     preserveScroll: true,
-                    onSuccess: () => setInWishlist(true),
-                    onError: () => console.error("Erreur lors de l'ajout."),
+                    onSuccess: () => {
+                        setWishlist((prev) => [...prev, game.game_id]);
+                        setLoadingWishlist(false);
+                    },
+                    onError: () => {
+                        console.error("Erreur ajout wishlist.");
+                        setLoadingWishlist(false);
+                    },
                 }
             );
         }
     };
 
+    // ✅ Fonction pour gérer le panier
     const toggleCart = () => {
         if (!user) {
             router.visit("/connexion");
             return;
         }
 
-        setCartLoading(true);
-        if (inCart) {
+        setLoadingCart(true);
+        if (isInCart) {
             router.delete(route("cart.destroy"), {
-                data: { game_id: game.id },
+                data: { game_id: game.game_id },
                 preserveState: true,
                 preserveScroll: true,
                 onSuccess: () => {
-                    setInCart(false);
-                    setCartLoading(false);
+                    setCart((prev) => prev.filter((id) => id !== game.game_id));
+                    setLoadingCart(false);
                 },
-                onError: () => setCartLoading(false),
+                onError: () => {
+                    console.error("Erreur suppression panier.");
+                    setLoadingCart(false);
+                },
             });
         } else {
             router.post(
@@ -74,10 +115,13 @@ export default function Jeux({
                     preserveState: true,
                     preserveScroll: true,
                     onSuccess: () => {
-                        setInCart(true);
-                        setCartLoading(false);
+                        setCart((prev) => [...prev, game.game_id]);
+                        setLoadingCart(false);
                     },
-                    onError: () => setCartLoading(false),
+                    onError: () => {
+                        console.error("Erreur ajout panier.");
+                        setLoadingCart(false);
+                    },
                 }
             );
         }
@@ -128,17 +172,30 @@ export default function Jeux({
                         {game.name}
                     </h1>
                     <br />
-                    <p> {game.price}$</p>
+                    <p>{game.price}$</p>
                     <br />
+
+                    {/* ✅ Bouton Ajouter au Panier avec couleur jaune et message dynamique */}
                     <BoutonAjouter
-                        inCart={inCart}
-                        cartLoading={cartLoading}
+                        inCart={isInCart}
+                        cartLoading={loadingCart}
                         onPress={toggleCart}
+                        buttonColor={isInCart ? "bg-yellow-500" : "bg-gray-500"}
                     />
 
+                    {/* ✅ Bouton Ajouter à la liste de souhaits avec message dynamique */}
                     <BoutonListe
-                        inWishlist={inWishlist}
+                        inWishlist={isInWishlist}
                         onPress={toggleWishlist}
+                        label={
+                            loadingWishlist
+                                ? isInWishlist
+                                    ? "Retrait en cours..."
+                                    : "Ajout en cours..."
+                                : isInWishlist
+                                ? "Dans la liste de souhaits"
+                                : "Ajouter à la liste de souhaits"
+                        }
                     />
                 </div>
             </div>

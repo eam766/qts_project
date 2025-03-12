@@ -36,7 +36,8 @@ Route::get('/boutique/filter', [GameController::class, 'filter'])->name('games.f
 
 
 
-Route::get('/jeux/{game_id}', [GameController::class, 'show']);
+Route::get('/jeux/{id}', [GameController::class, 'show'])->name('games.show');
+
 
 Route::inertia('/a_propos', 'A_Propos');
 Route::inertia('/equipe', 'Equipe');
@@ -105,6 +106,12 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
 
     Route::middleware('auth')->get('/wishlist-data', [WishlistController::class, 'getWishlist'])
     ->name('wishlist.data');
+
+    Route::middleware('auth')->get('/cart-data', [CartController::class, 'getCart'])
+    ->name('cart.data');
+
+
+
 
 
 

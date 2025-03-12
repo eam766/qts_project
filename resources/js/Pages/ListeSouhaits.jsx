@@ -5,13 +5,16 @@ import carte from "../assets/img/CarteListeSouhait.png";
 import bouton from "../assets/img/Bouton_Inscription.png";
 
 export default function ListeSouhait() {
-    const { auth, wishlistGames } = usePage().props;
+    const { auth, wishlistGames, cartGames } = usePage().props;
     const user = auth.user;
 
     const [wishlist, setWishlist] = useState(wishlistGames);
+    const [cart, setCart] = useState(cartGames);
     const [showEmptyMessage, setShowEmptyMessage] = useState(false);
     const [removingGameId, setRemovingGameId] = useState(null);
+    const [processingGameId, setProcessingGameId] = useState(null);
     const [confirmDelete, setConfirmDelete] = useState(null);
+    const [confirmMoveToCart, setConfirmMoveToCart] = useState(null);
 
     console.log("User ID:", user.id);
     console.log("Wishlist games:", wishlist);
@@ -45,6 +48,33 @@ export default function ListeSouhait() {
                 setRemovingGameId(null);
             },
         });
+    };
+
+    const moveToCart = (gameId) => {
+        setProcessingGameId(gameId);
+
+        router.post(
+            route("cart.store"),
+            { game_id: gameId },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    setCart((prevCart) => [...prevCart, gameId]);
+
+                    // 🔥 Supprimer ensuite de la wishlist
+                    setWishlist((prevWishlist) =>
+                        prevWishlist.filter((game) => game.id !== gameId)
+                    );
+
+                    setProcessingGameId(null);
+                },
+                onError: () => {
+                    console.error("Erreur lors de l'ajout au panier.");
+                    setProcessingGameId(null);
+                },
+            }
+        );
     };
 
     return (
@@ -135,31 +165,61 @@ export default function ListeSouhait() {
                                   className="flex flex-col self-center ml-auto"
                                   style={{ width: "220px" }}
                               >
-                                  {/* Section "Ajouter au panier" (reste fixe) */}
+                                  {/* Bouton Ajouter au panier avec confirmation */}
                                   <div
                                       style={{
                                           textAlign: "center",
                                           marginBottom: "10px",
                                       }}
                                   >
-                                      <button
-                                          className="AudioWideBlue"
-                                          style={{
-                                              backgroundImage: `url(${bouton})`,
-                                              backgroundRepeat: "no-repeat",
-                                              backgroundPosition: "center",
-                                              backgroundSize: "cover",
-                                              border: "none",
-                                              display: "flex",
-                                              justifyContent: "center",
-                                              alignItems: "center",
-                                              height: "45px",
-                                              width: "180px",
-                                              margin: "0 auto",
-                                          }}
-                                      >
-                                          Ajouter au panier
-                                      </button>
+                                      {confirmMoveToCart === game.id ? (
+                                          <div className="flex gap-2">
+                                              <button
+                                                  className="bg-orange-500 text-white px-4 py-2 rounded"
+                                                  onClick={() =>
+                                                      moveToCart(game.id)
+                                                  }
+                                                  disabled={
+                                                      processingGameId ===
+                                                      game.id
+                                                  }
+                                              >
+                                                  {processingGameId === game.id
+                                                      ? "Ajout en cours..."
+                                                      : "Confirmer"}
+                                              </button>
+                                              <button
+                                                  className="bg-gray-500 text-white px-4 py-2 rounded"
+                                                  onClick={() =>
+                                                      setConfirmMoveToCart(null)
+                                                  }
+                                              >
+                                                  Annuler
+                                              </button>
+                                          </div>
+                                      ) : (
+                                          <button
+                                              className="AudioWideBlue"
+                                              style={{
+                                                  backgroundImage: `url(${bouton})`,
+                                                  backgroundRepeat: "no-repeat",
+                                                  backgroundPosition: "center",
+                                                  backgroundSize: "cover",
+                                                  border: "none",
+                                                  display: "flex",
+                                                  justifyContent: "center",
+                                                  alignItems: "center",
+                                                  height: "45px",
+                                                  width: "180px",
+                                                  margin: "0 auto",
+                                              }}
+                                              onClick={() =>
+                                                  setConfirmMoveToCart(game.id)
+                                              }
+                                          >
+                                              Ajouter au panier
+                                          </button>
+                                      )}
                                   </div>
 
                                   {/* Section "Supprimer de la liste" avec confirmation */}

@@ -10,12 +10,18 @@ export default function BoutonAjouter({ inCart, cartLoading, onPress }) {
             onClick={onPress}
             disabled={cartLoading}
         >
-            <FaCartArrowDown className="mr-4" />
+            <FaCartArrowDown
+                className={`mr-4 transition-colors duration-300 ${
+                    inCart ? "text-yellow-500" : "AudioWideBlue"
+                }`}
+            />
             {cartLoading
-                ? "Ajout en cours..."
-                : inCart
-                ? "Dans le panier"
-                : "Ajouter au panier"}
+                ? inCart
+                    ? "Retrait en cours..."
+                    : "Ajout en cours..."
+                : !inCart
+                ? "Ajouter au panier"
+                : "Dans votre panier"}
         </button>
     );
 }

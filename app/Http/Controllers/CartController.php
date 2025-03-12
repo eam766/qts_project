@@ -13,12 +13,20 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cartItems = Auth::user()->cart()->get();
-
+        $cartItems = Auth::user()->cart()
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->game_id,
+                    'added_at' => $item->created_at->format('d/m/Y H:i'),
+                ];
+            });
+    
         return inertia('Panier', [
             'cartItems' => $cartItems,
         ]);
     }
+    
 
     /**
      * Ajouter un jeu au panier (une seule fois max).
@@ -55,11 +63,29 @@ class CartController extends Controller
         $request->validate([
             'game_id' => 'required|integer',
         ]);
-
-        Cart::where('user_id', Auth::id())
+    
+        $cartItem = Cart::where('user_id', Auth::id())
             ->where('game_id', $request->game_id)
-            ->delete();
-
-        return redirect()->back()->with('success', 'Jeu retiré du panier.');
+            ->first();
+    
+        if (!$cartItem) {
+            return redirect()->back()->with('error', 'Jeu pas dans le panier');
+        }
+    
+        $cartItem->delete();
+    
+        return redirect()->back()->with('success', 'Jeu retirer au panier.');
     }
+    
+
+    
+    public function getCart()
+    {
+        $user = auth()->user();
+    
+        return response()->json([
+            'cartGames' => $user ? $user->cart()->pluck('game_id')->toArray() : [],
+        ]);
+    }
+    
 }
