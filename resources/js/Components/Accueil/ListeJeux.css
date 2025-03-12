@@ -12,6 +12,28 @@
     transition: border-color 0.3s ease-in-out;
 }
 
+.jeu-card{
+
+
+}
 .jeux-cover:hover {
     border-bottom: 2px solid #02d7f2;
+}
+
+.jeu-titre-prix{
+display: flex;
+    flex-direction: column;
+}
+
+.text-titre{
+    width: 200px;
+    height: 20px;
+
+    &:first-child{
+        color: #02d7f2;
+    }
+    &:last-child{
+    justify-self: flex-end;
+    }
+
 }
