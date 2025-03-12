@@ -38,7 +38,7 @@ class GameController extends Controller
 
 
 
-    public function show($game_id)
+    public function show($id)
     {
         $game = Game::where('game_id', $game_id)->first(); // ← Vérifie bien ici
 

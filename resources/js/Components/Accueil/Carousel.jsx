@@ -22,6 +22,9 @@ export default function Carousel({ temps, galleryImage }) {
         };
     });
 
+
+
+
     return (
         <Link
             className="carousel-container"
@@ -34,13 +37,29 @@ export default function Carousel({ temps, galleryImage }) {
 
         >
             {indexes.map((i, j) => (
+                <div className={`card-container ${classes[j]}`} key={j}>
                 <img
                     key={galleryImage[i].id}
                     src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${galleryImage[i].cover_image_id}.webp`}
                     alt={galleryImage[i].slug}
-                    className={`carousel-image ${classes[j]}`}
-
+                    className="card-img"
                 />
+                    <div className="card-description" >
+                        <p  className="card-text">
+                            {galleryImage[i].name}
+                        </p>
+
+                        <p  className="card-text">
+                            $CA {galleryImage[i].price}
+                        </p>
+                        <br/>
+                        <p className="card-text">{galleryImage[i].summary}</p>
+
+
+
+                    </div>
+
+                </div>
             ))}
         </Link>
     );
