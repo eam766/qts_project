@@ -31,7 +31,7 @@ export default function Carousel({ temps, galleryImage }) {
                 }.webp")`,
             }}
             href={`/jeux/${galleryImage[indexes[1]].game_id}`}
-            loading="lazy"
+
         >
             {indexes.map((i, j) => (
                 <img
@@ -39,7 +39,7 @@ export default function Carousel({ temps, galleryImage }) {
                     src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${galleryImage[i].cover_image_id}.webp`}
                     alt={galleryImage[i].slug}
                     className={`carousel-image ${classes[j]}`}
-                    loading="lazy"
+
                 />
             ))}
         </Link>
