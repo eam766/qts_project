@@ -15,6 +15,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "marcreichel/igdb-laravel": "^5.0",
+        "stripe/stripe-php": "^16.6",
         "tightenco/ziggy": "^2.5"
     },
     "require-dev": {

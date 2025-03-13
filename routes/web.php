@@ -11,7 +11,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
-
+use App\Http\Controllers\CheckoutController;
 
 
 
@@ -110,8 +110,22 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     Route::middleware('auth')->get('/cart-data', [CartController::class, 'getCart'])
     ->name('cart.data');
 
-
-
+    Route::middleware(['auth'])->group(function () {
+        // Page de checkout
+        Route::get('/checkout', [CheckoutController::class, 'index'])
+            ->name('checkout.index');
+        
+        // API Stripe pour créer une session de paiement
+        Route::post('/create-checkout-session', [CheckoutController::class, 'createCheckoutSession'])
+            ->name('checkout.session');
+        
+        // Callbacks Stripe
+        Route::get('/checkout/success', [CheckoutController::class, 'success'])
+            ->name('checkout.success');
+        
+        Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])
+            ->name('checkout.cancel');
+    });
 
 
 

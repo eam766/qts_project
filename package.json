@@ -31,6 +31,8 @@
         "@mui/x-date-pickers": "^7.27.1",
         "@radix-ui/react-slot": "^1.1.2",
         "@react-icons/all-files": "^4.1.0",
+        "@stripe/react-stripe-js": "^3.4.0",
+        "@stripe/stripe-js": "^6.0.0",
         "class-variance-authority": "^0.7.1",
         "dayjs": "^1.11.13",
         "framer-motion": "^12.5.0",
