@@ -13,20 +13,16 @@ export default function ListeJeux({ couvertures, visibleCount = 5 }) {
                 }}
             >
                 <Link href={`/jeux/${couverture.game_id}`} className="jeu-card">
-
                     <img
                         src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${couverture.cover_image_id}.png`}
                         alt="Jeu"
                         className="jeux-cover"
                     />
-                        <div className="jeu-titre-prix">
-                           <p className="text-titre" >{couverture.name}</p>
-                            <br/>
-                            <p className="text-titre">C$ {couverture.price}</p>
-                        </div>
-
+                    <div className="jeu-titre-prix">
+                        <p className="text-titre">{couverture.name}</p>
+                        <p className="text-titre">C$ {couverture.price}</p>
+                    </div>
                 </Link>
-
             </div>
         );
     };

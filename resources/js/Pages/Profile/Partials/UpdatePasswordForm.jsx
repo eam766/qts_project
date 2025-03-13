@@ -71,7 +71,7 @@ export default function UpdatePasswordForm({ className = "" }) {
                             setData("current_password", e.target.value)
                         }
                         type="password"
-                        className="bg-transparent bgInput"
+                        className="bg-transparent bgInput font-bold"
                         autoComplete="current-password"
                     />
 
@@ -93,7 +93,7 @@ export default function UpdatePasswordForm({ className = "" }) {
                         onChange={(e) => setData("password", e.target.value)}
                         type="password"
                         c
-                        className="bg-transparent bgInput"
+                        className="bg-transparent bgInput font-bold"
                         autoComplete="new-password"
                     />
 
@@ -115,7 +115,7 @@ export default function UpdatePasswordForm({ className = "" }) {
                             setData("password_confirmation", e.target.value)
                         }
                         type="password"
-                        className="bg-transparent bgInput"
+                        className="bg-transparent bgInput font-bold"
                         autoComplete="new-password"
                     />
 

@@ -3,6 +3,7 @@ import { Head } from "@inertiajs/react";
 import DeleteUserForm from "./Partials/DeleteUserForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
+import UpdateAvatarForm from "./Partials/UpdateAvatarForm";
 
 export default function Edit({ mustVerifyEmail, status }) {
     return (
@@ -17,6 +18,10 @@ export default function Edit({ mustVerifyEmail, status }) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+                    <div className="bg-[#1A1A1A] p-4 shadow  sm:p-8 ">
+                        <UpdateAvatarForm />
+                    </div>
+
                     <div className="bg-[#1A1A1A] p-4 shadow  sm:p-8 ">
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
