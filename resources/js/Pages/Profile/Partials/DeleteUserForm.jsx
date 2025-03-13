@@ -91,7 +91,7 @@ export default function DeleteUserForm({ className = "" }) {
                             onChange={(e) =>
                                 setData("password", e.target.value)
                             }
-                            className="bg-transparent bgInput text-white"
+                            className="bg-transparent bgInput text-white font-bold"
                             isFocused
                             placeholder="Mot de passe"
                         />
