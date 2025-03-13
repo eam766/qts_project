@@ -31,7 +31,8 @@
 
 .card-img {
 
-    border-radius: 15px  0 0 15px ;
+    border-radius: 15px ;
+    height: 300px;
 
 }
 
@@ -58,20 +59,17 @@
     position: absolute;
     transition: transform 0.9s ease;
     display: flex;
-    max-width: 35vw;
-    min-width: 35vw;
-    max-height: 35vh;
-    min-height: 35vh;
+    padding:10px;
+
     border-radius: 15px;background-color: #222222;
     opacity: 0.95;
-    justify-content: center;
-    align-items: center;
+
 
 }
 
 .card-description{
-padding: 5px 5px 5px 20px;
-    width: 40vw;
+padding: 5px 5px 5px 10px;
+
 }
 
 .card-text{
@@ -112,6 +110,7 @@ padding: 5px 5px 5px 20px;
     align-items: center;
     overflow-x: auto;
     white-space: nowrap;
+    border-radius:   0 0  10px 10px;
 }
 
 .p-galleria-thumbnail-item {
@@ -124,11 +123,11 @@ padding: 5px 5px 5px 20px;
 
 .p-galleria-item img {
     border-top: 2px solid #02D7F2;
-
     max-width: 100%;
     max-height: 100%;
     width: 100%;
     height: auto;
     object-fit: contain;
+    border-radius:  15px 15px  0 0;
 
 }
