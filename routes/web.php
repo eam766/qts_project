@@ -1,4 +1,4 @@
-<?php
+        <?php
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -25,8 +25,7 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('l
 
 Route::inertia('/listeSouhaits', 'ListeSouhaits');
 Route::inertia('/panier', 'Panier');
-Route::inertia('/profil', 'Profile');
-Route::inertia('/profil-settings', 'ProfileSettings');
+
 
 Route::get('/boutique', [GameController::class, 'index'])->name('games.index');
 
@@ -47,10 +46,10 @@ Route::inertia('/contact', 'Contact');
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
- 
- 
- 
- 
+
+
+
+
 Route::get('/connexion', function () {
     return Inertia::render('Connexion', [
         'canLogin' => Route::has('login'),
@@ -60,8 +59,8 @@ Route::get('/connexion', function () {
     ]);
 })->name('connexion');
 
- 
- 
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -103,7 +102,7 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
         Route::post('/cart/add', [CartController::class, 'store'])->name('cart.store'); // Ajouter au panier
         Route::delete('/cart/remove', [CartController::class, 'destroy'])->name('cart.destroy'); // Supprimer du panier
     });
-    
+
 
     Route::middleware('auth')->get('/wishlist-data', [WishlistController::class, 'getWishlist'])
     ->name('wishlist.data');
