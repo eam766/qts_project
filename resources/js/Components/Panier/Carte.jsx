@@ -58,18 +58,8 @@ export default function Carte({ item, onRemove }) {
                 <p className="ml-5">
                     Prix:{" "}
                     {game.price
-                        ? parseFloat(game.price).toFixed(2) + " €"
+                        ? parseFloat(game.price).toFixed(2) + " $"
                         : "39.99 €"}
-                </p>
-                <p className="ml-5">
-                    Note:{" "}
-                    {game.rating ? parseFloat(game.rating).toFixed(1) : "N/A"}
-                </p>
-                <p className="ml-5">
-                    Sortie:{" "}
-                    {game.first_release_date
-                        ? formatReleaseDate(game.first_release_date)
-                        : "N/A"}
                 </p>
             </div>
 

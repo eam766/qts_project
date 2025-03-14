@@ -1,4 +1,4 @@
-import { usePage, router } from "@inertiajs/react";
+import { usePage, router, Head } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import carte from "../assets/img/CartePanier.png"; // Image du panier
@@ -13,6 +13,7 @@ export default function Panier() {
     const [showEmptyMessage, setShowEmptyMessage] = useState(false);
     const [removingGameId, setRemovingGameId] = useState(null);
     const [confirmDelete, setConfirmDelete] = useState(null);
+    const [isProcessingCheckout, setIsProcessingCheckout] = useState(false);
 
     // Calcul du total
     const totalPrice = cart.reduce((sum, game) => sum + (game.price || 0), 0);
@@ -46,11 +47,32 @@ export default function Panier() {
         });
     };
 
+    // Fonction pour passer au paiement
+    const proceedToCheckout = () => {
+        setIsProcessingCheckout(true);
+
+        // Redirection vers la page de checkout
+        router.get(
+            route("checkout.index"),
+            {},
+            {
+                onError: (errors) => {
+                    console.error(
+                        "Erreur lors de la redirection vers le paiement:",
+                        errors
+                    );
+                    setIsProcessingCheckout(false);
+                },
+            }
+        );
+    };
+
     return (
         <div
             className="flex flex-col items-start"
             style={{ fontFamily: "Audiowide" }}
         >
+            <Head title={"Panier"} />
             <p className="AudioWideBlue mb-8" style={{ fontSize: 30 }}>
                 Votre panier
             </p>
@@ -238,12 +260,15 @@ export default function Panier() {
                             height: "55px",
                             width: "235px",
                             fontSize: "20px",
+                            cursor: isProcessingCheckout ? "wait" : "pointer",
+                            opacity: isProcessingCheckout ? 0.7 : 1,
                         }}
-                        onClick={() => {
-                            alert("Paiement à implémenter !");
-                        }}
+                        onClick={proceedToCheckout}
+                        disabled={isProcessingCheckout}
                     >
-                        Passer au paiement
+                        {isProcessingCheckout
+                            ? "Chargement..."
+                            : "Passer au paiement"}
                     </button>
                 </div>
             )}

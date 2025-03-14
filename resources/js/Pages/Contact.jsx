@@ -1,10 +1,11 @@
-import { Link } from "@inertiajs/react";
+import {Head, Link} from "@inertiajs/react";
 import titre from "@/assets/img/ContactTitre.png";
 
 export default function Contact() {
     return (
         <div>
             <div className="flex flex-row h-1/2">
+                <Head title={"Contact"}/>
                 <img
                     src={titre}
                     alt="Titre du contact"

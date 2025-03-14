@@ -6,7 +6,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { createRoot } from "react-dom/client";
 import Layout from "./Layouts/Layout";
 
-const appName = import.meta.env.VITE_APP_NAME || "QTS MTL";
+const appName = import.meta.env.VITE_APP_NAME || "Ludic";
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

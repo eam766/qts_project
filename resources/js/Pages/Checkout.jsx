@@ -142,8 +142,8 @@ export default function Checkout({ cartItems, total }) {
                                         {item.game && item.game.price
                                             ? parseFloat(
                                                   item.game.price
-                                              ).toFixed(2) + " €"
-                                            : "49.99 €"}
+                                              ).toFixed(2) + " $"
+                                            : "49.99 $"}
                                     </span>
                                 </div>
                             ))}
@@ -151,7 +151,7 @@ export default function Checkout({ cartItems, total }) {
                             <div className="flex justify-between py-4 font-bold mt-3 text-lg bg-gray-100 px-3 rounded">
                                 <span>Total</span>
                                 <span className="text-blue-700">
-                                    {parseFloat(total || 0).toFixed(2)} €
+                                    {parseFloat(total || 0).toFixed(2)} $
                                 </span>
                             </div>
                         </>
