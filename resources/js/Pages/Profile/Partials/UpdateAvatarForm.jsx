@@ -4,7 +4,7 @@ import border from "@/assets/img/BordureAvatar.png";
 
 import {useState} from "react";
 import Popover from '@mui/material/Popover';
-import avatars from "/storage/app/public/UserAvatar/index.js"
+import avatars from "@/assets/img/UserAvatar/index.js"
 import {Container} from "@mui/material";
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
