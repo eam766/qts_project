@@ -11,13 +11,7 @@ class Cart extends Model
 
     protected $fillable = ['user_id', 'game_id'];
 
-    /**
-     * Récupérer le jeu associé à cet élément du panier
-     */
-    public function game()
-    {
-        return $this->belongsTo(Game::class, 'game_id', 'id');
-    }
+ 
     
 
     /**
@@ -27,4 +21,10 @@ class Cart extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function game()
+{
+    return $this->belongsTo(Game::class, 'game_id', 'id'); 
+}
+
 }
