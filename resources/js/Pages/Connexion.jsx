@@ -52,7 +52,7 @@ export default function Connexion() {
                         onChange={(e) => setData("email", e.target.value)}
                     />
                     {errors.email && (
-                        <div className="text-red-500 text-sm mt-1">
+                        <div className="text-red-500 text-sm mt-1 max-w-[290px] break-words">
                             {errors.email}
                         </div>
                     )}

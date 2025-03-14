@@ -20,8 +20,8 @@ export default function BoutonListe({ inWishlist, wishlistLoading, onPress }) {
                     ? "Retrait en cours..."
                     : "Ajout en cours..."
                 : inWishlist
-                ? "Dans votre liste de souhaits"
-                : "Ajouter à votre liste de souhaits"}
+                ? "Dans la liste de souhaits"
+                : "Ajouter à la liste de souhaits"}
         </button>
     );
 }

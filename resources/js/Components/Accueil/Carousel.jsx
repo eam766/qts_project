@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import { Link } from "@inertiajs/react";
 import "./Carousel.css";
-import {parseJson} from "../../../../utils/utils.js";
-import { Galleria } from 'primereact/galleria';
+import { parseJson } from "../../../../utils/utils.js";
+
 export default function Carousel({ temps, galleryImage }) {
     const [indexes, setIndexes] = useState([0, 1, 2]);
+    const [centerIndex, setCenterIndex] = useState(1); // Nouvel état pour suivre l'index central
     const classes = ["left", "center", "right"];
 
     function changeImages() {
-        setIndexes((prevIndexes) =>
-            prevIndexes.map((index) => (index + 1) % galleryImage.length)
-        );
+        setIndexes((prevIndexes) => {
+            const newIndexes = prevIndexes.map(
+                (index) => (index + 1) % galleryImage.length
+            );
+            setCenterIndex(newIndexes[1]); // Met à jour l'index central
+            return newIndexes;
+        });
     }
 
     useEffect(() => {
@@ -28,40 +33,25 @@ export default function Carousel({ temps, galleryImage }) {
             className="carousel-container"
             style={{
                 backgroundImage: `url("https://images.igdb.com/igdb/image/upload/t_1080p/${
-                    parseJson(galleryImage[indexes[1]].artworks)[0]
+                    parseJson(galleryImage[centerIndex].artworks)[0]
                 }.webp")`,
+                opacity: 0.9,
             }}
-            href={`/jeux/${galleryImage[indexes[1]].game_id}`}
+            href={`/jeux/${galleryImage[centerIndex].game_id}`}
         >
             {indexes.map((i, j) => {
-                const images = parseJson(galleryImage[i].screenshots).slice(0, 4);
+                const images = parseJson(galleryImage[i].screenshots).slice(
+                    0,
+                    4
+                );
                 const [activeImage, setActiveImage] = useState(images[0]);
-                // Réinitialisation de l'image active à chaque changement de jeu
+
                 useEffect(() => {
                     setActiveImage(images[0]);
                 }, [i]);
 
-                const itemTemplate = (image) => (
-                    <img
-                        src={`https://images.igdb.com/igdb/image/upload/t_1080p/${image}.webp`}
-                        alt={image}
-                        className="main-image"
-
-                    />
-                );
-
-                const thumbnailTemplate = (image) => (
-                    <img
-                        src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${image}.jpg`}
-                        alt={image}
-
-                        onMouseEnter={() => setActiveImage(image)}
-                    />
-                );
-
                 return (
                     <div className={`card-container ${classes[j]}`} key={j}>
-
                         <img
                             key={galleryImage[i].id}
                             src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${galleryImage[i].cover_image_id}.webp`}
@@ -70,18 +60,26 @@ export default function Carousel({ temps, galleryImage }) {
                         />
                         <div className="card-description">
                             <p className="card-text">{galleryImage[i].name}</p>
-                            <Galleria
-                                value={images}
-                                numVisible={4}
-                                showThumbnails
-                                showItemNavigators={false}
-                                showIndicators={false}
-                                item={() => itemTemplate(activeImage)}
-                                thumbnail={thumbnailTemplate}
-
-
-
-                            />
+                            <div className="gallery-container">
+                                <img
+                                    src={`https://images.igdb.com/igdb/image/upload/t_1080p/${activeImage}.webp`}
+                                    alt="Image principale"
+                                    className="main-image"
+                                />
+                                <div className="thumbnail-container">
+                                    {images.map((image, index) => (
+                                        <img
+                                            key={index}
+                                            src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${image}.jpg`}
+                                            alt={image}
+                                            className="thumbnail"
+                                            onMouseEnter={() =>
+                                                setActiveImage(image)
+                                            }
+                                        />
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 );
