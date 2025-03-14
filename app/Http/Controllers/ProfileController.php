@@ -35,6 +35,8 @@ class ProfileController extends Controller
     // Remet la logique d'enregistrement
     $request->user()->fill($request->validated());
 
+
+
     if ($request->user()->isDirty('email')) {
         $request->user()->email_verified_at = null;
     }
@@ -43,7 +45,7 @@ class ProfileController extends Controller
 
     return Redirect::route('profile.edit')->with('status', 'Profil mis à jour avec succès.');
 }
- 
+
 
     /**
      * Delete the user's account.

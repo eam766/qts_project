@@ -5,7 +5,10 @@ import BoutonAjouter from "@/Components/PageProduit/BoutonAjouter";
 import BoutonListe from "@/Components/PageProduit/BoutonListe";
 import axios from "axios"; // ✅ Import axios pour fetch backend
 import { parseJson } from "../../../utils/utils.js";
-
+import Rating from '@mui/material/Rating';
+import Stack from '@mui/material/Stack';
+import {styled} from "@mui/material";
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 export default function Jeux({ game }) {
     const { auth } = usePage().props;
     const user = auth.user;
@@ -38,8 +41,8 @@ export default function Jeux({ game }) {
     }, [user]);
 
     // ✅ Vérifier si le jeu est dans la liste de souhaits / panier
-    const isInWishlist = wishlist.includes(game.game_id);
-    const isInCart = cart.includes(game.game_id);
+    const isInWishlist = wishlist.includes(game.id);
+    const isInCart = cart.includes(game.id);
 
     // ✅ Fonction pour gérer la wishlist
     const toggleWishlist = () => {
@@ -51,13 +54,11 @@ export default function Jeux({ game }) {
         setLoadingWishlist(true);
         if (isInWishlist) {
             router.delete(route("wishlist.destroy"), {
-                data: { game_id: game.game_id },
+                data: { game_id: game.id },
                 preserveState: true,
                 preserveScroll: true,
                 onSuccess: () => {
-                    setWishlist((prev) =>
-                        prev.filter((id) => id !== game.game_id)
-                    );
+                    setWishlist((prev) => prev.filter((id) => id !== game.id));
                     setLoadingWishlist(false);
                 },
                 onError: () => {
@@ -68,12 +69,12 @@ export default function Jeux({ game }) {
         } else {
             router.post(
                 route("wishlist.store"),
-                { game_id: game.game_id },
+                { game_id: game.id },
                 {
                     preserveState: true,
                     preserveScroll: true,
                     onSuccess: () => {
-                        setWishlist((prev) => [...prev, game.game_id]);
+                        setWishlist((prev) => [...prev, game.id]);
                         setLoadingWishlist(false);
                     },
                     onError: () => {
@@ -95,11 +96,11 @@ export default function Jeux({ game }) {
         setLoadingCart(true);
         if (isInCart) {
             router.delete(route("cart.destroy"), {
-                data: { game_id: game.game_id },
+                data: { game_id: game.id },
                 preserveState: true,
                 preserveScroll: true,
                 onSuccess: () => {
-                    setCart((prev) => prev.filter((id) => id !== game.game_id));
+                    setCart((prev) => prev.filter((id) => id !== game.id));
                     setLoadingCart(false);
                 },
                 onError: () => {
@@ -110,12 +111,12 @@ export default function Jeux({ game }) {
         } else {
             router.post(
                 route("cart.store"),
-                { game_id: game.game_id },
+                { game_id: game.id },
                 {
                     preserveState: true,
                     preserveScroll: true,
                     onSuccess: () => {
-                        setCart((prev) => [...prev, game.game_id]);
+                        setCart((prev) => [...prev, game.id]);
                         setLoadingCart(false);
                     },
                     onError: () => {
@@ -126,6 +127,14 @@ export default function Jeux({ game }) {
             );
         }
     };
+
+    const StyledRating = styled(Rating)({
+        '& .MuiRating-iconFilled': {
+            color: '#F0F14E',
+        },
+
+    });
+
 
     return (
         <div className="container mx-auto p-10 flex">
@@ -171,8 +180,13 @@ export default function Jeux({ game }) {
                     <h1 className="text-3xl font-bold text-center AudioWideBlue">
                         {game.name}
                     </h1>
+                    <Stack spacing={1}>
+                        <StyledRating name="game-rating" emptyIcon={<StarOutlineIcon style={{ color:"F0F14E"}} fontSize="inherit"/>} readOnly defaultValue={game.total_rating/20} precision={0.1} size={"large"}/>
+
+                    </Stack>
                     <br />
                     <p>{game.price}$</p>
+
                     <br />
 
                     {/* ✅ Bouton Ajouter au Panier avec couleur jaune et message dynamique */}

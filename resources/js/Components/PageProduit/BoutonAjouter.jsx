@@ -20,8 +20,8 @@ export default function BoutonAjouter({ inCart, cartLoading, onPress }) {
                     ? "Retrait en cours..."
                     : "Ajout en cours..."
                 : inCart
-                ? "Ajouter au panier"
-                : "Dans votre panier"}
+                ? "Dans votre panier"
+                : "Ajouter au panier"}
         </button>
     );
 }

@@ -1,23 +1,82 @@
 import { usePage, router } from "@inertiajs/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import carte from "../assets/img/CarteListeSouhait.png";
 import bouton from "../assets/img/Bouton_Inscription.png";
+import axios from "axios";
 
 export default function ListeSouhait() {
     const { auth, wishlistGames, cartGames } = usePage().props;
     const user = auth.user;
 
-    const [wishlist, setWishlist] = useState(wishlistGames);
-    const [cart, setCart] = useState(cartGames);
+    const [wishlist, setWishlist] = useState(wishlistGames || []);
+    const [cart, setCart] = useState(cartGames || []);
     const [showEmptyMessage, setShowEmptyMessage] = useState(false);
     const [removingGameId, setRemovingGameId] = useState(null);
-    const [processingGameId, setProcessingGameId] = useState(null);
     const [confirmDelete, setConfirmDelete] = useState(null);
-    const [confirmMoveToCart, setConfirmMoveToCart] = useState(null);
 
-    console.log("User ID:", user.id);
-    console.log("Wishlist games:", wishlist);
+    // Nouvel état pour gérer l’ajout au panier
+    const [addingToCartId, setAddingToCartId] = useState(null);
+
+    useEffect(() => {
+        if (user) {
+            axios
+                .get(route("cart.data"))
+                .then((response) => setCart(response.data.cartGames || []))
+                .catch((error) =>
+                    console.error("Erreur chargement panier:", error)
+                );
+        }
+    }, [user]);
+
+    // Vérifie si un jeu est déjà dans le panier
+    const isGameInCart = (gameId) =>
+        Array.isArray(cart) && cart.includes(gameId);
+
+    const moveToCart = (gameId) => {
+        // On indique qu’on ajoute ce jeu
+        setAddingToCartId(gameId);
+
+        router.post(
+            route("cart.store"),
+            { game_id: gameId },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    // Ajoute localement l’ID du jeu
+                    setCart((prevCart) =>
+                        Array.isArray(prevCart)
+                            ? [...prevCart, gameId]
+                            : [gameId]
+                    );
+
+                    // On remet l’état à null
+                    setAddingToCartId(null);
+
+                    // Recharger le panier après une courte attente
+                    setTimeout(() => {
+                        axios
+                            .get(route("cart.data"))
+                            .then((response) =>
+                                setCart(response.data.cartGames || [])
+                            )
+                            .catch((error) =>
+                                console.error(
+                                    "Erreur rechargement panier:",
+                                    error
+                                )
+                            );
+                    }, 500);
+                },
+                onError: () => {
+                    console.error("Erreur lors de l'ajout au panier.");
+                    // On réinitialise l’état en cas d’erreur
+                    setAddingToCartId(null);
+                },
+            }
+        );
+    };
 
     const removeFromWishlist = (gameId) => {
         setRemovingGameId(gameId);
@@ -48,33 +107,6 @@ export default function ListeSouhait() {
                 setRemovingGameId(null);
             },
         });
-    };
-
-    const moveToCart = (gameId) => {
-        setProcessingGameId(gameId);
-
-        router.post(
-            route("cart.store"),
-            { game_id: gameId },
-            {
-                preserveState: true,
-                preserveScroll: true,
-                onSuccess: () => {
-                    setCart((prevCart) => [...prevCart, gameId]);
-
-                    // 🔥 Supprimer ensuite de la wishlist
-                    setWishlist((prevWishlist) =>
-                        prevWishlist.filter((game) => game.id !== gameId)
-                    );
-
-                    setProcessingGameId(null);
-                },
-                onError: () => {
-                    console.error("Erreur lors de l'ajout au panier.");
-                    setProcessingGameId(null);
-                },
-            }
-        );
     };
 
     return (
@@ -123,11 +155,18 @@ export default function ListeSouhait() {
                               }}
                           >
                               {/* Image du jeu */}
-                              {game.cover ? (
+                              {game.cover_image_id ? (
                                   <img
-                                      src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`}
+                                      src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover_image_id}.jpg`}
                                       alt={game.name}
-                                      className="w-32 h-auto"
+                                      className="w-32 h-auto ml-3"
+                                      style={{
+                                          width: "120px",
+                                          height: "170px",
+                                          borderWidth: 3,
+                                          borderColor: "black",
+                                          borderRadius: 10,
+                                      }}
                                   />
                               ) : (
                                   <div className="bg-gray-500 w-32 h-auto flex items-center justify-center">
@@ -140,17 +179,24 @@ export default function ListeSouhait() {
                                   <p className="ml-5 text-lg font-bold">
                                       {game.name}
                                   </p>
-                                  <p className="ml-5">
-                                      Note:{" "}
-                                      {game.rating
-                                          ? game.rating.toFixed(1)
+                                  <p className="ml-5 text-yellow-400">
+                                      Prix:{" "}
+                                      {game.price
+                                          ? `${game.price.toFixed(2)} $`
                                           : "N/A"}
                                   </p>
                                   <p className="ml-5">
+                                      Note:{" "}
+                                      {game.total_rating
+                                          ? game.total_rating.toFixed(1)
+                                          : "N/A"}
+                                  </p>
+
+                                  <p className="ml-5">
                                       Sortie:{" "}
-                                      {game.first_release_date
+                                      {game.release_date
                                           ? new Date(
-                                                game.first_release_date
+                                                game.release_date
                                             ).toLocaleDateString("fr-FR", {
                                                 year: "numeric",
                                                 month: "long",
@@ -165,64 +211,47 @@ export default function ListeSouhait() {
                                   className="flex flex-col self-center ml-auto"
                                   style={{ width: "220px" }}
                               >
-                                  {/* Bouton Ajouter au panier avec confirmation */}
+                                  {/* Bouton Ajouter au panier avec changement d’état */}
                                   <div
                                       style={{
                                           textAlign: "center",
                                           marginBottom: "10px",
                                       }}
                                   >
-                                      {confirmMoveToCart === game.id ? (
-                                          <div className="flex gap-2">
-                                              <button
-                                                  className="bg-orange-500 text-white px-4 py-2 rounded"
-                                                  onClick={() =>
-                                                      moveToCart(game.id)
-                                                  }
-                                                  disabled={
-                                                      processingGameId ===
-                                                      game.id
-                                                  }
-                                              >
-                                                  {processingGameId === game.id
-                                                      ? "Ajout en cours..."
-                                                      : "Confirmer"}
-                                              </button>
-                                              <button
-                                                  className="bg-gray-500 text-white px-4 py-2 rounded"
-                                                  onClick={() =>
-                                                      setConfirmMoveToCart(null)
-                                                  }
-                                              >
-                                                  Annuler
-                                              </button>
-                                          </div>
-                                      ) : (
-                                          <button
-                                              className="AudioWideBlue"
-                                              style={{
-                                                  backgroundImage: `url(${bouton})`,
-                                                  backgroundRepeat: "no-repeat",
-                                                  backgroundPosition: "center",
-                                                  backgroundSize: "cover",
-                                                  border: "none",
-                                                  display: "flex",
-                                                  justifyContent: "center",
-                                                  alignItems: "center",
-                                                  height: "45px",
-                                                  width: "180px",
-                                                  margin: "0 auto",
-                                              }}
-                                              onClick={() =>
-                                                  setConfirmMoveToCart(game.id)
+                                      <button
+                                          className="AudioWideBlue"
+                                          style={{
+                                              backgroundImage: `url(${bouton})`,
+                                              backgroundRepeat: "no-repeat",
+                                              backgroundPosition: "center",
+                                              backgroundSize: "cover",
+                                              border: "none",
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                              height: "45px",
+                                              width: "180px",
+                                              margin: "0 auto",
+                                          }}
+                                          onClick={() => {
+                                              if (isGameInCart(game.id)) {
+                                                  router.visit(
+                                                      route("cart.index")
+                                                  );
+                                              } else {
+                                                  moveToCart(game.id);
                                               }
-                                          >
-                                              Ajouter au panier
-                                          </button>
-                                      )}
+                                          }}
+                                      >
+                                          {isGameInCart(game.id)
+                                              ? "Dans le panier"
+                                              : addingToCartId === game.id
+                                              ? "Ajout en cours..."
+                                              : "Ajouter au panier"}
+                                      </button>
                                   </div>
 
-                                  {/* Section "Supprimer de la liste" avec confirmation */}
+                                  {/* Bouton Supprimer de la liste */}
                                   <div
                                       style={{
                                           minHeight: "60px",

@@ -18,11 +18,12 @@ class ProfileUpdateRequest extends FormRequest
     return [
         'firstName' => ['required', 'string', 'max:255'],
         'lastName' => ['required', 'string', 'max:255'],
+        'image' => ['nullable', 'string', 'max:255','url'],
         'dateOfBirth' => ['nullable', 'date'],
         'country' => ['nullable', 'string', 'max:255'],
         'username' => ['required', 'string', 'max:255', 'unique:users,username,'.auth()->id()],
         'email' => ['required', 'email', 'max:255', 'unique:users,email,'.auth()->id()],
     ];
 }
- 
+
 }
