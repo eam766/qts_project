@@ -1,4 +1,4 @@
-import { useForm, Link } from "@inertiajs/react";
+import {useForm, Link, Head} from "@inertiajs/react";
 
 import BgInput from "../assets/img/ConnexionInput.png";
 import bouton_connexion from "../assets/img/Bouton_Connexion4.png";
@@ -33,6 +33,7 @@ export default function Connexion() {
             style={{ height: "100%" }}
             className="flex flex-col justify-center items-center AudioWideBlue"
         >
+            <Head title={"Connexion"} />
             <p className="text-3xl">Connexion</p>
             <br />
             <br />

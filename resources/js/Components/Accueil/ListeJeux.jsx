@@ -2,7 +2,7 @@ import "./ListeJeux.css";
 import { Carousel } from "primereact/carousel";
 import { Link } from "@inertiajs/react";
 
-export default function ListeJeux({ couvertures, visibleCount = 5 }) {
+export default function ListeJeux({ couvertures, visibleCount = 5, numScroll = 5 }) {
     const itemTemplate = (couverture) => {
         return (
             <div
@@ -33,7 +33,7 @@ export default function ListeJeux({ couvertures, visibleCount = 5 }) {
                 value={couvertures}
                 itemTemplate={itemTemplate}
                 numVisible={visibleCount}
-                numScroll={visibleCount}
+                numScroll={numScroll}
                 circular
             />
         </div>

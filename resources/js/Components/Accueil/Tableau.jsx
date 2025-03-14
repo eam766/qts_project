@@ -141,7 +141,7 @@ function JeuxList({ jeux }) {
 
                 return (
                     <div key={jeu.id} className="card">
-                        <Link className="card-link" href={`/jeux/${jeu.id}`}>
+                        <Link className="card-link" href={`/jeux/${jeu.game_id}`}>
                             <img
                                 src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${jeu.cover_image_id}.jpg`}
                                 alt={jeu.name}
@@ -153,7 +153,7 @@ function JeuxList({ jeux }) {
                             />
                             <div>
                                 <h1>{jeu.name}</h1>
-                                <div>{jeu.price}$</div>
+                                <div>C$ {jeu.price}</div>
                             </div>
                         </Link>
 

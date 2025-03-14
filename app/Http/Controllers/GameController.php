@@ -46,8 +46,11 @@ class GameController extends Controller
         abort(404, "Jeu non trouvé");
     }
 
+    $games = Game::all();
+
     return inertia('Jeux', [
         'game' => $game,
+        'games' => $games,
         'isInWishlist' => auth()->check() ? auth()->user()->wishlist()->where('game_id', $game_id)->exists() : false,
         'isInCart' => auth()->check() ? auth()->user()->cart()->where('game_id', $game_id)->exists() : false, // ← Assure-toi que c'est bien carts()
     ]);

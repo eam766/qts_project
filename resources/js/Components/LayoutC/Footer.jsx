@@ -7,6 +7,7 @@ import { FaDiscord } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { Link } from "@inertiajs/react";
+import {hover} from "motion";
 
 export default function Footer() {
     return (
@@ -107,7 +108,10 @@ export default function Footer() {
                         style={{
                             height: "110px",
                             width: "45px",
+                            cursor: "pointer",
+
                         }}
+                        onClick={()=>{  window.scrollTo({ top: 0, behavior: "smooth" });}}
                     />
                 </div>
             </footer>

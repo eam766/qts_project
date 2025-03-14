@@ -1,4 +1,4 @@
-import { usePage, router } from "@inertiajs/react";
+import {usePage, router, Head} from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import carte from "../assets/img/CartePanier.png"; // Image du panier
@@ -72,6 +72,7 @@ export default function Panier() {
             className="flex flex-col items-start"
             style={{ fontFamily: "Audiowide" }}
         >
+            <Head title={"Panier"}/>
             <p className="AudioWideBlue mb-8" style={{ fontSize: 30 }}>
                 Votre panier
             </p>
