@@ -156,7 +156,7 @@ function JeuxList({ jeux }) {
                             />
                             <div>
                                 <h1>{jeu.name}</h1>
-                                <div>{jeu.price}$</div>
+                                <div>C$ {jeu.price}</div>
                             </div>
                         </Link>
 

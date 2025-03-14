@@ -3,7 +3,7 @@ import Curseur from "@/Components/Boutique/Filtre/Components/Curseur.jsx";
 import Checkboxes from "@/Components/Boutique/Filtre/Components/Checkboxes.jsx";
 import { Button } from "@/Components/ui/button.jsx";
 import { router } from '@inertiajs/react';
-import "./Filtre.css";
+import StyledAccordion from "@/Components/Boutique/Filtre/StyledFilter.jsx";
 import { Accordion, AccordionTab } from 'primereact/accordion';
 
 export default function Filtre({ genres, themes, maxPrice }) {
@@ -11,7 +11,7 @@ export default function Filtre({ genres, themes, maxPrice }) {
         genres: [],
         themes: [],
         prices: [0, Math.round(maxPrice)]
-    });
+    }); const [activeIndex, setActiveIndex] = useState([]);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -58,6 +58,8 @@ export default function Filtre({ genres, themes, maxPrice }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         applyFilters();
+
+        setActiveIndex([]);
     };
 
     const emptyArray = () => {
@@ -67,54 +69,55 @@ export default function Filtre({ genres, themes, maxPrice }) {
             prices: [0, Math.round(maxPrice)],
         });
 
-        // Dynamically reset filters in the URL
+
         router.get(route('games.filter'), {}, { preserveState: true });
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ position: "relative", height: 100, width: "80vw" }}>
-            <Accordion multiple className="top-accordion">
-                <AccordionTab
-                    header="Filtre"
-                    headerClassName="accordion-tab-header"
-                    className="accordion-tab"
-                >
-                    <Accordion multiple>
-                        <AccordionTab header="Prix" className="accordion-inner-tab">
-                            <Curseur
-                                maxPrice={maxPrice}
-                                selectedFilters={filterState.prices}
-                                onPriceChange={handleFilterChange}
-                            />
-                        </AccordionTab>
-                        <AccordionTab header="Genres" className="accordion-inner-tab">
-                            <Checkboxes
-                                filters={genres}
-                                filterType="genres"
-                                selectedFilters={filterState.genres}
-                                onFilterChange={handleFilterChange}
-                            />
-                        </AccordionTab>
+        <StyledAccordion>
+            <form onSubmit={handleSubmit} style={{ position: "relative", height: 100, width: "80vw" }}>
+                <Accordion multiple className="top-accordion" activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+                    <AccordionTab header="Filtre">
+                        <Accordion multiple>
+                            <AccordionTab header="Prix">
+                                <Curseur
+                                    maxPrice={maxPrice}
+                                    selectedFilters={filterState.prices}
+                                    onPriceChange={handleFilterChange}
+                                />
+                            </AccordionTab>
 
-                        <AccordionTab header="Thèmes" className="accordion-inner-tab">
-                            <Checkboxes
-                                filters={themes}
-                                filterType="themes"
-                                selectedFilters={filterState.themes}
-                                onFilterChange={handleFilterChange}
-                            />
-                        </AccordionTab>
-                    </Accordion>
-                    <div className="gap-2 flex">
-                        <Button variant="outlined" type="submit" className="filter-button">
-                            Filtrer
-                        </Button>
-                        <Button variant="outlined" type="button" className="filter-button" onClick={emptyArray}>
-                            Effacer filtre
-                        </Button>
-                    </div>
-                </AccordionTab>
-            </Accordion>
-        </form>
+                            <AccordionTab header="Genres">
+                                <Checkboxes
+                                    filters={genres}
+                                    filterType="genres"
+                                    selectedFilters={filterState.genres}
+                                    onFilterChange={handleFilterChange}
+                                />
+                            </AccordionTab>
+
+                            <AccordionTab header="Thèmes">
+                                <Checkboxes
+                                    filters={themes}
+                                    filterType="themes"
+                                    selectedFilters={filterState.themes}
+                                    onFilterChange={handleFilterChange}
+                                />
+                            </AccordionTab>
+                        </Accordion>
+                        <div className="gap-2 flex">
+                            <Button variant="outlined" type="submit" className="filter-button">
+                                Filtrer
+                            </Button>
+                            <Button variant="outlined" type="button" className="filter-button" onClick={emptyArray}>
+                                Effacer filtre
+                            </Button>
+                        </div>
+                    </AccordionTab>
+                </Accordion>
+            </form>
+        </StyledAccordion>
     );
+
+
 }

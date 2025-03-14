@@ -1,7 +1,9 @@
 import titre from "@/assets/img/PolitiqueCookiesTitre.png";
+import {Head} from "@inertiajs/react";
 export default function PolitiqueCookies() {
     return (
         <div>
+            <Head title={"Cookies"}/>
             <img src={titre} alt="" />
             <br />
             <p>Dernière mise à jour : 2025/02/05</p>

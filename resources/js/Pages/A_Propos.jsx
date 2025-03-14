@@ -1,12 +1,14 @@
 import EncadrePresentation from "@/Components/APropos/EncadrePresentation";
 import EncadreMission from "@/Components/APropos/EncadreMission";
 import EncadreObjectifs from "@/Components/APropos/EncadreObjectifs";
+import {Head} from "@inertiajs/react";
 export default function A_Propos() {
     return (
         <div
             style={{ height: "100%" }}
             className="flex flex-col justify-around "
         >
+            <Head title={"À propos"}/>
             <EncadrePresentation>
                 QTs Montréal est une entreprise innovante basée à Montréal,
                 spécialisée dans la création de plateformes numériques modernes

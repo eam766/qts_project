@@ -1,4 +1,4 @@
-import { useForm, Link } from "@inertiajs/react";
+import {useForm, Link, Head} from "@inertiajs/react";
 import bouton_inscription from "../assets/img/Bouton_Connexion4.png";
 import BgInput from "../assets/img/ConnexionInput.png";
 import CountrySelect from "@/Components/CountrySelect";
@@ -41,6 +41,7 @@ export default function Inscription() {
             style={{ height: "100%" }}
             className="flex flex-col justify-evenly items-center AudioWideBlue"
         >
+            <Head title={"Inscription"} />
             <p className="text-3xl">Inscription</p>
 
             <form

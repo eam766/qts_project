@@ -8,7 +8,8 @@ export default function Pagination({ games }) {
 console.log(games);
     const handlePageChange = (url) => {
         if (url) {
-            router.get(url, filters, { preserveScroll: true, preserveState: true }); // Append filters & keep scroll position
+            router.get(url, filters, { preserveScroll: true, preserveState: true });
+            window.scrollTo({ top: 0, behavior: "smooth" });// Append filters & keep scroll position
         }
     };
 

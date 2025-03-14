@@ -1,4 +1,4 @@
-import { usePage, router } from "@inertiajs/react";
+import {usePage, router, Head} from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import carte from "../assets/img/CarteListeSouhait.png";
@@ -114,6 +114,7 @@ export default function ListeSouhait() {
             className="flex flex-col items-start"
             style={{ fontFamily: "Audiowide" }}
         >
+            <Head title={"Liste de souhaits"} />
             <p className="AudioWideBlue mb-8" style={{ fontSize: 30 }}>
                 Liste de souhaits de {user.username}
             </p>

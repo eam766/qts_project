@@ -1,7 +1,9 @@
 import titre from "@/assets/img/TermesConditionsTitre.png";
+import {Head} from "@inertiajs/react";
 export default function TermesConditions() {
     return (
         <div>
+            <Head title={"Conditions"}/>
             <img src={titre} alt="" />
             <br />
             <p>Dernière mise à jour : 2025/02/05</p>

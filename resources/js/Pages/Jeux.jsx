@@ -7,19 +7,39 @@ import axios from "axios"; // ✅ Import axios pour fetch backend
 import { parseJson } from "../../../utils/utils.js";
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
-import {styled} from "@mui/material";
+import {Container, styled} from "@mui/material";
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
-export default function Jeux({ game }) {
+import { Galleria } from 'primereact/galleria';
+import WindowIcon from '@mui/icons-material/Window';
+import StyledAccordion from "@/Components/Boutique/Filtre/StyledFilter.jsx";
+import Chip from '@mui/material/Chip';
+import ListeJeux from "@/Components/Accueil/ListeJeux.jsx";
+
+
+import { Accordion, AccordionTab } from 'primereact/accordion';
+import Typography from "@mui/material/Typography";
+export default function Jeux({ game, games }) {
     const { auth } = usePage().props;
     const user = auth.user;
-
-    const [mainScreenshot, setMainScreenshot] = useState(
-        parseJson(game.screenshots)?.[0]
-    );
     const [wishlist, setWishlist] = useState([]);
     const [cart, setCart] = useState([]);
     const [loadingWishlist, setLoadingWishlist] = useState(false);
     const [loadingCart, setLoadingCart] = useState(false);
+    const themes = parseJson(game.themes);
+    const genres = parseJson(game.genres);
+    const developer = parseJson(game.involved_companies).find(c => c.developer === true)?.company?.name
+    const publisher = parseJson(game.involved_companies).find(c => c.publisher === true)?.company?.name
+    const similarGames = parseJson(game.similar_games);
+
+    const commonGames = games.filter(game =>
+        similarGames.includes(game.game_id)
+    );
+
+
+    console.log(commonGames);
+
+
+
 
     // ✅ Charger l'état de la wishlist et du panier depuis le backend
     useEffect(() => {
@@ -136,37 +156,90 @@ export default function Jeux({ game }) {
     });
 
 
+
+    const StyledGalleria = styled(Galleria)({
+        ".p-galleria-thumbnail-prev-icon, .p-galleria-thumbnail-next-icon": {
+            display: "none",
+        },
+        ".p-galleria-thumbnail-item": {
+            borderRadius: 15,
+        },
+        ".p-galleria-item-next-icon, .p-galleria-item-prev-icon": {
+            fontSize: "2rem",  // Increase the size of the icons
+
+        },
+        ".p-galleria-item > img": {
+            borderRadius: 15,
+        },
+
+
+        // Add space between thumbnails and main image
+        ".p-galleria-thumbnail-container": {
+            marginTop: "10px", // Adjust the value as needed
+        },
+        ".p-galleria-item": {
+            marginBottom: "20px", // Add space between the main image and thumbnails
+        },
+    });
+
+
+
+    const itemTemplate = (screenshot) => {
+        return <img  src={`https://images.igdb.com/igdb/image/upload/t_screenshot_big/${screenshot}.jpg`} alt={screenshot} style={{ width: '100%' }} />
+    }
+
+    const thumbnailTemplate = (screenshot) => {
+        return <img  src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${screenshot}.jpg`} alt={screenshot} style={{ width: '100%' }} />
+    }
+
+
     return (
-        <div className="container mx-auto p-10 flex">
+<div className="container mx-auto p-10 flex-col" >
+        <div className=" mx-auto p-10 flex">
             <div className="w-2/3 flex flex-col items-center mr-8">
-                {mainScreenshot && (
-                    <img
-                        src={`https://images.igdb.com/igdb/image/upload/t_screenshot_big/${mainScreenshot}.jpg`}
-                        alt="Main Screenshot"
-                        className="mb-4"
-                        style={{ height: "500px", width: "800px" }}
-                    />
-                )}
+
                 <div className="flex flex-wrap gap-2 items-start justify-center">
-                    {parseJson(game.screenshots).map((screenshot, index) => (
-                        <img
-                            key={index}
-                            src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${screenshot}.jpg`}
-                            alt={`${game.name} screenshot`}
-                            className="w-24 h-auto cursor-pointer hover:opacity-75"
-                            onClick={() => setMainScreenshot(screenshot)}
-                        />
-                    ))}
+                    <StyledGalleria value={parseJson(game.screenshots)} numVisible={5} style={{maxWidth: '40vw'}}
+                                    showItemNavigators item={itemTemplate} thumbnail={thumbnailTemplate} circular
+                                    autoPlay transitionInterval={5000}/>
                 </div>
-                {game.summary && (
-                    <div className="mt-9 w-full text-left">
-                        <p className="text-start">{game.summary}</p>
-                    </div>
-                )}
+                <br/>
+                <StyledAccordion>
+                    <Accordion className="top-accordion" activeIndex={0}
+                               style={{position: "relative", maxWidth: "40vw", minWidth: "40vw", borderRadius:0}}>
+                        <AccordionTab header="Résumé">{game.summary}</AccordionTab>
+
+                        <AccordionTab header="Histoire">{game.storyline}</AccordionTab>
+                    </Accordion></StyledAccordion>
+
+<br/>
+
+                <div className="border-2  p-4 shadow-md  text-white"
+                     style={{color: "white", borderColor: "#02D7F2", borderSize: 2, minWidth: "40vw"}}>
+                    {
+                        genres.length !== 0?
+                            <div>
+                    <p className="font-bold pb-5">Genres</p>
+                    <Stack direction="row" spacing={1} >
+
+                        {genres.map((genre) =>  (<Chip label={genre} variant="outlined" style={{color:"white"}} />))}
+
+                    </Stack> </div> : null }
+                    <hr className="my-2 border-gray-600"/>
+                    { themes.length !== 0?
+                        <div>
+                    <p className="font-bold pb-5">Themes</p>
+                    <Stack direction="row" spacing={1}>
+
+                        {themes.map((theme) =>  (<Chip label={theme} variant="outlined" style={{color:"white"}} />))}
+
+                    </Stack> </div> :null
+                }
+                </div>
             </div>
 
             <div className="w-1/3 flex flex-col items-center">
-                <Head title={game.name} />
+                <Head title={game.name}/>
 
                 <BordureCover>
                     <img
@@ -176,18 +249,20 @@ export default function Jeux({ game }) {
                     />
                 </BordureCover>
 
-                <div className="flex flex-col items-center mt-12 w-96">
+                <div className="flex flex-col items-center mt-12 w-100">
                     <h1 className="text-3xl font-bold text-center AudioWideBlue">
                         {game.name}
                     </h1>
                     <Stack spacing={1}>
-                        <StyledRating name="game-rating" emptyIcon={<StarOutlineIcon style={{ color:"F0F14E"}} fontSize="inherit"/>} readOnly defaultValue={game.total_rating/20} precision={0.1} size={"large"}/>
+                        <StyledRating name="game-rating"
+                                      emptyIcon={<StarOutlineIcon style={{color: "#F0F14E"}} fontSize="inherit"/>}
+                                      readOnly defaultValue={game.total_rating / 20} precision={0.1} size={"large"}/>
 
                     </Stack>
-                    <br />
-                    <p>{game.price}$</p>
+                    <br/>
+                    <p style={{fontSize:22}}>{game.price}$</p>
 
-                    <br />
+                    <br/>
 
                     {/* ✅ Bouton Ajouter au Panier avec couleur jaune et message dynamique */}
                     <BoutonAjouter
@@ -202,8 +277,46 @@ export default function Jeux({ game }) {
                         onPress={toggleWishlist}
                         wishlistLoading={loadingWishlist}
                     />
+                    <br/>
+                    <div className="border-2  p-4 shadow-md  text-white"
+                         style={{color: "#02D7F2", "borderColor": "#02D7F2", width: "100%"}}>
+                        <p className="text-lg font-semibold">Développeur: {developer}</p>
+                        <hr className="my-2 border-gray-600"/>
+                        <p className="text-lg font-semibold">Éditeur: {publisher}</p>
+                        <hr className="my-2 border-gray-600"/>
+                        <p className="text-lg font-semibold">Date de sortie: {game.release_date}</p>
+                        <hr className="my-2 border-gray-600"/>
+                        <p className="text-lg font-semibold flex items-center gap-2">
+                            Plateforme : <WindowIcon className="w-5 h-5 text-gray-300"/>
+                        </p>
+                    </div>
                 </div>
+
             </div>
+
+
         </div>
+
+    {
+
+   commonGames.length !== 0?
+    <div className="flex flex-col   mx-auto p-10">
+
+        <hr/>
+        <br/>
+        <p style={{width:200, fontSize:25, fontWeight:"bold"}}>Jeux Similaire</p>
+        <br/>
+
+      <ListeJeux  numScroll={1} visibleCount={5} couvertures={commonGames}></ListeJeux>
+
+
+    </div>
+       : null
+}
+</div>
     );
 }
+
+
+
+

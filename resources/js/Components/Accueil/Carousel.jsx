@@ -28,6 +28,9 @@ export default function Carousel({ temps, galleryImage }) {
         };
     }, [temps]);
 
+
+
+
     return (
         <Link
             className="carousel-container"
@@ -42,7 +45,7 @@ export default function Carousel({ temps, galleryImage }) {
             {indexes.map((i, j) => {
                 const images = parseJson(galleryImage[i].screenshots).slice(
                     0,
-                    4
+                    5
                 );
                 const [activeImage, setActiveImage] = useState(images[0]);
 

@@ -5,10 +5,12 @@ import emilie from "@/assets/img/Emilie_Avatar.png";
 import alex from "@/assets/img/Alex_Avatar.png";
 import veronica from "@/assets/img/Veronica_Avatar.png";
 import jean from "@/assets/img/Jean_Avatar.png";
+import {Head} from "@inertiajs/react";
 
 export default function Equipe() {
     return (
         <div>
+            <Head title={"Équipe"}/>
             <img src={titre} alt="" className="mb-20" />
             <TitreNom color="#81EC86">Emilie</TitreNom>
             <EncadreDescription image={emilie} color="#81EC86">
