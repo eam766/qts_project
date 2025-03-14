@@ -225,7 +225,7 @@ export default function Panier() {
                         Total du panier : {totalPrice.toFixed(2)} $
                     </p>
                     <button
-                        className="AudioWideBlue"
+                        className="AudioWideBlue mt-5"
                         style={{
                             backgroundImage: `url(${bouton})`,
                             backgroundRepeat: "no-repeat",
@@ -235,9 +235,9 @@ export default function Panier() {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            height: "45px",
-                            width: "180px",
-                            margin: "0",
+                            height: "55px",
+                            width: "235px",
+                            fontSize: "20px",
                         }}
                         onClick={() => {
                             alert("Paiement à implémenter !");
