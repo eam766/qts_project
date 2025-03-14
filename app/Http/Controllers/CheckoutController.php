@@ -29,12 +29,12 @@ class CheckoutController extends Controller
         
         foreach ($cartItems as $cartItem) {
             // Charger le jeu depuis la base de données locale
-            $game = Game::where('game_id', $cartItem->game_id)->first();
+            $game = $cartItem->game;
             
             if ($game) {
                 $formattedCartItems[] = [
                     'id' => $cartItem->id,
-                    'game_id' => $cartItem->game_id,
+                    'game_id' => $game->id,
                     'added_at' => $cartItem->created_at->format('d/m/Y H:i'),
                     'game' => $game
                 ];
@@ -79,7 +79,8 @@ class CheckoutController extends Controller
             
             foreach ($cartItems as $cartItem) {
                 // Charger le jeu depuis la base de données locale
-                $game = Game::where('game_id', $cartItem->game_id)->first();
+                $game = $cartItem->game;
+                //$game = Game::where('game_id', $cartItem->game_id)->first();
                 
                 if (!$game) {
                     Log::warning('Jeu non trouvé pour Stripe: ' . $cartItem->game_id);
@@ -92,9 +93,9 @@ class CheckoutController extends Controller
                 // Créer un élément de ligne pour Stripe
                 $lineItems[] = [
                     'price_data' => [
-                        'currency' => 'eur',
+                        'currency' => 'cad',
                         'product_data' => [
-                            'name' => $game->name ?? ('Jeu #' . $cartItem->game_id),
+                            'name' => $game->name ?? ('Jeu #' . $cartItem->id),
                             // Images et description peuvent causer des problèmes - simplifions
                             'description' => substr($game->summary ?? '', 0, 255),
                         ],
@@ -108,7 +109,7 @@ class CheckoutController extends Controller
                 return response()->json(['error' => 'Impossible de créer la commande'], 400);
             }
 
-            Log::info('Création session Stripe pour ' . count($lineItems) . ' articles, total: ' . $totalAmount . '€');
+            Log::info('Création session Stripe pour ' . count($lineItems) . ' articles, total: ' . $totalAmount . '$');
 
             // Construire les URLs avec des domaines absolus pour éviter les problèmes de redirection
             $successUrl = url(route('checkout.success', [], false)) . '?session_id={CHECKOUT_SESSION_ID}';

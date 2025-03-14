@@ -143,7 +143,7 @@ export default function Checkout({ cartItems, total }) {
                                             ? parseFloat(
                                                   item.game.price
                                               ).toFixed(2) + " $"
-                                            : "49.99 €"}
+                                            : "49.99 $"}
                                     </span>
                                 </div>
                             ))}

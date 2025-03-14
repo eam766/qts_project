@@ -150,7 +150,7 @@ export default function Panier() {
                                 <p className="ml-5 text-yellow-400">
                                     Prix:{" "}
                                     {game.price
-                                        ? `${game.price.toFixed(2)} €`
+                                        ? `${game.price.toFixed(2)} $`
                                         : "N/A"}
                                 </p>
                                 <p className="ml-5">
@@ -243,7 +243,7 @@ export default function Panier() {
             {cart.length > 0 && (
                 <div className="w-full flex flex-col items-start mt-4">
                     <p className="text-xl font-bold mb-2">
-                        Total du panier : {totalPrice.toFixed(2)} €
+                        Total du panier : {totalPrice.toFixed(2)} $
                     </p>
                     <button
                         className="AudioWideBlue"
