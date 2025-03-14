@@ -136,15 +136,12 @@ function JeuxList({ jeux }) {
     return (
         <div className="jeux-grid">
             {jeux.map((jeu) => {
-                const isInWishlist = wishlist.includes(jeu.game_id);
-                const isInCart = cart.includes(jeu.game_id);
+                const isInWishlist = wishlist.includes(jeu.id);
+                const isInCart = cart.includes(jeu.id);
 
                 return (
-                    <div key={jeu.game_id} className="card">
-                        <Link
-                            className="card-link"
-                            href={`/jeux/${jeu.game_id}`}
-                        >
+                    <div key={jeu.id} className="card">
+                        <Link className="card-link" href={`/jeux/${jeu.id}`}>
                             <img
                                 src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${jeu.cover_image_id}.jpg`}
                                 alt={jeu.name}
@@ -175,9 +172,7 @@ function JeuxList({ jeux }) {
                                     }}
                                 >
                                     <IconButton
-                                        onClick={() =>
-                                            toggleWishlist(jeu.game_id)
-                                        }
+                                        onClick={() => toggleWishlist(jeu.id)}
                                     >
                                         <PlaylistAddIcon
                                             className="icons"
@@ -209,7 +204,7 @@ function JeuxList({ jeux }) {
                                     }}
                                 >
                                     <IconButton
-                                        onClick={() => toggleCart(jeu.game_id)}
+                                        onClick={() => toggleCart(jeu.id)}
                                     >
                                         <AddShoppingCartIcon
                                             className="icons"

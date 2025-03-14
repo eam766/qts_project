@@ -13,6 +13,7 @@ export default function Layout({ children }) {
     const { auth } = usePage().props;
     const user = auth.user; // Récupérer l'utilisateur connecté
     const [wishlistGames, setWishlistGames] = useState([]);
+    const [cartGames, setCartGames] = useState([]);
 
     useEffect(() => {
         if (user) {
@@ -24,11 +25,21 @@ export default function Layout({ children }) {
                 .catch((error) =>
                     console.error("Erreur chargement wishlist:", error)
                 );
+            axios
+                .get(route("cart.data"))
+                .then((response) => {
+                    setCartGames(response.data.cartGames);
+                })
+                .catch((error) =>
+                    console.error("Erreur chargement cart:", error)
+                );
         }
     }, [user]);
 
     const wishlistCount = wishlistGames.length;
-    console.log("Wishlist Games dans le Layout:", wishlistGames);
+    const cartCount = cartGames.length;
+    console.log("Wishlist Games dans le wishlist LAYOUT :", wishlistGames);
+    console.log("Données actuelles du panier LAYOUT  :", cartGames);
 
     return (
         <>
@@ -45,30 +56,40 @@ export default function Layout({ children }) {
                         {user ? (
                             <>
                                 <div className="flex justify-center ">
-                                    <div className="flex flex-row gap-4 mr-5">
-                                        <Link
-                                            href="/listeSouhaits"
-                                            className="text-xl relative"
-                                        >
-                                            <FaHeart
-                                                className="text-white hover:text-red-500"
-                                                size={28}
-                                            />
-                                            {wishlistCount > 0 && (
-                                                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2">
-                                                    {wishlistCount}
-                                                </span>
-                                            )}
-                                        </Link>
-                                        <Link
-                                            href="/panier"
-                                            className="text-xl"
-                                        >
-                                            <FaShoppingCart
-                                                className="text-white hover:text-yellow-500"
-                                                size={28}
-                                            />
-                                        </Link>
+                                    <div className="flex justify-center">
+                                        <div className="flex flex-row gap-4 mr-5">
+                                            {/* Wishlist */}
+                                            <Link
+                                                href="/listeSouhaits"
+                                                className="text-xl relative"
+                                            >
+                                                <FaHeart
+                                                    className="text-white hover:text-red-500"
+                                                    size={28}
+                                                />
+                                                {wishlistCount > 0 && (
+                                                    <span className=" absolute top-0 right-0 transform translate-x-2 -translate-y-2 bg-[#02d7f2] text-black text-xs rounded-full px-2">
+                                                        {wishlistCount}
+                                                    </span>
+                                                )}
+                                            </Link>
+
+                                            {/* Panier */}
+                                            <Link
+                                                href="/panier"
+                                                className="text-xl relative"
+                                            >
+                                                <FaShoppingCart
+                                                    className="text-white hover:text-yellow-500"
+                                                    size={28}
+                                                />
+                                                {cartCount > 0 && (
+                                                    <span className="absolute top-0 right-0 transform translate-x-2 -translate-y-2 bg-[#02d7f2] text-black text-xs rounded-full px-2">
+                                                        {cartCount}
+                                                    </span>
+                                                )}
+                                            </Link>
+                                        </div>
                                     </div>
 
                                     <Link

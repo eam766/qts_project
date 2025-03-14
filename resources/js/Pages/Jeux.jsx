@@ -38,8 +38,8 @@ export default function Jeux({ game }) {
     }, [user]);
 
     // ✅ Vérifier si le jeu est dans la liste de souhaits / panier
-    const isInWishlist = wishlist.includes(game.game_id);
-    const isInCart = cart.includes(game.game_id);
+    const isInWishlist = wishlist.includes(game.id);
+    const isInCart = cart.includes(game.id);
 
     // ✅ Fonction pour gérer la wishlist
     const toggleWishlist = () => {
@@ -51,13 +51,11 @@ export default function Jeux({ game }) {
         setLoadingWishlist(true);
         if (isInWishlist) {
             router.delete(route("wishlist.destroy"), {
-                data: { game_id: game.game_id },
+                data: { game_id: game.id },
                 preserveState: true,
                 preserveScroll: true,
                 onSuccess: () => {
-                    setWishlist((prev) =>
-                        prev.filter((id) => id !== game.game_id)
-                    );
+                    setWishlist((prev) => prev.filter((id) => id !== game.id));
                     setLoadingWishlist(false);
                 },
                 onError: () => {
@@ -68,12 +66,12 @@ export default function Jeux({ game }) {
         } else {
             router.post(
                 route("wishlist.store"),
-                { game_id: game.game_id },
+                { game_id: game.id },
                 {
                     preserveState: true,
                     preserveScroll: true,
                     onSuccess: () => {
-                        setWishlist((prev) => [...prev, game.game_id]);
+                        setWishlist((prev) => [...prev, game.id]);
                         setLoadingWishlist(false);
                     },
                     onError: () => {
@@ -95,11 +93,11 @@ export default function Jeux({ game }) {
         setLoadingCart(true);
         if (isInCart) {
             router.delete(route("cart.destroy"), {
-                data: { game_id: game.game_id },
+                data: { game_id: game.id },
                 preserveState: true,
                 preserveScroll: true,
                 onSuccess: () => {
-                    setCart((prev) => prev.filter((id) => id !== game.game_id));
+                    setCart((prev) => prev.filter((id) => id !== game.id));
                     setLoadingCart(false);
                 },
                 onError: () => {
@@ -110,12 +108,12 @@ export default function Jeux({ game }) {
         } else {
             router.post(
                 route("cart.store"),
-                { game_id: game.game_id },
+                { game_id: game.id },
                 {
                     preserveState: true,
                     preserveScroll: true,
                     onSuccess: () => {
-                        setCart((prev) => [...prev, game.game_id]);
+                        setCart((prev) => [...prev, game.id]);
                         setLoadingCart(false);
                     },
                     onError: () => {

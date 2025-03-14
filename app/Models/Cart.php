@@ -21,4 +21,10 @@ class Cart extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function game()
+{
+    return $this->belongsTo(Game::class, 'game_id', 'id'); 
+}
+
 }
