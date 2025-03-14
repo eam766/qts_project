@@ -2,6 +2,8 @@ import React from "react";
 import { Head } from "@inertiajs/react";
 
 export default function OrderConfirmation({ order, success }) {
+    console.log("Order data:", order); // Pour débogage
+
     return (
         <>
             <Head title="Confirmation de commande" />
@@ -64,45 +66,10 @@ export default function OrderConfirmation({ order, success }) {
                         <div>
                             <p className="text-gray-600">Total:</p>
                             <p className="font-semibold text-blue-700">
-                                {parseFloat(order.amount).toFixed(2)} €
+                                {parseFloat(order.amount).toFixed(2)}$
                             </p>
                         </div>
                     </div>
-                </div>
-
-                <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
-                    <h2 className="text-xl font-bold mb-4 border-b pb-2">
-                        Articles achetés
-                    </h2>
-
-                    {order.orderItems && order.orderItems.length > 0 ? (
-                        <div className="divide-y">
-                            {order.orderItems.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="py-4 flex justify-between"
-                                >
-                                    <div>
-                                        <p className="font-medium">
-                                            {item.game
-                                                ? item.game.name
-                                                : `Jeu #${item.game_id}`}
-                                        </p>
-                                        <p className="text-gray-500 text-sm">
-                                            ID: {item.game_id}
-                                        </p>
-                                    </div>
-                                    <p className="font-semibold text-blue-700">
-                                        {parseFloat(item.price).toFixed(2)} €
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <p className="text-gray-500">
-                            Aucun article dans cette commande
-                        </p>
-                    )}
                 </div>
 
                 <div className="mt-8 text-center">

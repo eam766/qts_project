@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->foreignId('game_id')->constrained();
+            $table->string('game_id'); // Changé en string sans contrainte de clé étrangère
             $table->decimal('price', 10, 2);
             $table->timestamps();
         });
