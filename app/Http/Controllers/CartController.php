@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Cart;
 use Inertia\Inertia;
 use App\Models\Game;
+use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {

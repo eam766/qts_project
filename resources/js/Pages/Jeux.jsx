@@ -5,7 +5,10 @@ import BoutonAjouter from "@/Components/PageProduit/BoutonAjouter";
 import BoutonListe from "@/Components/PageProduit/BoutonListe";
 import axios from "axios"; // ✅ Import axios pour fetch backend
 import { parseJson } from "../../../utils/utils.js";
-
+import Rating from '@mui/material/Rating';
+import Stack from '@mui/material/Stack';
+import {styled} from "@mui/material";
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 export default function Jeux({ game }) {
     const { auth } = usePage().props;
     const user = auth.user;
@@ -125,6 +128,14 @@ export default function Jeux({ game }) {
         }
     };
 
+    const StyledRating = styled(Rating)({
+        '& .MuiRating-iconFilled': {
+            color: '#F0F14E',
+        },
+
+    });
+
+
     return (
         <div className="container mx-auto p-10 flex">
             <div className="w-2/3 flex flex-col items-center mr-8">
@@ -169,8 +180,13 @@ export default function Jeux({ game }) {
                     <h1 className="text-3xl font-bold text-center AudioWideBlue">
                         {game.name}
                     </h1>
+                    <Stack spacing={1}>
+                        <StyledRating name="game-rating" emptyIcon={<StarOutlineIcon style={{ color:"F0F14E"}} fontSize="inherit"/>} readOnly defaultValue={game.total_rating/20} precision={0.1} size={"large"}/>
+
+                    </Stack>
                     <br />
                     <p>{game.price}$</p>
+
                     <br />
 
                     {/* ✅ Bouton Ajouter au Panier avec couleur jaune et message dynamique */}
