@@ -13,6 +13,7 @@ export default function Panier() {
     const [showEmptyMessage, setShowEmptyMessage] = useState(false);
     const [removingGameId, setRemovingGameId] = useState(null);
     const [confirmDelete, setConfirmDelete] = useState(null);
+    const [isProcessingCheckout, setIsProcessingCheckout] = useState(false);
 
     // Calcul du total
     const totalPrice = cart.reduce((sum, game) => sum + (game.price || 0), 0);
@@ -44,6 +45,26 @@ export default function Panier() {
                 setRemovingGameId(null);
             },
         });
+    };
+
+    // Fonction pour passer au paiement
+    const proceedToCheckout = () => {
+        setIsProcessingCheckout(true);
+
+        // Redirection vers la page de checkout
+        router.get(
+            route("checkout.index"),
+            {},
+            {
+                onError: (errors) => {
+                    console.error(
+                        "Erreur lors de la redirection vers le paiement:",
+                        errors
+                    );
+                    setIsProcessingCheckout(false);
+                },
+            }
+        );
     };
 
     return (
@@ -129,7 +150,7 @@ export default function Panier() {
                                 <p className="ml-5 text-yellow-400">
                                     Prix:{" "}
                                     {game.price
-                                        ? `${game.price.toFixed(2)} $`
+                                        ? `${game.price.toFixed(2)} €`
                                         : "N/A"}
                                 </p>
                                 <p className="ml-5">
@@ -222,7 +243,7 @@ export default function Panier() {
             {cart.length > 0 && (
                 <div className="w-full flex flex-col items-start mt-4">
                     <p className="text-xl font-bold mb-2">
-                        Total du panier : {totalPrice.toFixed(2)} $
+                        Total du panier : {totalPrice.toFixed(2)} €
                     </p>
                     <button
                         className="AudioWideBlue"
@@ -238,12 +259,15 @@ export default function Panier() {
                             height: "45px",
                             width: "180px",
                             margin: "0",
+                            cursor: isProcessingCheckout ? "wait" : "pointer",
+                            opacity: isProcessingCheckout ? 0.7 : 1,
                         }}
-                        onClick={() => {
-                            alert("Paiement à implémenter !");
-                        }}
+                        onClick={proceedToCheckout}
+                        disabled={isProcessingCheckout}
                     >
-                        Passer au paiement
+                        {isProcessingCheckout
+                            ? "Chargement..."
+                            : "Passer au paiement"}
                     </button>
                 </div>
             )}
