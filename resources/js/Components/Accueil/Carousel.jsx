@@ -5,7 +5,7 @@ import { parseJson } from "../../../../utils/utils.js";
 
 export default function Carousel({ temps, galleryImage }) {
     const [indexes, setIndexes] = useState([0, 1, 2]);
-    const [centerIndex, setCenterIndex] = useState(1); // Nouvel état pour suivre l'index central
+    const [centerIndex, setCenterIndex] = useState(1);
     const classes = ["left", "center", "right"];
 
     function changeImages() {
@@ -13,7 +13,7 @@ export default function Carousel({ temps, galleryImage }) {
             const newIndexes = prevIndexes.map(
                 (index) => (index + 1) % galleryImage.length
             );
-            setCenterIndex(newIndexes[1]); // Met à jour l'index central
+            setCenterIndex(newIndexes[1]);
             return newIndexes;
         });
     }
