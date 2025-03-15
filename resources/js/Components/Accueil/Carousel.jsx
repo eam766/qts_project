@@ -28,9 +28,6 @@ export default function Carousel({ temps, galleryImage }) {
         };
     }, [temps]);
 
-
-
-
     return (
         <Link
             className="carousel-container"
