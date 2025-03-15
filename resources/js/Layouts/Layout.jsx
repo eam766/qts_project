@@ -46,10 +46,9 @@ export default function Layout({ children }) {
             <header className="flex flex-row items-center ">
                 <Logo />
                 <nav className="flex flex-row items-center">
-                    <div className="flex justify-evenly basis-1/3 text-lg">
+                    <div className="flex justify-evenly basis-1/5 text-lg">
                         <Link href="/">Accueil</Link>
                         <Link href="/boutique">Boutique</Link>
-                        <Link href="/a_propos">À propos</Link>
                     </div>
                     <SearchBar />
                     <div className="flex ml-auto mr-2">

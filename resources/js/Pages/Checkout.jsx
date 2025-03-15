@@ -101,8 +101,8 @@ export default function Checkout({ cartItems, total }) {
         <>
             <Head title="Finaliser votre commande" />
 
-            <div className="max-w-4xl mx-auto py-8 px-4 bg-white text-gray-800">
-                <h1 className="text-3xl font-bold mb-6 text-blue-600">
+            <div className="max-w-4xl mx-auto py-8 px-4 bg-[#333333]/70 text-white">
+                <h1 className="text-3xl font-bold mb-6 AudioWideBlue">
                     Finaliser votre commande
                 </h1>
 
@@ -116,8 +116,8 @@ export default function Checkout({ cartItems, total }) {
                 )}
 
                 {/* Résumé du panier */}
-                <div className="bg-gray-50 p-6 rounded-lg mb-6 shadow-sm border border-gray-200">
-                    <h2 className="text-xl font-bold mb-4 text-gray-800 border-b pb-2">
+                <div className="bg-[#191919] p-6 rounded-lg mb-6 shadow-sm  border-[#817D7D] border-2">
+                    <h2 className="text-xl font-bold mb-4 text-white border-b border-gray-200 pb-2">
                         Résumé de votre commande
                     </h2>
 
@@ -138,7 +138,7 @@ export default function Checkout({ cartItems, total }) {
                                               "Jeu #" + item.game_id
                                             : "Jeu #" + item.game_id}
                                     </span>
-                                    <span className="font-semibold text-blue-700">
+                                    <span className="font-semibold text-[#02d7f2]">
                                         {item.game && item.game.price
                                             ? parseFloat(
                                                   item.game.price
@@ -148,9 +148,9 @@ export default function Checkout({ cartItems, total }) {
                                 </div>
                             ))}
 
-                            <div className="flex justify-between py-4 font-bold mt-3 text-lg bg-gray-100 px-3 rounded">
+                            <div className="flex justify-between py-4 font-bold mt-3 text-lg bg-[#191919] px-3 rounded">
                                 <span>Total</span>
-                                <span className="text-blue-700">
+                                <span className="text-[#02d7f2]">
                                     {parseFloat(total || 0).toFixed(2)} $
                                 </span>
                             </div>
@@ -159,13 +159,13 @@ export default function Checkout({ cartItems, total }) {
                 </div>
 
                 {/* Section de paiement */}
-                <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
-                    <h2 className="text-xl font-bold mb-4 text-gray-800 border-b pb-2">
+                <div className="bg-[#191919] p-6 rounded-lg shadow border-[#817D7D] border-2">
+                    <h2 className="text-xl font-bold mb-4 text-white border-b pb-2">
                         Paiement
                     </h2>
 
                     <button
-                        className="w-full py-4 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-lg"
+                        className="w-full py-4 px-4 bg-[#02d7f2] hover:bg-[#01acc1] text-white font-bold rounded-lg shadow-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-lg"
                         onClick={handlePayment}
                         disabled={
                             isLoading || !cartItems || cartItems.length === 0
@@ -200,10 +200,10 @@ export default function Checkout({ cartItems, total }) {
                         )}
                     </button>
 
-                    <div className="flex items-center mt-4 bg-gray-50 p-3 rounded border border-gray-200">
+                    <div className="flex items-center mt-4 bg-[#5b5b5b] p-3 rounded border border-gray-200">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 text-gray-500 mr-2"
+                            className="h-5 w-5 text-[#c7c7c7] mr-2"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -215,7 +215,7 @@ export default function Checkout({ cartItems, total }) {
                                 d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
                             />
                         </svg>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-[#c7c7c7]">
                             Votre paiement sera traité en toute sécurité par
                             Stripe. Aucune information de carte bancaire n'est
                             stockée sur notre serveur.

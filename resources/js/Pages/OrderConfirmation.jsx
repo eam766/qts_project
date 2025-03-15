@@ -8,9 +8,9 @@ export default function OrderConfirmation({ order, success }) {
         <>
             <Head title="Confirmation de commande" />
 
-            <div className="max-w-4xl mx-auto py-8 px-4 bg-white text-gray-800">
+            <div className="max-w-4xl mx-auto py-8 px-4 bg-[#333333]/70 text-gray-800">
                 {success && (
-                    <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded shadow">
+                    <div className="bg-green-100/80 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded shadow">
                         <p className="font-bold">Succès</p>
                         <p>{success}</p>
                     </div>
@@ -31,41 +31,45 @@ export default function OrderConfirmation({ order, success }) {
                             d="M5 13l4 4L19 7"
                         />
                     </svg>
-                    <h1 className="text-3xl font-bold text-gray-800">
+                    <h1 className="text-3xl font-bold AudioWideBlue">
                         Commande confirmée !
                     </h1>
-                    <p className="text-gray-600 mt-2">Merci pour votre achat</p>
+                    <p className="text-[#02d7f2] mt-2">
+                        Merci pour votre achat
+                    </p>
                 </div>
 
-                <div className="bg-gray-50 p-6 rounded-lg mb-6 shadow border border-gray-200">
-                    <h2 className="text-xl font-bold mb-4 border-b pb-2">
+                <div className="bg-[#191919] p-6 rounded-lg mb-6 shadow border border-gray-200">
+                    <h2 className="text-white text-xl font-bold mb-4 border-b pb-2">
                         Détails de la commande
                     </h2>
 
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <p className="text-gray-600">Numéro de commande:</p>
-                            <p className="font-semibold">{order.id}</p>
+                            <p className="text-gray-200">Numéro de commande:</p>
+                            <p className="font-semibold text-[#5b5b5b]">
+                                {order.id}
+                            </p>
                         </div>
                         <div>
-                            <p className="text-gray-600">Date:</p>
-                            <p className="font-semibold">
+                            <p className="text-gray-200">Date:</p>
+                            <p className="font-semibold text-[#5b5b5b]">
                                 {new Date(order.created_at).toLocaleDateString(
                                     "fr-FR"
                                 )}
                             </p>
                         </div>
                         <div>
-                            <p className="text-gray-600">Statut:</p>
-                            <p className="font-semibold">
-                                <span className="inline-block px-2 py-1 bg-green-100 text-green-800 rounded">
+                            <p className="text-gray-200">Statut:</p>
+                            <p className="font-semibold ">
+                                <span className="inline-block px-2 py-1 bg-green-100/80 text-green-800 rounded">
                                     {order.status}
                                 </span>
                             </p>
                         </div>
                         <div>
-                            <p className="text-gray-600">Total:</p>
-                            <p className="font-semibold text-blue-700">
+                            <p className="text-gray-200">Total:</p>
+                            <p className="font-semibold text-[#02d7f2]">
                                 {parseFloat(order.amount).toFixed(2)}$
                             </p>
                         </div>
@@ -75,7 +79,7 @@ export default function OrderConfirmation({ order, success }) {
                 <div className="mt-8 text-center">
                     <a
                         href="/"
-                        className="inline-block px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200"
+                        className="inline-block px-6 py-3 bg-[#02d7f2] text-white font-medium rounded-lg hover:bg-[#01acc1] transition duration-200"
                     >
                         Retourner à la boutique
                     </a>

@@ -148,7 +148,7 @@ export default function Panier() {
                                 <p className="ml-5 text-lg font-bold">
                                     {game.name}
                                 </p>
-                                <p className="ml-5 text-yellow-400">
+                                <p className="ml-5 text-[#F0F14E]">
                                     Prix:{" "}
                                     {game.price
                                         ? `${game.price.toFixed(2)} $`

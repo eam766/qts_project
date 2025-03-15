@@ -1,4 +1,4 @@
-import {usePage, router, Head} from "@inertiajs/react";
+import { usePage, router, Head } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import carte from "../assets/img/CarteListeSouhait.png";
@@ -180,7 +180,7 @@ export default function ListeSouhait() {
                                   <p className="ml-5 text-lg font-bold">
                                       {game.name}
                                   </p>
-                                  <p className="ml-5 text-yellow-400">
+                                  <p className="ml-5 text-[#F0F14E]">
                                       Prix:{" "}
                                       {game.price
                                           ? `${game.price.toFixed(2)} $`
