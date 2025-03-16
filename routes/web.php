@@ -129,6 +129,41 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
             ->name('checkout.cancel');
     });
 
+    // Routes pour connexion/inscription, accessibles seulement si l'utilisateur n'est PAS connecté
+Route::middleware('guest')->group(function () {
+
+    // Page Inertia pour inscription
+    Route::inertia('/inscription', 'Inscription')
+        ->name('inscription');
+
+    // Route POST pour s’inscrire
+    Route::post('/register', [RegisteredUserController::class, 'store'])
+        ->name('register');
+
+    // Page Inertia pour connexion
+    Route::get('/connexion', function () {
+        return Inertia::render('Connexion', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            // ...
+        ]);
+    })->name('connexion');
+
+    // Route POST pour se connecter
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+        ->name('login');
+
+    // Mots de passe oubliés, reset password, etc., si tu veux aussi qu'ils soient inaccessibles quand on est déjà connecté
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+        ->name('password.request');
+
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->name('password.email');
+
+    // etc.
+});
+
+
 
 
 
