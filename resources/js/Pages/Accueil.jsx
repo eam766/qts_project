@@ -4,7 +4,7 @@ import separation from "@/assets/img/SeparationCarrousel3.png";
 import titre_1 from "@/assets/img/TitreCarrousel1.png";
 import titre_2 from "@/assets/img/TitreCarrousel2.png";
 import Tableau from "@/Components/Accueil/Tableau";
-import {Head} from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 
 export default function Accueil({
     upcomingGames,
@@ -23,7 +23,7 @@ export default function Accueil({
                 position: "relative",
             }}
         >
-            <Head title={"Acceuil"}/>
+            <Head title={"Accueil"} />
             <Carousel temps={15000} galleryImage={wantedGames} />
             <div className="flex flex-col items-start">
                 <img

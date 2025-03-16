@@ -117,7 +117,7 @@ export default function ResetPassword({ token, email }) {
                         disabled={processing}
                         className="buttonRight AudioWideBlue"
                     >
-                        Reset Password
+                        Réinitialiser le mot de passe
                     </button>
                 </div>
             </form>
