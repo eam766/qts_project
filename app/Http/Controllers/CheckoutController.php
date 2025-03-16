@@ -22,23 +22,24 @@ class CheckoutController extends Controller
     {
         // Récupérer les éléments du panier
         $cartItems = Auth::user()->cart()->get();
-        
+
         // Formater les données pour le frontend
         $formattedCartItems = [];
         $total = 0;
-        
+
         foreach ($cartItems as $cartItem) {
             // Charger le jeu depuis la base de données locale
+            // (relation Eloquent: $cartItem->game)
             $game = $cartItem->game;
-            
+
             if ($game) {
                 $formattedCartItems[] = [
-                    'id' => $cartItem->id,
-                    'game_id' => $game->id,
+                    'id'       => $cartItem->id,
+                    'game_id'  => $game->id,
                     'added_at' => $cartItem->created_at->format('d/m/Y H:i'),
-                    'game' => $game
+                    'game'     => $game,
                 ];
-                
+
                 $total += $game->price ?? 0;
             } else {
                 Log::warning('Jeu non trouvé dans la base de données: ' . $cartItem->game_id);
@@ -47,7 +48,7 @@ class CheckoutController extends Controller
 
         return Inertia::render('Checkout', [
             'cartItems' => $formattedCartItems,
-            'total' => $total
+            'total'     => $total,
         ]);
     }
 
@@ -59,7 +60,7 @@ class CheckoutController extends Controller
         try {
             // Configurer la clé secrète Stripe
             Stripe::setApiKey(config('services.stripe.secret'));
-            
+
             // Configurer l'API version (important pour éviter les erreurs de version)
             Stripe::setApiVersion('2022-11-15');
 
@@ -68,252 +69,245 @@ class CheckoutController extends Controller
 
             // Récupérer les éléments du panier
             $cartItems = Auth::user()->cart()->get();
-            
+
             if ($cartItems->isEmpty()) {
                 return response()->json(['error' => 'Votre panier est vide'], 400);
             }
-            
+
             // Préparer les éléments pour Stripe
-            $lineItems = [];
+            $lineItems   = [];
             $totalAmount = 0;
-            
+
             foreach ($cartItems as $cartItem) {
-                // Charger le jeu depuis la base de données locale
+                // Charger le jeu via la relation Eloquent
                 $game = $cartItem->game;
-                //$game = Game::where('game_id', $cartItem->game_id)->first();
-                
+
                 if (!$game) {
                     Log::warning('Jeu non trouvé pour Stripe: ' . $cartItem->game_id);
                     continue;
                 }
-                
-                $price = $game->price ?? 49.99;
+
+                $price       = $game->price ?? 49.99;
                 $totalAmount += $price;
-                
+
                 // Créer un élément de ligne pour Stripe
                 $lineItems[] = [
                     'price_data' => [
-                        'currency' => 'cad',
+                        'currency'     => 'cad',
                         'product_data' => [
-                            'name' => $game->name ?? ('Jeu #' . $cartItem->id),
-                            // Images et description peuvent causer des problèmes - simplifions
+                            'name'        => $game->name ?? ('Jeu #' . $cartItem->id),
                             'description' => substr($game->summary ?? '', 0, 255),
                         ],
-                        'unit_amount' => (int)(round($price * 100)), // Convertir en centimes et s'assurer que c'est un entier
+                        'unit_amount' => (int) round($price * 100), // Convertir en centimes
                     ],
                     'quantity' => 1,
                 ];
             }
-            
+
             if (empty($lineItems)) {
                 return response()->json(['error' => 'Impossible de créer la commande'], 400);
             }
 
             Log::info('Création session Stripe pour ' . count($lineItems) . ' articles, total: ' . $totalAmount . '$');
 
-            // Construire les URLs avec des domaines absolus pour éviter les problèmes de redirection
+            // Construire les URLs
             $successUrl = url(route('checkout.success', [], false)) . '?session_id={CHECKOUT_SESSION_ID}';
-            $cancelUrl = url(route('checkout.cancel', [], false));
+            $cancelUrl  = url(route('checkout.cancel', [], false));
 
             // Paramètres simplifiés pour la session Stripe
             $params = [
                 'payment_method_types' => ['card'],
-                'line_items' => $lineItems,
-                'mode' => 'payment',
-                'success_url' => $successUrl,
-                'cancel_url' => $cancelUrl,
+                'line_items'           => $lineItems,
+                'mode'                 => 'payment',
+                'success_url'          => $successUrl,
+                'cancel_url'           => $cancelUrl,
             ];
 
-            // Journaliser les paramètres pour le débogage (sans informations sensibles)
+            // Journaliser les paramètres
             Log::info('Paramètres session Stripe: ' . json_encode([
-                'item_count' => count($lineItems),
+                'item_count'  => count($lineItems),
                 'success_url' => $params['success_url'],
-                'cancel_url' => $params['cancel_url'],
-                'mode' => $params['mode'],
+                'cancel_url'  => $params['cancel_url'],
+                'mode'        => $params['mode'],
             ]));
 
             // Créer la session Stripe
             $checkoutSession = Session::create($params);
-            
-            // Pour le debug, loggez l'ID de session
+
             Log::info('Session Stripe créée avec succès: ' . $checkoutSession->id);
 
             // Retourner l'ID de session
             return response()->json(['id' => $checkoutSession->id]);
-            
+
         } catch (\Exception $e) {
             // Logger l'erreur pour le débogage
             Log::error('Erreur Stripe: ' . $e->getMessage());
             Log::error('Trace: ' . $e->getTraceAsString());
-            
+
             // Retourner un message d'erreur plus clair
             return response()->json([
                 'error' => 'Erreur lors de la création de la session de paiement: ' . $e->getMessage()
             ], 500);
         }
-    
     }
-        public function success(Request $request)
-        {
-            Log::info('Entrée dans checkout.success avec session_id: ' . $request->query('session_id'));
-            
-            $sessionId = $request->query('session_id');
-            
-            if (!$sessionId) {
-                Log::error('Pas de session_id dans la requête');
-                return redirect()->route('cart.index')
-                    ->with('error', 'Session de paiement non valide');
-            }
-            
-            try {
-                // Configurer la clé secrète Stripe
-                Stripe::setApiKey(config('services.stripe.secret'));
-                
-                // Configurer l'API version si nécessaire
-                Stripe::setApiVersion('2022-11-15');
-                
-                Log::info('Récupération de la session Stripe: ' . $sessionId);
-                
-                // Vérifier la session Stripe
-                $session = Session::retrieve($sessionId);
-                
-                Log::info('Session Stripe récupérée. Statut de paiement: ' . $session->payment_status);
-                
-                if ($session->payment_status === 'paid') {
-                    Log::info('Paiement validé, création de la commande');
-                    
-                    // Récupérer les éléments du panier
-                    $user = Auth::user();
-                    $cartItems = $user->cart()->get();
-                    
-                    Log::info('Nombre d\'articles dans le panier: ' . $cartItems->count());
-                    
-                    // Calculer le montant total
-                    $total = 0;
-                    foreach ($cartItems as $cartItem) {
-                        $game = Game::where('game_id', $cartItem->game_id)->first();
-                        if ($game) {
-                            $total += $game->price ?? 0;
-                        }
-                    }
-                    
-                    Log::info('Montant total de la commande: ' . $total);
-                    
-                    // Créer une commande
-                    $order = Order::create([
-                        'user_id' => $user->id,
-                        'amount' => $total,
-                        'status' => 'completed',
-                        'stripe_session_id' => $sessionId,
-                    ]);
-                    
-                    Log::info('Commande créée avec ID: ' . $order->id);
-    
-                    // Tableau pour stocker les articles avec informations complètes
-                    $orderItemsWithGames = [];
-    
-                    // Ajouter les jeux à la commande en gérant les erreurs pour chaque article
-                    foreach ($cartItems as $cartItem) {
-                        try {
-                            $game = Game::where('game_id', $cartItem->game_id)->first();
-                            
-                            if ($game) {
-                                $orderItem = OrderItem::create([
-                                    'order_id' => $order->id,
-                                    'game_id' => $cartItem->game_id,
-                                    'price' => $game->price ?? 0,
-                                ]);
-                                
-                                // Stocker l'article avec ses informations de jeu
-                                $orderItemsWithGames[] = [
-                                    'id' => $orderItem->id,
-                                    'order_id' => $orderItem->order_id,
-                                    'game_id' => $orderItem->game_id,
-                                    'price' => $orderItem->price,
-                                    'created_at' => $orderItem->created_at,
-                                    'updated_at' => $orderItem->updated_at,
-                                    'game' => [
-                                        'id' => $game->id,
-                                        'game_id' => $game->game_id,
-                                        'name' => $game->name,
-                                        'price' => $game->price,
-                                        // Ajoutez d'autres champs du jeu si nécessaire
-                                    ]
-                                ];
-                                
-                                Log::info('Article ajouté à la commande: ' . $cartItem->game_id);
-                            } else {
-                                Log::warning('Jeu non trouvé pour l\'article: ' . $cartItem->game_id);
-                                
-                                // Même si le jeu n'est pas trouvé, créer l'élément de commande
-                                $orderItem = OrderItem::create([
-                                    'order_id' => $order->id,
-                                    'game_id' => $cartItem->game_id,
-                                    'price' => 0,
-                                ]);
-                                
-                                // Ajouter avec des informations basiques
-                                $orderItemsWithGames[] = [
-                                    'id' => $orderItem->id,
-                                    'order_id' => $orderItem->order_id,
-                                    'game_id' => $orderItem->game_id,
-                                    'price' => $orderItem->price,
-                                    'created_at' => $orderItem->created_at,
-                                    'updated_at' => $orderItem->updated_at,
-                                    'game' => null
-                                ];
-                            }
-                        } catch (\Exception $e) {
-                            // Log l'erreur mais continuer avec les autres articles
-                            Log::error('Erreur lors de l\'ajout de l\'article ' . $cartItem->game_id . ': ' . $e->getMessage());
-                        }
-                    }
-    
-                    // Vider le panier
-                    try {
-                        $deleteCount = $user->cart()->delete();
-                        Log::info('Panier vidé, nombre d\'articles supprimés: ' . $deleteCount);
-                    } catch (\Exception $e) {
-                        Log::error('Erreur lors de la suppression du panier: ' . $e->getMessage());
-                        // Continuer même si le panier n'a pas pu être vidé
-                    }
-    
-                    // Préparer les données pour Inertia
-                    $orderData = $order->toArray();
-                    
-                    // IMPORTANT: Ajouter les éléments aux deux formats pour être sûr
-                    $orderData['order_items'] = $orderItemsWithGames;
-                    $orderData['orderItems'] = $orderItemsWithGames;
-                    
-                    Log::info('Redirection vers OrderConfirmation avec ' . count($orderItemsWithGames) . ' articles');
-                    
-                    // Log pour débogage
-                    Log::info('Données envoyées à Inertia: ' . json_encode([
-                        'order_id' => $orderData['id'],
-                        'order_items_count' => count($orderItemsWithGames),
-                        'first_item' => !empty($orderItemsWithGames) ? json_encode($orderItemsWithGames[0]) : 'aucun'
-                    ]));
-                    
-                    // Rediriger vers une page de confirmation
-                    return Inertia::render('OrderConfirmation', [
-                        'order' => $orderData,
-                        'success' => 'Votre commande a été traitée avec succès!'
-                    ]);
-                }
-    
-                return redirect()->route('cart.index')
-                    ->with('error', 'Le paiement a échoué. Veuillez réessayer.');
-                    
-            } catch (\Exception $e) {
-                Log::error('Erreur lors de la validation du paiement: ' . $e->getMessage());
-                Log::error('Trace complète: ' . $e->getTraceAsString());
-                return redirect()->route('cart.index')
-                    ->with('error', 'Une erreur est survenue lors de la validation de votre paiement: ' . $e->getMessage());
-            }
+
+    /**
+     * Gérer le succès du paiement
+     */
+    public function success(Request $request)
+    {
+        Log::info('Entrée dans checkout.success avec session_id: ' . $request->query('session_id'));
+
+        $sessionId = $request->query('session_id');
+
+        if (!$sessionId) {
+            Log::error('Pas de session_id dans la requête');
+            return redirect()->route('cart.index')
+                ->with('error', 'Session de paiement non valide');
         }
-    
-        // Autres méthodes inchangées...
-    
+
+        try {
+            // Configurer la clé secrète Stripe
+            Stripe::setApiKey(config('services.stripe.secret'));
+            Stripe::setApiVersion('2022-11-15');
+
+            Log::info('Récupération de la session Stripe: ' . $sessionId);
+
+            // Vérifier la session Stripe
+            $session = Session::retrieve($sessionId);
+
+            Log::info('Session Stripe récupérée. Statut de paiement: ' . $session->payment_status);
+
+            if ($session->payment_status === 'paid') {
+                Log::info('Paiement validé, création de la commande');
+
+                // Récupérer les éléments du panier
+                $user      = Auth::user();
+                $cartItems = $user->cart()->get();
+
+                Log::info('Nombre d\'articles dans le panier: ' . $cartItems->count());
+
+                // Calculer le montant total
+                $total = 0;
+                foreach ($cartItems as $cartItem) {
+                    $game = $cartItem->game; // ou Game::find($cartItem->game_id);
+                    if ($game) {
+                        $total += $game->price ?? 0;
+                    }
+                }
+
+                Log::info('Montant total de la commande: ' . $total);
+
+                // Créer une commande
+                $order = Order::create([
+                    'user_id'           => $user->id,
+                    'amount'            => $total,
+                    'status'            => 'completed',
+                    'stripe_session_id' => $sessionId,
+                ]);
+
+                Log::info('Commande créée avec ID: ' . $order->id);
+
+                // Tableau pour stocker les articles avec infos complètes
+                $orderItemsWithGames = [];
+
+                // Ajouter les jeux à la commande
+                foreach ($cartItems as $cartItem) {
+                    try {
+                        // Récupère le jeu localement
+                        $game = $cartItem->game; 
+                        // ou $game = Game::find($cartItem->game_id);
+
+                        if ($game) {
+                            $orderItem = OrderItem::create([
+                                'order_id' => $order->id,
+                                // On stocke le local ID du jeu
+                                'game_id'  => $game->id,
+                                'price'    => $game->price ?? 0,
+                            ]);
+
+                            $orderItemsWithGames[] = [
+                                'id'        => $orderItem->id,
+                                'order_id'  => $orderItem->order_id,
+                                'game_id'   => $orderItem->game_id,
+                                'price'     => $orderItem->price,
+                                'created_at'=> $orderItem->created_at,
+                                'updated_at'=> $orderItem->updated_at,
+                                'game' => [
+                                    'id'      => $game->id,
+                                    'game_id' => $game->game_id, // si tu as une colonne game_id distincte
+                                    'name'    => $game->name,
+                                    'price'   => $game->price,
+                                ],
+                            ];
+
+                            Log::info('Article ajouté à la commande: ' . $game->name);
+                        } else {
+                            Log::warning('Jeu non trouvé pour l\'article: ' . $cartItem->game_id);
+
+                            // Même si le jeu n'est pas trouvé, créer l'élément de commande
+                            $orderItem = OrderItem::create([
+                                'order_id' => $order->id,
+                                'game_id'  => 0,
+                                'price'    => 0,
+                            ]);
+
+                            $orderItemsWithGames[] = [
+                                'id'        => $orderItem->id,
+                                'order_id'  => $orderItem->order_id,
+                                'game_id'   => $orderItem->game_id,
+                                'price'     => $orderItem->price,
+                                'created_at'=> $orderItem->created_at,
+                                'updated_at'=> $orderItem->updated_at,
+                                'game'      => null,
+                            ];
+                        }
+                    } catch (\Exception $e) {
+                        Log::error('Erreur lors de l\'ajout de l\'article ' . $cartItem->game_id . ': ' . $e->getMessage());
+                    }
+                }
+
+                // Vider le panier
+                try {
+                    $deleteCount = $user->cart()->delete();
+                    Log::info('Panier vidé, nombre d\'articles supprimés: ' . $deleteCount);
+                } catch (\Exception $e) {
+                    Log::error('Erreur lors de la suppression du panier: ' . $e->getMessage());
+                }
+
+                // Préparer les données pour Inertia
+                $orderData = $order->toArray();
+                // Ajouter les order items
+                $orderData['order_items'] = $orderItemsWithGames;
+                $orderData['orderItems']  = $orderItemsWithGames;
+
+                Log::info('Redirection vers OrderConfirmation avec ' . count($orderItemsWithGames) . ' articles');
+
+                // Log pour débogage
+                Log::info('Données envoyées à Inertia: ' . json_encode([
+                    'order_id'           => $orderData['id'],
+                    'order_items_count'  => count($orderItemsWithGames),
+                    'first_item'         => !empty($orderItemsWithGames) ? json_encode($orderItemsWithGames[0]) : 'aucun',
+                ]));
+
+                // Rediriger vers une page de confirmation
+                return Inertia::render('OrderConfirmation', [
+                    'order'   => $orderData,
+                    'success' => 'Votre commande a été traitée avec succès!',
+                ]);
+            }
+
+            return redirect()->route('cart.index')
+                ->with('error', 'Le paiement a échoué. Veuillez réessayer.');
+
+        } catch (\Exception $e) {
+            Log::error('Erreur lors de la validation du paiement: ' . $e->getMessage());
+            Log::error('Trace complète: ' . $e->getTraceAsString());
+
+            return redirect()->route('cart.index')
+                ->with('error', 'Une erreur est survenue lors de la validation de votre paiement: ' . $e->getMessage());
+        }
+    }
 
     /**
      * Gérer l'annulation du paiement
