@@ -2,6 +2,9 @@ import { Head, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { OrderList } from "primereact/orderlist";
+import { parseJson } from "../../../utils/utils.js";
+import Stack from "@mui/material/Stack";
+import Chip from "@mui/material/Chip";
 
 export default function Library() {
     // Récupérer l’utilisateur et la liste envoyée par le contrôleur
@@ -22,13 +25,16 @@ export default function Library() {
             );
         }
 
+        const themes = parseJson(game.themes);
+        const genres = parseJson(game.genres);
+
         // Construire l’URL de la cover
         const coverUrl = game.cover_image_id
             ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover_image_id}.jpg`
             : null;
 
         return (
-            <div className="flex flex-row bg-gray-700 p-2 my-2 items-center rounded-md">
+            <div className="flex flex-row p-2 my-2 items-center rounded-md">
                 {/* Image du jeu */}
                 {coverUrl ? (
                     <img
@@ -45,7 +51,7 @@ export default function Library() {
                     />
                 ) : (
                     <div
-                        className="bg-gray-500 flex items-center justify-center mr-4"
+                        className=" flex items-center justify-center mr-4"
                         style={{
                             width: "120px",
                             height: "170px",
@@ -60,19 +66,46 @@ export default function Library() {
 
                 {/* Infos du jeu */}
                 <div className="flex flex-col">
-                    <span className="font-bold text-white text-lg">
+                    <span className="font-bold text-[#02d7f2] text-lg">
                         {game.name}
                     </span>
-                    <span className="text-yellow-300">
-                        Prix:{" "}
-                        {game.price ? `${game.price.toFixed(2)} $` : "N/A"}
-                    </span>
+
                     <span>
                         Note:{" "}
                         {game.total_rating
                             ? game.total_rating.toFixed(1)
                             : "N/A"}
                     </span>
+                    {genres.length !== 0 ? (
+                        <div className="mt-1 ">
+                            <Stack direction="row" spacing={1}>
+                                {genres.map((genre) => (
+                                    <Chip
+                                        label={genre}
+                                        variant="outlined"
+                                        style={{
+                                            color: "white",
+                                        }}
+                                    />
+                                ))}
+                            </Stack>{" "}
+                        </div>
+                    ) : null}
+                    {themes.length !== 0 ? (
+                        <div className="mt-2 mb-1">
+                            <Stack direction="row" spacing={1}>
+                                {themes.map((theme) => (
+                                    <Chip
+                                        label={theme}
+                                        variant="outlined"
+                                        style={{
+                                            color: "white",
+                                        }}
+                                    />
+                                ))}
+                            </Stack>{" "}
+                        </div>
+                    ) : null}
                     <span>
                         Sortie:{" "}
                         {game.release_date
@@ -89,7 +122,9 @@ export default function Library() {
                 </div>
 
                 {/* Bouton Installer (exemple) */}
-                <button className="buttonRight ml-auto">Installer</button>
+                <button className="buttonRight ml-auto AudioWideBlue text-lg">
+                    Installer
+                </button>
             </div>
         );
     };
@@ -115,7 +150,6 @@ export default function Library() {
                             <OrderList
                                 value={library}
                                 itemTemplate={itemTemplate}
-                                header="Mes jeux"
                                 filter
                                 filterBy="game.name"
                                 className="custom-orderlist"
