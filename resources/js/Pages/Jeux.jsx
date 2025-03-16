@@ -5,14 +5,14 @@ import BoutonAjouter from "@/Components/PageProduit/BoutonAjouter";
 import BoutonListe from "@/Components/PageProduit/BoutonListe";
 import axios from "axios"; // ✅ Import axios pour fetch backend
 import { parseJson } from "../../../utils/utils.js";
-import Rating from "@mui/material/Rating";
-import Stack from "@mui/material/Stack";
-import { Container, styled } from "@mui/material";
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
-import { Galleria } from "primereact/galleria";
-import WindowIcon from "@mui/icons-material/Window";
+import Rating from '@mui/material/Rating';
+import Stack from '@mui/material/Stack';
+import {Container, styled} from "@mui/material";
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import { Galleria } from 'primereact/galleria';
+import WindowIcon from '@mui/icons-material/Window';
 import StyledAccordion from "@/Components/Boutique/Filtre/StyledFilter.jsx";
-import Chip from "@mui/material/Chip";
+import Chip from '@mui/material/Chip';
 import ListeJeux from "@/Components/Accueil/ListeJeux.jsx";
 
 import { Accordion, AccordionTab } from "primereact/accordion";
@@ -38,7 +38,11 @@ export default function Jeux({ game, games }) {
         similarGames.includes(game.game_id)
     );
 
+
     console.log(commonGames);
+
+
+
 
     // ✅ Charger l'état de la wishlist et du panier depuis le backend
     useEffect(() => {
@@ -148,10 +152,13 @@ export default function Jeux({ game, games }) {
     };
 
     const StyledRating = styled(Rating)({
-        "& .MuiRating-iconFilled": {
-            color: "#F0F14E",
+        '& .MuiRating-iconFilled': {
+            color: '#F0F14E',
         },
+
     });
+
+
 
     const StyledGalleria = styled(Galleria)({
         ".p-galleria-thumbnail-prev-icon, .p-galleria-thumbnail-next-icon": {
@@ -167,6 +174,7 @@ export default function Jeux({ game, games }) {
             borderRadius: 15,
         },
 
+
         // Add space between thumbnails and main image
         ".p-galleria-thumbnail-container": {
             marginTop: "10px", // Adjust the value as needed
@@ -175,6 +183,8 @@ export default function Jeux({ game, games }) {
             marginBottom: "20px", // Add space between the main image and thumbnails
         },
     });
+
+
 
     const itemTemplate = (screenshot) => {
         return (
@@ -381,3 +391,7 @@ export default function Jeux({ game, games }) {
         </div>
     );
 }
+
+
+
+

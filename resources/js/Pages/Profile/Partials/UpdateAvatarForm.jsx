@@ -8,19 +8,22 @@ import { Container } from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
+
 export default function UpdateAvatarForm() {
     const user = usePage().props.auth.user;
 
     // 1) Pas de "initialValues:"
     const { data, setData, patch, processing, errors, recentlySuccessful } =
         useForm({
-            image: user.image || "",
-        });
+            image: user.image || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+            description: user.description || "" }
+        );
 
     const [anchorEl, setAnchorEl] = useState(null);
 
+
     // 2) On garde une copie locale si besoin
-    const [localData, setLocalData] = useState({ image: data.image });
+    const [localData, setLocalData] = useState({ image: data.image, description: data.description });
 
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
@@ -36,7 +39,7 @@ export default function UpdateAvatarForm() {
     // 3) Met à jour seulement le champ "image"
     const handleImageClick = (avatar) => {
         setData("image", avatar);
-        setLocalData({ image: avatar });
+        setLocalData(prev => ({ ...prev, image: avatar }));
         handleClose();
     };
 
@@ -48,10 +51,13 @@ export default function UpdateAvatarForm() {
             preserveScroll: true,
             onSuccess: () => {
                 // On met localData à jour avec la dernière valeur de data
-                setLocalData({ image: data.image });
+                setData("description", localData.description);
+
             },
         });
     };
+console.log(data.description, data.image);
+    console.log( localData.image, localData.description);
 
     return (
         <section>
@@ -81,8 +87,7 @@ export default function UpdateAvatarForm() {
                         {/* On affiche localData.image */}
                         <img
                             src={
-                                localData.image ||
-                                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                                localData.image
                             }
                             alt=""
                             width={275}
@@ -93,7 +98,13 @@ export default function UpdateAvatarForm() {
                         name="description"
                         id="description"
                         placeholder="Exprimez votre style..."
-                    ></textarea>
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setLocalData((prev) => ({ ...prev, description: value }));
+                            setData("description", value); // <-- Mise à jour du state `data` aussi
+                        }}
+                        defaultValue={localData.description}
+                    />
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -153,7 +164,7 @@ export default function UpdateAvatarForm() {
                     <button
                         type="submit"
                         disabled={processing}
-                        className="AudioWideBlue ml-auto"
+                        className="buttonLeft AudioWideBlue ml-auto"
                         style={{
                             backgroundRepeat: "no-repeat",
                             backgroundPosition: "center",

@@ -58,7 +58,6 @@ class ProfileUpdateRequest extends FormRequest
             ],
         ];
     }
-    
-    
+
 
 }
