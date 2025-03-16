@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\LibraryController;
 
 
 
@@ -46,9 +47,15 @@ Route::inertia('/contact', 'Contact');
 Route::get('/profil', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/bibliotheque', function () {
     return Inertia::render('Library');
 })->middleware(['auth', 'verified'])->name('bibliotheque');
+
+Route::middleware('auth')->get('/bibliotheque', [LibraryController::class, 'index'])
+    ->name('bibliotheque');
+
+
 
 
 
