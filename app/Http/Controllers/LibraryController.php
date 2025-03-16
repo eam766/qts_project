@@ -18,4 +18,15 @@ class LibraryController extends Controller
             'libraryEntries' => $libraryEntries,
         ]);
     }
+
+
+    public function getLibrary()
+{
+    $user = auth()->user();
+    $libraryEntries = $user ? $user->library()->pluck('game_id') : collect();
+
+    return response()->json([
+        'libraryEntries' => $libraryEntries
+    ]);
+}
 }

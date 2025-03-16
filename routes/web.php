@@ -117,6 +117,9 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     Route::middleware('auth')->get('/wishlist-data', [WishlistController::class, 'getWishlist'])
     ->name('wishlist.data');
 
+    Route::middleware('auth')->get('/library-data', [LibraryController::class, 'getLibrary'])
+    ->name('library.data');
+
 
 
     Route::get('/cart-data', [CartController::class, 'getCart'])->name('cart.data');
