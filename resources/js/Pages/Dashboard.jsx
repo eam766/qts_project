@@ -13,7 +13,7 @@ export default function Dashboard() {
                 </h2>
             }
         >
-            <Head title="Profile" />
+            <Head title="Profil" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -33,7 +33,11 @@ export default function Dashboard() {
                                             width: "360px",
                                         }}
                                     >
-                                        <img src={user.image} alt="" width={275} />
+                                        <img
+                                            src={user.image}
+                                            alt=""
+                                            width={275}
+                                        />
                                     </div>
                                     <div className=" flex flex-col ml-5 ">
                                         <p className="AudioWideBlue text-2xl">
@@ -41,18 +45,18 @@ export default function Dashboard() {
                                         </p>
                                         <br />
                                         <h2>Description:</h2>
-                                        <div style={ {
-                                        width: "40vw",
-                                            height: "5vw",
-                                            border: "5px double grey",
-                                            borderRadius: "5px",
-                                            padding: "10px",
-                                            margin: "10px",
-
-
-                                        }}>
-
-                                            <p>  {user.description}</p></div>
+                                        <div
+                                            style={{
+                                                width: "40vw",
+                                                height: "5vw",
+                                                border: "5px double grey",
+                                                borderRadius: "5px",
+                                                padding: "10px",
+                                                margin: "10px",
+                                            }}
+                                        >
+                                            <p> {user.description}</p>
+                                        </div>
 
                                         <br />
                                         <br />

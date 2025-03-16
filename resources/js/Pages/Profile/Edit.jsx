@@ -14,7 +14,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                 </h2>
             }
         >
-            <Head title="Profile" />
+            <Head title="Paramètres du profil" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
