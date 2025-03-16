@@ -118,6 +118,7 @@ export default function Library() {
                                 header="Mes jeux"
                                 filter
                                 filterBy="game.name"
+                                className="custom-orderlist"
                             />
                         )}
                     </div>

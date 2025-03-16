@@ -104,4 +104,35 @@
         font-weight: bold;
         font-size: larger;
     }
+
+    .custom-orderlist .p-orderlist-list {
+        max-height: 1000px !important; /* Définir une hauteur maximale pour la liste */
+        height: auto !important; /* Permet de s’adapter à la taille du contenu */
+        overflow-y: auto; /* Permet de faire défiler si nécessaire */
+    }
+
+    .custom-orderlist .p-orderlist-item {
+        height: 200px;
+    }
+
+    .custom-orderlist .p-orderlist-filter-container {
+        background-color: transparent !important;
+        border: 2px solid #02d7f2; /* Ligne bleue */
+        border-radius: 10px;
+        width: 30%;
+        padding: 2px;
+        margin-bottom: 20px;
+    }
+
+    .custom-orderlist .p-orderlist-filter-input {
+        background-color: transparent !important;
+        border: none;
+        outline: none;
+        color: #ffffff; /* Texte en blanc */
+        width: 92%; /* Assure que l'input prend toute la largeur */
+    }
+
+    .custom-orderlist .p-orderlist-filter-icon {
+        color: #02d7f2;
+    }
 }
