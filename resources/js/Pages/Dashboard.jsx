@@ -71,7 +71,7 @@ export default function Dashboard() {
                                             style={{
                                                 width: "40vw",
                                                 height: "5vw",
-                                                border: "5px double grey",
+                                                border: "5px double #FF007F",
                                                 borderRadius: "5px",
                                                 padding: "10px",
                                                 margin: "10px",

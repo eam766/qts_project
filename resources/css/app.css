@@ -135,4 +135,8 @@
     .custom-orderlist .p-orderlist-filter-icon {
         color: #02d7f2;
     }
+
+    .custom-orderlist .p-orderlist-item {
+        pointer-events: none !important;
+    }
 }

@@ -84,7 +84,8 @@ export default function Library() {
                                         label={genre}
                                         variant="outlined"
                                         style={{
-                                            color: "white",
+                                            color: "#F0F14E",
+                                            borderColor: "#F0F14E",
                                         }}
                                     />
                                 ))}
@@ -99,7 +100,8 @@ export default function Library() {
                                         label={theme}
                                         variant="outlined"
                                         style={{
-                                            color: "white",
+                                            color: "#F0F14E",
+                                            borderColor: "#F0F14E",
                                         }}
                                     />
                                 ))}
@@ -122,7 +124,7 @@ export default function Library() {
                 </div>
 
                 {/* Bouton Installer (exemple) */}
-                <button className="buttonRight ml-auto AudioWideBlue text-lg">
+                <button className="buttonRight ml-auto AudioWideBlue text-lg pointer-events-auto">
                     Installer
                 </button>
             </div>
