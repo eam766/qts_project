@@ -153,6 +153,7 @@ export default function Library() {
                                 filter
                                 filterBy="game.name"
                                 className="custom-orderlist"
+                                reorderable={false}
                             />
                         )}
                     </div>
