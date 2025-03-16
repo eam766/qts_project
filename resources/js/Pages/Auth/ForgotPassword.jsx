@@ -65,7 +65,7 @@ export default function ForgotPassword({ status }) {
 
             <p className="mt-4">
                 <Link
-                    href={route("login")}
+                    href={route("connexion")}
                     className=" hover:underline"
                     style={{ color: "#F0F14E" }}
                 >
