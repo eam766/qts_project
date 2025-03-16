@@ -51,6 +51,11 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 'unique:users,email,' . auth()->id(),
             ],
+            'description' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
             'image' => [
                 'nullable',
                 'string',
