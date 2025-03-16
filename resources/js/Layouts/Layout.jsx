@@ -93,7 +93,7 @@ export default function Layout({ children }) {
 
                                     <Link
                                         className="buttonLeft mr-1"
-                                        href="/dashboard"
+                                        href="/profil"
                                     >
                                         Profil
                                     </Link>

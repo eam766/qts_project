@@ -34,7 +34,7 @@ export default function ResetPassword({ token, email }) {
 
     return (
         <GuestLayout>
-            <Head title="Reset Password" />
+            <Head title="Réinitialisation mot de passe" />
 
             <form onSubmit={submit}>
                 <div>

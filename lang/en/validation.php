@@ -17,7 +17,7 @@ return [
     'accepted_if' => 'The :attribute field must be accepted when :other is :value.',
     'active_url' => 'The :attribute field must be a valid URL.',
     'after' => 'Le champ :attribute doit être une date postérieure à :date.',
-    'after_or_equal' => 'The :attribute field must be a date after or equal to :date.',
+    'after_or_equal' => 'Le champs :attribute doit être une date ultérieur ou égale à :date.',
     'alpha' => 'Le champ :attribute ne doit contenir que des lettres.',
     'alpha_dash' => 'Le champ :attribute doit contenir uniquement des lettres, des chiffres, des tirets et des traits de soulignement.',
     'alpha_num' => 'Le champ :attribute doit contenir uniquement des lettres et des chiffres.',

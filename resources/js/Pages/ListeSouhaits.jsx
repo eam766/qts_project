@@ -231,7 +231,7 @@ export default function ListeSouhait() {
                                               justifyContent: "center",
                                               alignItems: "center",
                                               height: "45px",
-                                              width: "180px",
+                                              width: "184px",
                                               margin: "0 auto",
                                           }}
                                           onClick={() => {
