@@ -8,22 +8,25 @@ import { Container } from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
-
 export default function UpdateAvatarForm() {
     const user = usePage().props.auth.user;
 
     // 1) Pas de "initialValues:"
     const { data, setData, patch, processing, errors, recentlySuccessful } =
         useForm({
-            image: user.image || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-            description: user.description || "" }
-        );
+            image:
+                user.image ||
+                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+            description: user.description || "",
+        });
 
     const [anchorEl, setAnchorEl] = useState(null);
 
-
     // 2) On garde une copie locale si besoin
-    const [localData, setLocalData] = useState({ image: data.image, description: data.description });
+    const [localData, setLocalData] = useState({
+        image: data.image,
+        description: data.description,
+    });
 
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
@@ -36,31 +39,33 @@ export default function UpdateAvatarForm() {
         setAnchorEl(null);
     };
 
-
     const handleImageClick = (avatar) => {
         setData("image", avatar);
 
-        setLocalData(prev => ({ ...prev, image: avatar }));
+        setLocalData((prev) => ({ ...prev, image: avatar }));
         handleClose();
     };
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route("profile.update"), {
-            image: data.image,
-            description: data.description
-        }, {
-            preserveState: true,
-            preserveScroll: true,
-            onSuccess: () => {
-                setLocalData({ ...data });
+        patch(
+            route("profile.update"),
+            {
+                image: data.image,
+                description: data.description,
             },
-        });
+            {
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    setLocalData({ ...data });
+                },
+            }
+        );
     };
 
-
     console.log(data.description, data.image);
-    console.log( localData.image, localData.description);
+    console.log(localData.image, localData.description);
 
     return (
         <section>
@@ -69,7 +74,7 @@ export default function UpdateAvatarForm() {
                     Profil et personnalisation
                 </h2>
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Modifiez votre avatar et mettez à jour votre description...
+                    Modifiez votre avatar et mettez à jour votre description.
                 </p>
             </header>
 
@@ -90,7 +95,8 @@ export default function UpdateAvatarForm() {
                         {/* On affiche localData.image */}
                         <img
                             src={
-                                localData.image || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                                localData.image ||
+                                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                             }
                             alt=""
                             width={275}
@@ -108,8 +114,8 @@ export default function UpdateAvatarForm() {
                                 ...localData,
                                 description: e.target.value,
                             });
-                        }}                        value={localData.description} // Remplace `defaultValue` par `value`
-
+                        }}
+                        value={localData.description} // Remplace `defaultValue` par `value`
                     />
                 </div>
 
