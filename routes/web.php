@@ -114,7 +114,7 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
 
     Route::middleware(['auth'])->group(function () {
         // Page de checkout
-        Route::get('/checkout', [CheckoutController::class, 'index'])
+        Route::get('/finaliser-commande', [CheckoutController::class, 'index'])
             ->name('checkout.index');
 
         // API Stripe pour créer une session de paiement
@@ -122,10 +122,10 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
             ->name('checkout.session');
 
         // Callbacks Stripe
-        Route::get('/checkout/success', [CheckoutController::class, 'success'])
+        Route::get('/finaliser-commande/succes', [CheckoutController::class, 'success'])
             ->name('checkout.success');
 
-        Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])
+        Route::get('/finaliser-commande/annuler', [CheckoutController::class, 'cancel'])
             ->name('checkout.cancel');
     });
 
