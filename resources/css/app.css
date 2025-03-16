@@ -139,4 +139,8 @@
     .custom-orderlist .p-orderlist-item {
         pointer-events: none !important;
     }
+
+    .custom-orderlist .p-orderlist-controls {
+        display: none !important;
+    }
 }
