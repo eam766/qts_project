@@ -174,7 +174,10 @@ export default function UpdateProfileInformation({
                             }}
                         />
 
-                        <InputError className="mt-2" message={errors.email} />
+                        <InputError
+                            className="mt-2"
+                            message={errors.dateOfBirth}
+                        />
                     </div>
                     <div className="flex flex-col">
                         <label htmlFor="country" className="AudioWideBlue">

@@ -12,15 +12,24 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'firstName' => 'required|string|max:255',
-            'lastName' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users',
-            'country' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'dateOfBirth' => 'required|date',
+            'firstName' => 'required|string|max:255|regex:/^[A-Za-zÀ-ÖØ-öø-ÿ\s-]+$/',
+            'lastName'  => 'required|string|max:255|regex:/^[A-Za-zÀ-ÖØ-öø-ÿ\s-]+$/',
+            'username'  => 'required|string|max:255|unique:users',
+            'country'   => 'required|string|max:255',
+            'email'     => 'required|string|email|max:255|unique:users',
+            'password'  => 'required|string|min:8',
+        
+            // La date doit être >= date d'il y a 100 ans et <= date d'il y a 11 ans
+            'dateOfBirth' => [
+                'required',
+                'date',
+                'after_or_equal:' . now()->subYears(100)->format('Y-m-d'),
+                'before_or_equal:' . now()->subYears(11)->format('Y-m-d'),
+            ],
+        
             'termsCondition' => 'required|accepted',
         ]);
+        
  
         $user = User::create([
             'firstName' => $request->firstName,

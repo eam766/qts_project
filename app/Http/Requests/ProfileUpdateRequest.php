@@ -16,25 +16,49 @@ class ProfileUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'firstName'   => ['sometimes', 'string', 'max:255'],
-            'lastName'    => ['sometimes', 'string', 'max:255'],
-            'dateOfBirth' => ['sometimes', 'date'],
-            'country'     => ['sometimes', 'string', 'max:255'],
-            'username'    => [
+            'firstName' => [
+                'sometimes',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-zÀ-ÖØ-öø-ÿ\s-]+$/', // Empêche chiffres et symboles
+            ],
+            'lastName' => [
+                'sometimes',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-zÀ-ÖØ-öø-ÿ\s-]+$/',
+            ],
+            'dateOfBirth' => [
+                'sometimes',
+                'date',
+                'after_or_equal:' . now()->subYears(100)->format('d-m-Y'),
+                'before_or_equal:' . now()->subYears(11)->format('d-m-Y'),
+            ],
+            'country' => [
+                'sometimes',
+                'string',
+                'max:255',
+            ],
+            'username' => [
                 'sometimes',
                 'string',
                 'max:255',
                 'unique:users,username,' . auth()->id(),
             ],
-            'email'       => [
+            'email' => [
                 'sometimes',
                 'email',
                 'max:255',
                 'unique:users,email,' . auth()->id(),
             ],
-            'image'       => ['nullable', 'string', 'max:255'],
+            'image' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
         ];
     }
+    
     
 
 }

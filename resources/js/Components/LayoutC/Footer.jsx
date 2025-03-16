@@ -6,10 +6,13 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaDiscord } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
-import { Link } from "@inertiajs/react";
-import {hover} from "motion";
+import { Link, usePage } from "@inertiajs/react";
 
 export default function Footer() {
+    // 1) Récupérer l’utilisateur via Inertia
+    const { auth } = usePage().props;
+    const user = auth.user; // null si pas connecté
+
     return (
         <>
             <footer className="flex items-center justify-center relative w-full h-[180px] overflow-hidden">
@@ -30,21 +33,36 @@ export default function Footer() {
                             style={{ height: "50px", width: "50px" }}
                         />
                         <div className="text-sm tracking-widest">
+                            {/* Liens communs à tous */}
                             <Link className="footer-link" href="/">
                                 Accueil
                             </Link>{" "}
                             |{" "}
                             <Link className="footer-link" href="/boutique">
                                 Boutique
-                            </Link>{" "}
-                            |{" "}
-                            <Link className="footer-link" href="/inscription">
-                                Inscription
-                            </Link>{" "}
-                            |{" "}
-                            <Link className="footer-link" href="/connexion">
-                                Connexion
                             </Link>
+                            {/* 2) Condition : si user est connecté, on masque Inscription/Connexion */}
+                            {user ? (
+                                // Rien ou d’autres liens si tu le souhaites
+                                <></>
+                            ) : (
+                                <>
+                                    <Link
+                                        className="footer-link"
+                                        href="/inscription"
+                                    >
+                                        {" "}
+                                        | Inscription
+                                    </Link>{" "}
+                                    |{" "}
+                                    <Link
+                                        className="footer-link"
+                                        href="/connexion"
+                                    >
+                                        Connexion
+                                    </Link>
+                                </>
+                            )}
                             <div className="mt-3">
                                 <Link className="footer-link" href="/a_propos">
                                     À propos
@@ -109,9 +127,10 @@ export default function Footer() {
                             height: "110px",
                             width: "45px",
                             cursor: "pointer",
-
                         }}
-                        onClick={()=>{  window.scrollTo({ top: 0, behavior: "smooth" });}}
+                        onClick={() =>
+                            window.scrollTo({ top: 0, behavior: "smooth" })
+                        }
                     />
                 </div>
             </footer>

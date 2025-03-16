@@ -1,4 +1,4 @@
-import {useForm, Link, Head} from "@inertiajs/react";
+import { useForm, Link, Head } from "@inertiajs/react";
 import bouton_inscription from "../assets/img/Bouton_Connexion4.png";
 import BgInput from "../assets/img/ConnexionInput.png";
 import CountrySelect from "@/Components/CountrySelect";
@@ -64,7 +64,7 @@ export default function Inscription() {
                             }
                         />
                         {errors.lastName && (
-                            <div className="text-red-500 text-sm">
+                            <div className="text-red-500 text-sm max-w-[290px]">
                                 {errors.lastName}
                             </div>
                         )}
@@ -84,7 +84,7 @@ export default function Inscription() {
                             }
                         />
                         {errors.firstName && (
-                            <div className="text-red-500 text-sm">
+                            <div className="text-red-500 text-sm max-w-[290px]">
                                 {errors.firstName}
                             </div>
                         )}
@@ -100,7 +100,7 @@ export default function Inscription() {
                             onChange={(value) => setData("dateOfBirth", value)}
                         />
                         {errors.dateOfBirth && (
-                            <div className="text-red-500 text-sm">
+                            <div className="text-red-500 text-sm max-w-[290px]">
                                 {errors.dateOfBirth}
                             </div>
                         )}
@@ -133,7 +133,7 @@ export default function Inscription() {
                         onChange={(e) => setData("username", e.target.value)}
                     />
                     {errors.username && (
-                        <div className="text-red-500 text-sm">
+                        <div className="text-red-500 text-sm max-w-[290px]">
                             {errors.username}
                         </div>
                     )}
@@ -152,7 +152,7 @@ export default function Inscription() {
                         onChange={(e) => setData("email", e.target.value)}
                     />
                     {errors.email && (
-                        <div className="text-red-500 text-sm">
+                        <div className="text-red-500 text-sm max-w-[290px]">
                             {errors.email}
                         </div>
                     )}
@@ -171,7 +171,7 @@ export default function Inscription() {
                         onChange={(e) => setData("password", e.target.value)}
                     />
                     {errors.password && (
-                        <div className="text-red-500 text-sm">
+                        <div className="text-red-500 text-sm max-w-[290px]">
                             {errors.password}
                         </div>
                     )}
@@ -210,7 +210,7 @@ export default function Inscription() {
                             </Link>
                         </label>
                         {errors.termsCondition && (
-                            <div className="text-red-500 text-sm">
+                            <div className="text-red-500 text-sm max-w-[290px]">
                                 {errors.termsCondition}
                             </div>
                         )}
