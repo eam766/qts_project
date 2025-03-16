@@ -33,7 +33,8 @@ export default function Dashboard() {
                                             width: "360px",
                                         }}
                                     >
-                                        <img src={user.image} alt="" width={275} />
+                                        <img src={user.image || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="" width={275} />
+
                                     </div>
                                     <div className=" flex flex-col ml-5 ">
                                         <p className="AudioWideBlue text-2xl">

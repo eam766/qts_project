@@ -1,7 +1,7 @@
 import { Transition } from "@headlessui/react";
 import { useForm, usePage } from "@inertiajs/react";
 import border from "@/assets/img/BordureAvatar.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Popover from "@mui/material/Popover";
 import avatars from "@/assets/img/UserAvatar/index.js";
 import { Container } from "@mui/material";
@@ -36,27 +36,30 @@ export default function UpdateAvatarForm() {
         setAnchorEl(null);
     };
 
-    // 3) Met à jour seulement le champ "image"
+
     const handleImageClick = (avatar) => {
         setData("image", avatar);
+
         setLocalData(prev => ({ ...prev, image: avatar }));
         handleClose();
     };
-
     const submit = (e) => {
         e.preventDefault();
 
         patch(route("profile.update"), {
+            image: data.image,
+            description: data.description
+        }, {
             preserveState: true,
             preserveScroll: true,
             onSuccess: () => {
-                // On met localData à jour avec la dernière valeur de data
-                setData("description", localData.description);
-
+                setLocalData({ ...data });
             },
         });
     };
-console.log(data.description, data.image);
+
+
+    console.log(data.description, data.image);
     console.log( localData.image, localData.description);
 
     return (
@@ -87,7 +90,7 @@ console.log(data.description, data.image);
                         {/* On affiche localData.image */}
                         <img
                             src={
-                                localData.image
+                                localData.image || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                             }
                             alt=""
                             width={275}
@@ -97,13 +100,16 @@ console.log(data.description, data.image);
                         className="border-4 border-[#8A2BE2] max-h-64 ml-5 bg-transparent flex-grow"
                         name="description"
                         id="description"
+                        maxlength="250"
                         placeholder="Exprimez votre style..."
                         onChange={(e) => {
-                            const value = e.target.value;
-                            setLocalData((prev) => ({ ...prev, description: value }));
-                            setData("description", value); // <-- Mise à jour du state `data` aussi
-                        }}
-                        defaultValue={localData.description}
+                            setData("description", e.target.value);
+                            setLocalData({
+                                ...localData,
+                                description: e.target.value,
+                            });
+                        }}                        value={localData.description} // Remplace `defaultValue` par `value`
+
                     />
                 </div>
 
@@ -188,7 +194,7 @@ console.log(data.description, data.image);
                         leaveTo="opacity-0 translate-y-5"
                     >
                         <div className="fixed bottom-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
-                            Avatar mis à jour avec succès !
+                            Vos modifications sont mis à jour avec succès !
                         </div>
                     </Transition>
                 </div>
