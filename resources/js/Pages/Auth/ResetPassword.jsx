@@ -5,6 +5,7 @@ import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import BgInput from "../../assets/img/ConnexionInput.png";
 import { Head, useForm } from "@inertiajs/react";
+import bouton from "@/assets/img/Bouton_Connexion4.png";
 
 export default function ResetPassword({ token, email }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -115,9 +116,9 @@ export default function ResetPassword({ token, email }) {
                 <div className="mt-16 flex items-center justify-start ">
                     <button
                         disabled={processing}
-                        className="buttonRight AudioWideBlue"
+                        className="buttonRight AudioWideBlue "
                     >
-                        Réinitialiser le mot de passe
+                        Réinitialiser
                     </button>
                 </div>
             </form>
