@@ -175,6 +175,15 @@ return [
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
+        ], 'firstName' => [
+            'regex' => 'Uniquement des lettres (pas de chiffres).',
+        ],
+        'lastName' => [
+            'regex' => 'Uniquement des lettres (pas de chiffres).',
+        ],
+        'dateOfBirth' => [
+            'before_or_equal' => 'Vous devez avoir au moins 11 ans pour vous inscrire.',
+            'after_or_equal'  => 'Vous ne pouvez pas avoir plus de 100 ans.',
         ],
     ],
 
