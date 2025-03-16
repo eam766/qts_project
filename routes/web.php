@@ -46,6 +46,9 @@ Route::inertia('/contact', 'Contact');
 Route::get('/profil', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/bibliotheque', function () {
+    return Inertia::render('Library');
+})->middleware(['auth', 'verified'])->name('bibliotheque');
 
 
 

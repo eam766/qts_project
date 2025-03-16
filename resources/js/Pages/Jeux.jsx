@@ -3,20 +3,21 @@ import { Head, router, usePage } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 import BoutonAjouter from "@/Components/PageProduit/BoutonAjouter";
 import BoutonListe from "@/Components/PageProduit/BoutonListe";
-import axios from "axios"; // ✅ Import axios pour fetch backend
+import axios from "axios";
 import { parseJson } from "../../../utils/utils.js";
-import Rating from '@mui/material/Rating';
-import Stack from '@mui/material/Stack';
-import {Container, styled} from "@mui/material";
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import { Galleria } from 'primereact/galleria';
-import WindowIcon from '@mui/icons-material/Window';
+import Rating from "@mui/material/Rating";
+import Stack from "@mui/material/Stack";
+import { Container, styled } from "@mui/material";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import { Galleria } from "primereact/galleria";
+import WindowIcon from "@mui/icons-material/Window";
 import StyledAccordion from "@/Components/Boutique/Filtre/StyledFilter.jsx";
-import Chip from '@mui/material/Chip';
+import Chip from "@mui/material/Chip";
 import ListeJeux from "@/Components/Accueil/ListeJeux.jsx";
-
 import { Accordion, AccordionTab } from "primereact/accordion";
 import Typography from "@mui/material/Typography";
+import { Tooltip } from "@mui/material";
+
 export default function Jeux({ game, games }) {
     const { auth } = usePage().props;
     const user = auth.user;
@@ -38,11 +39,7 @@ export default function Jeux({ game, games }) {
         similarGames.includes(game.game_id)
     );
 
-
     console.log(commonGames);
-
-
-
 
     // ✅ Charger l'état de la wishlist et du panier depuis le backend
     useEffect(() => {
@@ -152,13 +149,10 @@ export default function Jeux({ game, games }) {
     };
 
     const StyledRating = styled(Rating)({
-        '& .MuiRating-iconFilled': {
-            color: '#F0F14E',
+        "& .MuiRating-iconFilled": {
+            color: "#F0F14E",
         },
-
     });
-
-
 
     const StyledGalleria = styled(Galleria)({
         ".p-galleria-thumbnail-prev-icon, .p-galleria-thumbnail-next-icon": {
@@ -174,7 +168,6 @@ export default function Jeux({ game, games }) {
             borderRadius: 15,
         },
 
-
         // Add space between thumbnails and main image
         ".p-galleria-thumbnail-container": {
             marginTop: "10px", // Adjust the value as needed
@@ -183,8 +176,6 @@ export default function Jeux({ game, games }) {
             marginBottom: "20px", // Add space between the main image and thumbnails
         },
     });
-
-
 
     const itemTemplate = (screenshot) => {
         return (
@@ -233,6 +224,7 @@ export default function Jeux({ game, games }) {
                                 maxWidth: "40vw",
                                 minWidth: "40vw",
                                 borderRadius: 0,
+                                overflow: "hidden",
                             }}
                         >
                             {/* Affiche l'onglet "Résumé" seulement si game.summary existe et n'est pas vide */}
@@ -309,21 +301,23 @@ export default function Jeux({ game, games }) {
                         <h1 className="text-3xl font-bold text-center AudioWideBlue">
                             {game.name}
                         </h1>
-                        <Stack spacing={1}>
-                            <StyledRating
-                                name="game-rating"
-                                emptyIcon={
-                                    <StarOutlineIcon
-                                        style={{ color: "#F0F14E" }}
-                                        fontSize="inherit"
-                                    />
-                                }
-                                readOnly
-                                defaultValue={game.total_rating / 20}
-                                precision={0.1}
-                                size={"large"}
-                            />
-                        </Stack>
+                        <Tooltip title={`${game.total_rating.toFixed(1)}%`}>
+                            <Stack spacing={1}>
+                                <StyledRating
+                                    name="game-rating"
+                                    emptyIcon={
+                                        <StarOutlineIcon
+                                            style={{ color: "#F0F14E" }}
+                                            fontSize="inherit"
+                                        />
+                                    }
+                                    readOnly
+                                    defaultValue={game.total_rating / 20}
+                                    precision={0.1}
+                                    size={"large"}
+                                />
+                            </Stack>
+                        </Tooltip>
                         <br />
                         <p style={{ fontSize: 22 }}>{game.price}$</p>
 
@@ -352,15 +346,20 @@ export default function Jeux({ game, games }) {
                             }}
                         >
                             <p className="text-lg font-semibold">
-                                Développeur: {developer}
+                                Développeur:{" "}
+                                <span className="text-white">{developer}</span>
                             </p>
                             <hr className="my-2 border-gray-600" />
                             <p className="text-lg font-semibold">
-                                Éditeur: {publisher}
+                                Éditeur:{" "}
+                                <span className="text-white">{publisher}</span>
                             </p>
                             <hr className="my-2 border-gray-600" />
                             <p className="text-lg font-semibold">
-                                Date de sortie: {game.release_date}
+                                Date de sortie:{" "}
+                                <span className="text-white">
+                                    {game.release_date}
+                                </span>
                             </p>
                             <hr className="my-2 border-gray-600" />
                             <p className="text-lg font-semibold flex items-center gap-2">
@@ -391,7 +390,3 @@ export default function Jeux({ game, games }) {
         </div>
     );
 }
-
-
-
-

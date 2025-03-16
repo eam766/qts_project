@@ -71,18 +71,6 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-[#1A1A1A]">
-                        <div className="p-6 text-white">
-                            <h2 className="font-[Audiowide] text-lg font-medium text-white">
-                                Ma bibliothèque
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </AuthenticatedLayout>
     );
 }
