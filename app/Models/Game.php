@@ -46,4 +46,10 @@ class Game extends Model {
         'themes' => 'array',
         'external_games' => 'array',
     ];
+
+    public function libraryEntries()
+{
+    return $this->hasMany(Library::class, 'game_id');
+}
+
 }

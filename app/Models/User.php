@@ -42,6 +42,12 @@ public function cart()
     return $this->hasMany(Cart::class,'user_id');
 }
 
+public function library()
+{
+    return $this->hasMany(Library::class, 'user_id');
+}
+
+
 
 
     /**

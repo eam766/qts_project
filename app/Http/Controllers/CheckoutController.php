@@ -226,6 +226,12 @@ class CheckoutController extends Controller
                                 'price'    => $game->price ?? 0,
                             ]);
 
+                             // Création de l'entrée dans library
+            \App\Models\Library::create([
+                'user_id' => $user->id,
+                'game_id' => $game->id,
+            ]);
+
                             $orderItemsWithGames[] = [
                                 'id'        => $orderItem->id,
                                 'order_id'  => $orderItem->order_id,
