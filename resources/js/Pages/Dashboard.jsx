@@ -1,10 +1,29 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 import avatar from "@/assets/img/img.jpg";
 import border from "@/assets/img/BordureAvatar.png";
+import axios from "axios"; // Ajoute axios pour faire des requêtes API
 
 export default function Dashboard() {
     const user = usePage().props.auth.user;
+    const [library, setLibrary] = useState([]);
+
+    useEffect(() => {
+        if (user) {
+            axios
+                .get(route("library.data"))
+                .then((response) => {
+                    setLibrary(response.data.libraryEntries);
+                })
+                .catch((error) =>
+                    console.error("Erreur chargement library:", error)
+                );
+        }
+    }, [user]);
+
+    const libraryCount = library.length;
+
     return (
         <AuthenticatedLayout
             header={
@@ -63,7 +82,7 @@ export default function Dashboard() {
 
                                         <br />
                                         <br />
-                                        <p>Nombre de jeux: ...</p>
+                                        <p>Nombre de jeux: {libraryCount}</p>
                                     </div>
                                 </div>
                             </div>
