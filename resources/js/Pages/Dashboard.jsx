@@ -33,14 +33,27 @@ export default function Dashboard() {
                                             width: "360px",
                                         }}
                                     >
-                                        <img src={avatar} alt="" width={275} />
+                                        <img src={user.image} alt="" width={275} />
                                     </div>
                                     <div className=" flex flex-col ml-5 ">
                                         <p className="AudioWideBlue text-2xl">
                                             {user.username}
                                         </p>
                                         <br />
-                                        <p>Description</p>
+                                        <h2>Description:</h2>
+                                        <div style={ {
+                                        width: "40vw",
+                                            height: "5vw",
+                                            border: "5px double grey",
+                                            borderRadius: "5px",
+                                            padding: "10px",
+                                            margin: "10px",
+
+
+                                        }}>
+
+                                            <p>  {user.description}</p></div>
+
                                         <br />
                                         <br />
                                         <p>Nombre de jeux: ...</p>

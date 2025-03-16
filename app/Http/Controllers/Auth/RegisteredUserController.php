@@ -1,12 +1,12 @@
 <?php
- 
+
 namespace App\Http\Controllers\Auth;
- 
+
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
- 
+
 class RegisteredUserController extends Controller
 {
     public function store(Request $request)
@@ -18,7 +18,7 @@ class RegisteredUserController extends Controller
             'country'   => 'required|string|max:255',
             'email'     => 'required|string|email|max:255|unique:users',
             'password'  => 'required|string|min:8',
-        
+
             // La date doit être >= date d'il y a 100 ans et <= date d'il y a 11 ans
             'dateOfBirth' => [
                 'required',
@@ -26,11 +26,11 @@ class RegisteredUserController extends Controller
                 'after_or_equal:' . now()->subYears(100)->format('Y-m-d'),
                 'before_or_equal:' . now()->subYears(11)->format('Y-m-d'),
             ],
-        
+
             'termsCondition' => 'required|accepted',
         ]);
-        
- 
+
+
         $user = User::create([
             'firstName' => $request->firstName,
             'lastName' => $request->lastName,
@@ -41,9 +41,10 @@ class RegisteredUserController extends Controller
             'dateOfBirth' => $request->dateOfBirth,
             'infolettre' => $request->infolettre,
             'termsCondition' => $request->termsCondition,
-            'image' => $request->image ?? null, // Optional profile image
+            'image' => $request->image ?? null,
+            'description' => $request->description ?? null,
         ]);
- 
+
         return redirect('/connexion');
 
     }
