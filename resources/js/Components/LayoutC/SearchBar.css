@@ -1,0 +1,37 @@
+.p-autocomplete-input{
+
+    background-color: transparent;
+    background-image:url( "../../assets/img/Barre_de_Recherche3.png");
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size: cover;
+    border: 0 none;
+    height:40px;
+
+
+}
+
+.p-autocomplete-items-wrapper{
+
+    overflow: auto !important; /* Allows scrolling */
+    scrollbar-width: none;
+    font-family: "Audiowide", serif ;
+}
+
+
+.game-suggestions{
+    min-width: 600px;
+
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-top: solid #02D7F2 1px;
+    background-color: #2E3F3E;
+}
+
+.game-suggestions:hover{
+
+    background-color: #02D7F2;
+}
+

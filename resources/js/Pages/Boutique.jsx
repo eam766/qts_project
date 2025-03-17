@@ -10,7 +10,7 @@ export default function Boutique({games, genres, themes, maxPrice}) {
     const params = new URLSearchParams(window.location.search);
     const initialGenres = params.get('genres') ? params.get('genres').split(',') : [];
     const initialThemes = params.get('themes') ? params.get('themes').split(',') : [];
-    const search = params.get('search') ? params.get('search'): [];
+    const search = params.get('search') ? params.get('search') : [];
 
 
     return (
@@ -20,40 +20,52 @@ export default function Boutique({games, genres, themes, maxPrice}) {
             <Head title={"Boutique"}/>
             <div style={{display: "flex", flexDirection: 'column'}}>
 
-                <Filtre genres={genres} themes={themes} maxPrice={maxPrice} />
+                <Filtre genres={genres} themes={themes} maxPrice={maxPrice}/>
                 <br/>
-                <div>{
 
-                            games.data.length !== 0 ?
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-11">
-                        {games.data && games.data.map((game, index) => (
-                            <CarteProduit
-                                key={game.id}
-                                game={game}
-                                index={index}
-                            />
-                        ))}
-                    </div> :
-                        games.path.includes("recherche")?
+                <div>
+                    {games.path.includes("recherche") ? <div>
                         <div>
-                            Aucun jeux avec {search} dans le nom!
+                            <div style={{fontWeight: "bold", fontSize: 20}}>Recherche:</div>
+                            {search}</div>
 
-                        </div>
-
-
-                            : <div> <h1 className="font-bold size-18">Aucun jeu avec ce/ces paramètre(s) :</h1>   <ul>{
-
-
-                                <ul>
-                                    {initialGenres.concat(initialThemes).map((parametre, index) => (
-                                        <li key={index}>{parametre}</li>
-                                    ))}
-                                </ul>
+                    </div> : games.path.includes("filter") ? <div>
+                        <div style={{fontWeight: "bold", fontSize: 20}}>Filtre:</div>
+                       {
 
 
-                            }
-                            </ul></div>
+                            <ul>
+                                {initialGenres.concat(initialThemes).map((parametre, index) => (
+                                    <li key={index}>{parametre}</li>
+                                ))}
+                            </ul>
+
+
+                        }
+
+                    </div> : null}
+                    <br/>{
+
+
+                    games.data.length !== 0 ?
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-11">
+                            {games.data && games.data.map((game, index) => (
+                                <CarteProduit
+                                    key={game.id}
+                                    game={game}
+                                    index={index}
+                                />
+                            ))}
+                        </div> :
+                        games.path.includes("recherche") ?
+                            <div>
+                                Aucun jeux avec {search} dans le nom!
+                            </div>
+
+
+                            : <div><h1 className="font-bold size-18">Aucun jeu avec ce/ces paramètre(s)</h1>
+
+                            </div>
 
 
                 }
@@ -61,7 +73,6 @@ export default function Boutique({games, genres, themes, maxPrice}) {
                     <hr/>
                     <Pagination games={games}/>
                 </div>
-
 
 
             </div>
