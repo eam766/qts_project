@@ -253,7 +253,7 @@ export default function Jeux({ game, games, translatedDescription }) {
                             minWidth: "40vw",
                         }}
                     >
-                        {genres.length !== 0 ? (
+                        {genres && genres.length > 0 ? (
                             <div>
                                 <p className="font-bold pb-5">Genres</p>
                                 <Stack direction="row" spacing={1}>
@@ -268,7 +268,7 @@ export default function Jeux({ game, games, translatedDescription }) {
                             </div>
                         ) : null}
                         <hr className="my-2 border-gray-600" />
-                        {themes.length !== 0 ? (
+                        {themes && themes.length > 0 ?  (
                             <div>
                                 <p className="font-bold pb-5">Themes</p>
                                 <Stack direction="row" spacing={1}>
@@ -300,6 +300,8 @@ export default function Jeux({ game, games, translatedDescription }) {
                         <h1 className="text-3xl font-bold text-center AudioWideBlue">
                             {game.name}
                         </h1>
+
+                        { game.total_rating !== null?
                         <Tooltip title={`${game.total_rating.toFixed(1)}%`}>
                             <Stack spacing={1}>
                                 <StyledRating
@@ -316,7 +318,7 @@ export default function Jeux({ game, games, translatedDescription }) {
                                     size={"large"}
                                 />
                             </Stack>
-                        </Tooltip>
+                        </Tooltip>: <div style={{fontSize:18}}>Aucune Évaluation</div>}
                         <br />
                         <p style={{ fontSize: 22 }}>{game.price}$</p>
 
