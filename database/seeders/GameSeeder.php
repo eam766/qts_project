@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use App\Models\Game;
-use Illuminate\Support\Facades\Http;
 class GameSeeder extends Seeder
 {
     /**
@@ -13,7 +12,6 @@ class GameSeeder extends Seeder
      */
     public function run(): void
     {
-        // Get JSON data from the file
         $json = File::get(database_path('json/games.json'));
         $games = json_decode($json, true);
 
@@ -63,20 +61,16 @@ class GameSeeder extends Seeder
 //        $games = json_decode($json, true);
 //
 //        foreach ($games as $game) {
-//            // Traduction des textes
+//
 //            $storylineFr = isset($game['storyline']) ? $this->translateText($game['storyline']) : null;
 //            $summaryFr = isset($game['summary']) ? $this->translateText($game['summary']) : null;
 //
-//            // Décodage correct des genres et thèmes
 //            $genresArray = [];
 //            $themesArray = [];
 //
-//            // Extraction des genres
 //            if (isset($game['genres'])) {
-//                // Nettoyer la chaîne pour extraire le tableau
 //                $genresStr = $game['genres'];
 //
-//                // Détecter le double encodage
 //                if (is_string($genresStr) && strpos($genresStr, '"[\"') === 0) {
 //                    // Enlever les guillemets extérieurs
 //                    $genresStr = trim($genresStr, '"');
@@ -95,7 +89,6 @@ class GameSeeder extends Seeder
 //                }
 //            }
 //
-//            // Même approche pour les thèmes
 //            if (isset($game['themes'])) {
 //                $themesStr = $game['themes'];
 //
@@ -112,7 +105,6 @@ class GameSeeder extends Seeder
 //                }
 //            }
 //
-//            // Vérifier que les tableaux sont correctement décodés
 //            if (!is_array($genresArray)) {
 //                \Log::warning('Échec du décodage des genres', ['original' => $game['genres']]);
 //                $genresArray = [];
@@ -202,14 +194,14 @@ class GameSeeder extends Seeder
 //                'response' => $response->body()
 //            ]);
 //
-//            return $text; // Return original text if translation fails
+//            return $text;
 //        } catch (\Exception $e) {
 //            \Log::error('Translation exception', [
 //                'text' => $text,
 //                'error' => $e->getMessage()
 //            ]);
 //
-//            return $text; // Return original text if exception occurs
+//            return $text;
 //        }
 //    }
 //}

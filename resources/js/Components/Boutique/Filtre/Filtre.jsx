@@ -33,7 +33,7 @@ export default function Filtre({ genres, themes, maxPrice }) {
             prices:
                 initialPrices.length === 2
                     ? initialPrices
-                    : [0, Math.round(maxPrice)], // Ensure valid prices
+                    : [0, Math.round(maxPrice)],
         });
     }, [maxPrice]);
 

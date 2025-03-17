@@ -47,7 +47,7 @@ export default function Carousel({ temps, galleryImage }) {
                 // État local pour l’image active (celle en grand)
                 const [activeImage, setActiveImage] = useState(images[0]);
 
-                // ⚠️ On NE dépend que de "game.id" pour réinitialiser
+                // On NE dépend que de "game.id" pour réinitialiser
                 //    Ainsi, tant que c’est le même jeu, le hover n’est pas écrasé.
                 useEffect(() => {
                     setActiveImage(images[0]);

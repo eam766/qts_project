@@ -15,7 +15,6 @@ class GameController extends Controller
 
     protected $gameService;
 
-    // Constructor injection
     public function __construct(GameService $gameService)
     {
         $this->gameService = $gameService;

@@ -13,7 +13,6 @@ export default function Layout({ children, games }) {
     const [wishlistGames, setWishlistGames] = useState([]);
     const [cartGames, setCartGames] = useState([]);
 
-    console.log(games);
 
     useEffect(() => {
         if (user) {
@@ -40,8 +39,7 @@ export default function Layout({ children, games }) {
 
     const wishlistCount = wishlistGames.length;
     const cartCount = cartGames.length;
-    console.log("Wishlist Games dans le wishlist LAYOUT :", wishlistGames);
-    console.log("Données actuelles du panier LAYOUT  :", cartGames);
+
 
 
     return (

@@ -13,18 +13,24 @@
     scrollbar-width: none;
     font-family: "Audiowide", serif;
 }
+.p-autocomplete-item {
+    background-color: #2e3f3e;
+
+}
 
 .game-suggestions {
     min-width: 600px;
-
     height: 70px;
     display: flex;
     align-items: center;
     padding: 20px;
     border-top: solid #02d7f2 1px;
-    background-color: #2e3f3e;
-}
 
+}
+.p-highlight{
+    background-color: #02d7f2;
+}
 .game-suggestions:hover {
     background-color: #02d7f2;
 }
+

@@ -12,14 +12,11 @@ class GenerateRandomPrices extends Command
 
     public function handle()
     {
-        // Fetch all games
         $games = Game::all();
 
         foreach ($games as $game) {
-            // Generate a random price between 5 and 60
-            $randomPrice = rand(5, 80) . '.99';// Converts cents to dollars/euros
+            $randomPrice = rand(5, 80) . '.99';
 
-            // Update the game price
             $game->update(['price' => $randomPrice]);
 
             $this->info("Assigned price $randomPrice to {$game->name}");

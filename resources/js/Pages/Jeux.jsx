@@ -38,7 +38,6 @@ export default function Jeux({ game, games, translatedDescription }) {
         similarGames.includes(game.game_id)
     );
 
-    console.log(translatedDescription);
 
     // Charger l'état de la wishlist et du panier depuis le backend
     useEffect(() => {
