@@ -106,9 +106,9 @@
     }
 
     .custom-orderlist .p-orderlist-list {
-        max-height: 1000px !important; /* Définir une hauteur maximale pour la liste */
-        height: auto !important; /* Permet de s’adapter à la taille du contenu */
-        overflow-y: auto; /* Permet de faire défiler si nécessaire */
+        max-height: 1000px !important;
+        height: auto !important;
+        overflow-y: auto;
     }
 
     .custom-orderlist .p-orderlist-item {
@@ -117,7 +117,7 @@
 
     .custom-orderlist .p-orderlist-filter-container {
         background-color: transparent !important;
-        border: 2px solid #02d7f2; /* Ligne bleue */
+        border: 2px solid #02d7f2;
         border-radius: 10px;
         width: 30%;
         padding: 2px;
@@ -128,8 +128,8 @@
         background-color: transparent !important;
         border: none;
         outline: none;
-        color: #ffffff; /* Texte en blanc */
-        width: 92%; /* Assure que l'input prend toute la largeur */
+        color: #ffffff;
+        width: 92%;
     }
 
     .custom-orderlist .p-orderlist-filter-icon {

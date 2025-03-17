@@ -40,7 +40,7 @@ class GameController extends Controller
 
     public function show($game_id)
 {
-    $game = Game::where('game_id', $game_id)->first(); // ← Vérifie que "game_id" est bien la bonne colonne
+    $game = Game::where('game_id', $game_id)->first();
 
     if (!$game) {
         abort(404, "Jeu non trouvé");
@@ -52,7 +52,7 @@ class GameController extends Controller
         'game' => $game,
         'games' => $games,
         'isInWishlist' => auth()->check() ? auth()->user()->wishlist()->where('game_id', $game_id)->exists() : false,
-        'isInCart' => auth()->check() ? auth()->user()->cart()->where('game_id', $game_id)->exists() : false, // ← Assure-toi que c'est bien carts()
+        'isInCart' => auth()->check() ? auth()->user()->cart()->where('game_id', $game_id)->exists() : false,
     ]);
 }
 

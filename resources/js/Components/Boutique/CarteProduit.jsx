@@ -13,7 +13,6 @@ let colors = [
     "#00FFB2",
 ];
 export default function CarteProduit({ index, game }) {
-
     return (
         <JeuxBordure color={colors[index % colors.length]}>
             <Link href={`/jeux/${game.game_id}`}>
@@ -44,7 +43,7 @@ export default function CarteProduit({ index, game }) {
                             textAlign: "left",
                         }}
                     >
-                        {game.price}
+                        C$ {game.price}
                     </p>
                 </div>
             </Link>

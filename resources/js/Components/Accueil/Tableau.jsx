@@ -46,11 +46,10 @@ function JeuxList({ jeux }) {
     const { auth } = usePage().props;
     const user = auth.user;
 
-    // ✅ États pour wishlist et cart
     const [wishlist, setWishlist] = useState([]);
     const [cart, setCart] = useState([]);
 
-    // ✅ Charger les données depuis le backend au chargement
+    // Charger les données depuis le backend au chargement
     useEffect(() => {
         if (user) {
             axios
@@ -69,7 +68,7 @@ function JeuxList({ jeux }) {
         }
     }, [user]);
 
-    // ✅ Fonction pour gérer la liste de souhaits
+    // Fonction pour gérer la liste de souhaits
     const toggleWishlist = (gameId) => {
         if (!user) {
             router.visit("/connexion");
@@ -101,7 +100,7 @@ function JeuxList({ jeux }) {
         }
     };
 
-    // ✅ Fonction pour gérer le panier
+    // Fonction pour gérer le panier
     const toggleCart = (gameId) => {
         if (!user) {
             router.visit("/connexion");

@@ -9,9 +9,8 @@ import { FaYoutube } from "react-icons/fa";
 import { Link, usePage } from "@inertiajs/react";
 
 export default function Footer() {
-    // 1) Récupérer l’utilisateur via Inertia
     const { auth } = usePage().props;
-    const user = auth.user; // null si pas connecté
+    const user = auth.user;
 
     return (
         <>
@@ -41,9 +40,8 @@ export default function Footer() {
                             <Link className="footer-link" href="/boutique">
                                 Boutique
                             </Link>
-                            {/* 2) Condition : si user est connecté, on masque Inscription/Connexion */}
+                            {/* Si user est connecté, on masque Inscription/Connexion */}
                             {user ? (
-                                // Rien ou d’autres liens si tu le souhaites
                                 <></>
                             ) : (
                                 <>

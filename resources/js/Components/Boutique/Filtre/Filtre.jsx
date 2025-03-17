@@ -2,37 +2,45 @@ import { useState, useEffect } from "react";
 import Curseur from "@/Components/Boutique/Filtre/Components/Curseur.jsx";
 import Checkboxes from "@/Components/Boutique/Filtre/Components/Checkboxes.jsx";
 import { Button } from "@/Components/ui/button.jsx";
-import { router } from '@inertiajs/react';
+import { router } from "@inertiajs/react";
 import StyledAccordion from "@/Components/Boutique/Filtre/StyledFilter.jsx";
-import { Accordion, AccordionTab } from 'primereact/accordion';
+import { Accordion, AccordionTab } from "primereact/accordion";
 
 export default function Filtre({ genres, themes, maxPrice }) {
     const [filterState, setFilterState] = useState({
         genres: [],
         themes: [],
-        prices: [0, Math.round(maxPrice)]
-    }); const [activeIndex, setActiveIndex] = useState([]);
+        prices: [0, Math.round(maxPrice)],
+    });
+    const [activeIndex, setActiveIndex] = useState([]);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
 
-        const initialGenres = params.get('genres') ? params.get('genres').split(',') : [];
-        const initialThemes = params.get('themes') ? params.get('themes').split(',') : [];
-        const initialPrices = params.get('prices')
-            ? params.get('prices').split(',').map(Number)
+        const initialGenres = params.get("genres")
+            ? params.get("genres").split(",")
+            : [];
+        const initialThemes = params.get("themes")
+            ? params.get("themes").split(",")
+            : [];
+        const initialPrices = params.get("prices")
+            ? params.get("prices").split(",").map(Number)
             : [0, maxPrice];
 
         setFilterState({
             genres: initialGenres,
             themes: initialThemes,
-            prices: initialPrices.length === 2 ? initialPrices : [0, Math.round(maxPrice)], // Ensure valid prices
+            prices:
+                initialPrices.length === 2
+                    ? initialPrices
+                    : [0, Math.round(maxPrice)], // Ensure valid prices
         });
     }, [maxPrice]);
 
     const handleFilterChange = (filterType, newValue) => {
-        setFilterState(prevState => ({
+        setFilterState((prevState) => ({
             ...prevState,
-            [filterType]: newValue
+            [filterType]: newValue,
         }));
     };
 
@@ -40,19 +48,18 @@ export default function Filtre({ genres, themes, maxPrice }) {
         const params = {};
 
         if (filterState.genres.length > 0) {
-            params.genres = filterState.genres.join(',');
+            params.genres = filterState.genres.join(",");
         }
 
         if (filterState.themes.length > 0) {
-            params.themes = filterState.themes.join(',');
+            params.themes = filterState.themes.join(",");
         }
 
         if (filterState.prices.length === 2) {
-            params.prices = filterState.prices.join(',');
+            params.prices = filterState.prices.join(",");
         }
 
-        // Dynamically update URL without reloading the page
-        router.get(route('games.filter'), params, { preserveState: true });
+        router.get(route("games.filter"), params, { preserveState: true });
     };
 
     const handleSubmit = (e) => {
@@ -69,14 +76,21 @@ export default function Filtre({ genres, themes, maxPrice }) {
             prices: [0, Math.round(maxPrice)],
         });
 
-
-        router.get(route('games.filter'), {}, { preserveState: true });
+        router.get(route("games.filter"), {}, { preserveState: true });
     };
 
     return (
         <StyledAccordion>
-            <form onSubmit={handleSubmit} style={{ position: "relative", height: 100, width: "80vw" }}>
-                <Accordion multiple className="top-accordion" activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+            <form
+                onSubmit={handleSubmit}
+                style={{ position: "relative", height: 100, width: "80vw" }}
+            >
+                <Accordion
+                    multiple
+                    className="top-accordion"
+                    activeIndex={activeIndex}
+                    onTabChange={(e) => setActiveIndex(e.index)}
+                >
                     <AccordionTab header="Filtre">
                         <Accordion multiple>
                             <AccordionTab header="Prix">
@@ -106,10 +120,19 @@ export default function Filtre({ genres, themes, maxPrice }) {
                             </AccordionTab>
                         </Accordion>
                         <div className="gap-2 flex">
-                            <Button variant="outlined" type="submit" className="filter-button">
+                            <Button
+                                variant="outlined"
+                                type="submit"
+                                className="filter-button"
+                            >
                                 Filtrer
                             </Button>
-                            <Button variant="outlined" type="button" className="filter-button" onClick={emptyArray}>
+                            <Button
+                                variant="outlined"
+                                type="button"
+                                className="filter-button"
+                                onClick={emptyArray}
+                            >
                                 Effacer filtre
                             </Button>
                         </div>
@@ -118,6 +141,4 @@ export default function Filtre({ genres, themes, maxPrice }) {
             </form>
         </StyledAccordion>
     );
-
-
 }

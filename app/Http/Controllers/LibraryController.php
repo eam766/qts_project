@@ -11,7 +11,6 @@ class LibraryController extends Controller
     {
         $user = Auth::user();
 
-        // On charge la relation 'game'
         $libraryEntries = $user->library()->with('game')->get();
 
         return Inertia::render('Library', [
