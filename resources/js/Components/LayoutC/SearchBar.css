@@ -1,0 +1,19 @@
+.p-autocomplete-input{
+
+    background-color: transparent;
+    background-image:url( "../../assets/img/Barre_de_Recherche3.png");
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size: cover;
+    border: 0 none;
+    height:40px;
+
+
+}
+
+.p-autocomplete-items-wrapper{
+
+    overflow: auto !important; /* Allows scrolling */
+    scrollbar-width: none;
+    font-family: "Audiowide", serif ;
+}

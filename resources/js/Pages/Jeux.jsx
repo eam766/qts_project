@@ -7,7 +7,7 @@ import axios from "axios";
 import { parseJson } from "../../../utils/utils.js";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
-import { Container, styled } from "@mui/material";
+import { styled } from "@mui/material";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import { Galleria } from "primereact/galleria";
 import WindowIcon from "@mui/icons-material/Window";
@@ -15,10 +15,9 @@ import StyledAccordion from "@/Components/Boutique/Filtre/StyledFilter.jsx";
 import Chip from "@mui/material/Chip";
 import ListeJeux from "@/Components/Accueil/ListeJeux.jsx";
 import { Accordion, AccordionTab } from "primereact/accordion";
-import Typography from "@mui/material/Typography";
 import { Tooltip } from "@mui/material";
 
-export default function Jeux({ game, games }) {
+export default function Jeux({ game, games, translatedDescription }) {
     const { auth } = usePage().props;
     const user = auth.user;
     const [wishlist, setWishlist] = useState([]);
@@ -39,7 +38,7 @@ export default function Jeux({ game, games }) {
         similarGames.includes(game.game_id)
     );
 
-    console.log(commonGames);
+    console.log(translatedDescription);
 
     // ✅ Charger l'état de la wishlist et du panier depuis le backend
     useEffect(() => {
@@ -162,18 +161,18 @@ export default function Jeux({ game, games }) {
             borderRadius: 15,
         },
         ".p-galleria-item-next-icon, .p-galleria-item-prev-icon": {
-            fontSize: "2rem", // Increase the size of the icons
+            fontSize: "2rem",
         },
         ".p-galleria-item > img": {
             borderRadius: 15,
         },
 
-        // Add space between thumbnails and main image
+
         ".p-galleria-thumbnail-container": {
-            marginTop: "10px", // Adjust the value as needed
+            marginTop: "10px",
         },
         ".p-galleria-item": {
-            marginBottom: "20px", // Add space between the main image and thumbnails
+            marginBottom: "20px",
         },
     });
 

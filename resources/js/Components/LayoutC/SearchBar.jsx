@@ -1,45 +1,79 @@
-import barre_recherche from "../../assets/img/Barre_de_Recherche3.png";
+
 import { FaSearch } from "react-icons/fa";
-import { router } from "@inertiajs/react";
-import { useState } from "react";
-import {Button} from "@mui/material";
+import {Link, router} from "@inertiajs/react";
+import { useEffect, useState } from "react";
+import { AutoComplete } from 'primereact/autocomplete';
 import IconButton from "@mui/material/IconButton";
-//AJouter Autocomplete
-export default function SearchBar(filters) {
-    const [search, setSearch] = useState(filters.search || "");
+import "./SearchBar.css"
+
+export default function SearchBar({  }) {
+
+    const [value, setValue] = useState('');
+    const [games, setGames] = useState([]); // Stocke les jeux récupérés
+    const [filteredGames, setFilteredGames] = useState([]); // Stocke les jeux filtrés
+
+    useEffect(() => {
+        fetch("/games-data")
+            .then(res => res.json())
+            .then(data => {
+                setGames(data);
+                setFilteredGames(data);
+            })
+            .catch(err => console.error("Erreur :", err));
+    }, []);
+
+    const search = (event) => {
+
+        setTimeout(() => {
+            let _filteredGames;
+
+            if (!event.query.trim().length) {
+                _filteredGames = [...games];
+            } else {
+                _filteredGames = games.filter((game) => {
+                    return game.name.toLowerCase().includes(event.query.toLowerCase());
+                });
+            }
+
+            setFilteredGames(_filteredGames.slice(0, 30));
+        }, 250);
+    };
 
     const handleSearch = (e) => {
         e.preventDefault();
-        router.get(route("games.search"), { search }, { preserveState: true });
+        router.get(route("games.search"), { search: value }, { preserveState: true });
+        setValue("")
     };
 
+    const itemTemplate = (item) => {
+        return (
+            <Link style={{ minWidth: 200, height: 100 }} href={`/jeux/${item.game_id}`}>
+                <div style={{ minWidth: 200,height: 70, display: "flex", alignItems: 'center', padding: 20, borderTop: "solid #02D7F2 1px", backgroundColor: "#2E3F3E" }}>
+                    <img src={`https://images.igdb.com/igdb/image/upload/t_cover_small/${item.cover_image_id}.jpg`} style={{ width: 40, height: "auto", marginRight: 20 }} alt={item.cover_image_id} />{item.name}
+                </div>
+            </Link>
+        );
+    };
+
+
     return (
-        <form
-            onSubmit={handleSearch}
-            className="relative flex items-center w-[250px]"
-        >
-            <input
-                style={{
-                    backgroundImage: `url(${barre_recherche})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                    border: "none",
-                    height: "40px",
-                    width: "100%",
-                    paddingRight: "40px",
-                }}
-                className="bg-transparent text-white"
-                type="text"
+        <form onSubmit={handleSearch} className="relative flex items-center w-[250px]">
+            <AutoComplete
+                value={value}
+                suggestions={filteredGames}
+                completeMethod={search}
+                onChange={(e) => setValue(e.value)}
                 placeholder="Recherche"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                itemTemplate={itemTemplate}
+                field="name"
+
+
             />
-            <IconButton color="primary" onClick={handleSearch} disableRipple={true}  >
-            <FaSearch
-                className="absolute right-9 top-1/2 transform -translate-y-1/2 hover:scale-95 "
-                style={{ color: "#02d7f2" }}
-            />
+            <IconButton color="primary" onClick={handleSearch} disableRipple={true}>
+                <FaSearch
+                    className="absolute right-9 top-1/2 transform -translate-y-1/2 hover:scale-95"
+                    style={{ color: "#02d7f2" }}
+                />
             </IconButton>
         </form>
     );

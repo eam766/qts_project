@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 use App\Models\Game;
 use App\Services\GameService;
+use function Pest\Laravel\get;
 
 
 class GameController extends Controller
@@ -48,7 +50,11 @@ class GameController extends Controller
 
     $games = Game::all();
 
+
+
+
     return inertia('Jeux', [
+
         'game' => $game,
         'games' => $games,
         'isInWishlist' => auth()->check() ? auth()->user()->wishlist()->where('game_id', $game_id)->exists() : false,
@@ -115,7 +121,14 @@ class GameController extends Controller
         if (!empty($selectedGenres)) {
             $games->where(function ($query) use ($selectedGenres) {
                 foreach ($selectedGenres as $genre) {
-                    $query->whereRaw("JSON_EXTRACT(genres, '$') LIKE ?", ['%"' . str_replace('"', '\\"', $genre) . '"%']);
+
+                    $escapedGenre = json_encode($genre);
+
+                    $escapedGenre = substr($escapedGenre, 1, -1);
+
+                    $escapedGenre = str_replace('"', '\\"', $escapedGenre);
+
+                    $query->whereRaw("JSON_EXTRACT(genres, '$') LIKE ?", ['%' . $escapedGenre . '%']);
                 }
             });
         }
@@ -123,7 +136,11 @@ class GameController extends Controller
         if (!empty($selectedThemes)) {
             $games->where(function ($query) use ($selectedThemes) {
                 foreach ($selectedThemes as $theme) {
-                    $query->whereRaw("JSON_EXTRACT(themes, '$') LIKE ?", ['%"' . str_replace('"', '\\"', $theme) . '"%']);
+                    $escapedTheme = json_encode($theme);
+                    $escapedTheme = substr($escapedTheme, 1, -1);
+                    $escapedTheme = str_replace('"', '\\"', $escapedTheme);
+
+                    $query->whereRaw("JSON_EXTRACT(themes, '$') LIKE ?", ['%' . $escapedTheme . '%']);
                 }
             });
         }
@@ -152,16 +169,12 @@ class GameController extends Controller
         ]);
     }
 
-    private function getFilteredInput(Request $request, $field)
+    public function getGames()
     {
-        $input = $request->input($field);
-        if (is_array($input)) {
-            return $input;
-        }
+        $games = Game::select('game_id', 'name', 'cover_image_id')->get(); // ✅ Correct
 
-        return $input ? explode(',', $input) : [];
+        return response()->json($games);
     }
-
     private function getPrices(Request $request)
     {
         $prices = $request->input('prices');
@@ -171,6 +184,15 @@ class GameController extends Controller
         }
 
         return $prices ?: [0, 100];
+    }
+    private function getFilteredInput(Request $request, $field)
+    {
+        $input = $request->input($field);
+        if (is_array($input)) {
+            return $input;
+        }
+
+        return $input ? explode(',', $input) : [];
     }
 
 

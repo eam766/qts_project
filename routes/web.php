@@ -123,6 +123,7 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
 
 
     Route::get('/cart-data', [CartController::class, 'getCart'])->name('cart.data');
+    Route::get('/games-data', [GameController::class, 'getGames'])->name('games.data');
 
 
     Route::middleware(['auth'])->group(function () {

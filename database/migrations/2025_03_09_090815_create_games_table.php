@@ -19,17 +19,18 @@ return new class extends Migration {
             $table->text('summary')->nullable();
             $table->integer('hypes')->nullable();
             $table->integer('game_type')->nullable();
-
-
             //Tableau
             $table->text('artworks')->nullable();
             $table->text('screenshots')->nullable();
             $table->text('genres')->nullable();
+            $table->text('themes')->nullable();
+
+
             $table->text('involved_companies')->nullable();
             $table->text('similar_games')->nullable();
             $table->text('videos')->nullable();
             $table->text('platforms')->nullable();
-            $table->text('themes')->nullable();
+
             $table->text('external_games')->nullable();
 
 
