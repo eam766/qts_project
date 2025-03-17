@@ -2,8 +2,6 @@ import React from "react";
 import { Head } from "@inertiajs/react";
 
 export default function OrderConfirmation({ order, success }) {
-    console.log("Order data:", order); // Pour débogage
-
     return (
         <>
             <Head title="Confirmation de commande" />
