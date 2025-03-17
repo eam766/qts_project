@@ -11,7 +11,6 @@ export default function SearchBar({  }) {
     const [value, setValue] = useState('');
     const [games, setGames] = useState([]); // Stocke les jeux récupérés
     const [filteredGames, setFilteredGames] = useState([]); // Stocke les jeux filtrés
-
     useEffect(() => {
         fetch("/games-data")
             .then(res => res.json())
@@ -21,7 +20,6 @@ export default function SearchBar({  }) {
             })
             .catch(err => console.error("Erreur :", err));
     }, []);
-
     const search = (event) => {
 
         setTimeout(() => {
@@ -41,7 +39,7 @@ export default function SearchBar({  }) {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        router.get(route("games.search"), { search: value }, { preserveState: true });
+        router.get(route("games.search"), { search: value.name }, { preserveState: true });
         setValue("")
     };
 
