@@ -22,11 +22,18 @@ export default function Boutique({games, genres, themes, maxPrice}) {
 
                 <Filtre genres={genres} themes={themes} maxPrice={maxPrice} />
                 <br/>
-                <div>{
 
-                            games.data.length !== 0 ?
+                <div>
+                    {games.path.includes("recherche")?  <div>
+                     <h1> Recherche:  {search}</h1>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-11">
+                    </div> : null}{
+
+
+
+
+                    games.data.length !== 0 ?
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-11">
                         {games.data && games.data.map((game, index) => (
                             <CarteProduit
                                 key={game.id}

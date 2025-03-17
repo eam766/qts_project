@@ -48,7 +48,7 @@ export default function SearchBar({  }) {
     const itemTemplate = (item) => {
         return (
             <Link style={{ minWidth: 200, height: 100 }} href={`/jeux/${item.game_id}`}>
-                <div style={{ minWidth: 200,height: 70, display: "flex", alignItems: 'center', padding: 20, borderTop: "solid #02D7F2 1px", backgroundColor: "#2E3F3E" }}>
+                <div className="game-suggestions">
                     <img src={`https://images.igdb.com/igdb/image/upload/t_cover_small/${item.cover_image_id}.jpg`} style={{ width: 40, height: "auto", marginRight: 20 }} alt={item.cover_image_id} />{item.name}
                 </div>
             </Link>

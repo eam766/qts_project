@@ -17,3 +17,21 @@
     scrollbar-width: none;
     font-family: "Audiowide", serif ;
 }
+
+
+.game-suggestions{
+    min-width: 600px;
+
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-top: solid #02D7F2 1px;
+    background-color: #2E3F3E;
+}
+
+.game-suggestions:hover{
+
+    background-color: #02D7F2;
+}
+
