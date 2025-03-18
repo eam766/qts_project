@@ -38,9 +38,8 @@ export default function Jeux({ game, games, translatedDescription }) {
         similarGames.includes(game.game_id)
     );
 
-    console.log(translatedDescription);
 
-    // ✅ Charger l'état de la wishlist et du panier depuis le backend
+    // Charger l'état de la wishlist et du panier depuis le backend
     useEffect(() => {
         if (user) {
             axios
@@ -59,11 +58,11 @@ export default function Jeux({ game, games, translatedDescription }) {
         }
     }, [user]);
 
-    // ✅ Vérifier si le jeu est dans la liste de souhaits / panier
+    // Vérifier si le jeu est dans la liste de souhaits / panier
     const isInWishlist = wishlist.includes(game.id);
     const isInCart = cart.includes(game.id);
 
-    // ✅ Fonction pour gérer la wishlist
+    // Fonction pour gérer la wishlist
     const toggleWishlist = () => {
         if (!user) {
             router.visit("/connexion");
@@ -105,7 +104,7 @@ export default function Jeux({ game, games, translatedDescription }) {
         }
     };
 
-    // ✅ Fonction pour gérer le panier
+    // Fonction pour gérer le panier
     const toggleCart = () => {
         if (!user) {
             router.visit("/connexion");
@@ -159,7 +158,15 @@ export default function Jeux({ game, games, translatedDescription }) {
         },
         ".p-galleria-thumbnail-item": {
             borderRadius: 15,
+
+
         },
+       ".p-galleria-thumbnail-item-content":{
+           borderRadius: 15,
+
+           maxHeight: 125,
+           aspectRatio: 16/9,
+       },
         ".p-galleria-item-next-icon, .p-galleria-item-prev-icon": {
             fontSize: "2rem",
         },
@@ -169,9 +176,11 @@ export default function Jeux({ game, games, translatedDescription }) {
 
         ".p-galleria-thumbnail-container": {
             marginTop: "10px",
+
         },
         ".p-galleria-item": {
             marginBottom: "20px",
+
         },
     });
 
@@ -259,6 +268,7 @@ export default function Jeux({ game, games, translatedDescription }) {
                                     {genres.map((genre) => (
                                         <Chip
                                             label={genre}
+                                            key={genre}
                                             variant="outlined"
                                             style={{ color: "white" }}
                                         />
@@ -274,11 +284,12 @@ export default function Jeux({ game, games, translatedDescription }) {
                                     {themes.map((theme) => (
                                         <Chip
                                             label={theme}
+                                            key={theme}
                                             variant="outlined"
                                             style={{ color: "white" }}
                                         />
                                     ))}
-                                </Stack>{" "}
+                                </Stack>
                             </div>
                         ) : null}
                     </div>
@@ -324,18 +335,18 @@ export default function Jeux({ game, games, translatedDescription }) {
                             </div>
                         )}
                         <br />
-                        <p style={{ fontSize: 22 }}>{game.price}$</p>
+                        <p style={{ fontSize: 22 }}>C$ {game.price}</p>
 
                         <br />
 
-                        {/* ✅ Bouton Ajouter au Panier avec couleur jaune et message dynamique */}
+                        {/* Bouton Ajouter au Panier avec couleur jaune et message dynamique */}
                         <BoutonAjouter
                             inCart={isInCart}
                             cartLoading={loadingCart}
                             onPress={toggleCart}
                         />
 
-                        {/* ✅ Bouton Ajouter à la liste de souhaits avec message dynamique */}
+                        {/* Bouton Ajouter à la liste de souhaits avec message dynamique */}
                         <BoutonListe
                             inWishlist={isInWishlist}
                             onPress={toggleWishlist}

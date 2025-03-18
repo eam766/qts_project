@@ -9,7 +9,7 @@ import Layout from "./Layouts/Layout";
 const appName = import.meta.env.VITE_APP_NAME || "Ludic";
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => `${title} - Ludic`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.jsx`,

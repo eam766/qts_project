@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 use App\Models\Game;
 use App\Services\GameService;
-use function Pest\Laravel\get;
 
 
 class GameController extends Controller
@@ -15,7 +13,6 @@ class GameController extends Controller
 
     protected $gameService;
 
-    // Constructor injection
     public function __construct(GameService $gameService)
     {
         $this->gameService = $gameService;
@@ -171,7 +168,7 @@ class GameController extends Controller
 
     public function getGames()
     {
-        $games = Game::select('game_id', 'name', 'cover_image_id')->get(); // ✅ Correct
+        $games = Game::select('game_id', 'name', 'cover_image_id')->get(); 
 
         return response()->json($games);
     }

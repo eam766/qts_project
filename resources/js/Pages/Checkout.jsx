@@ -3,7 +3,7 @@ import { Head, usePage } from "@inertiajs/react";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 
-// Remplacez par votre clé publique Stripe (pk_test_...)
+// Clé publique Stripe
 const stripePromise = loadStripe(
     "pk_test_51QV2rvDCcgnFwKl5Gtp6o9IedkC9tj0un1ZbralDLFBRjHJpu4ytuzaNm531CVqL5blF0gMbv7uZzMCVhsIOJ9VF00Jj3WiUkg"
 );
@@ -23,7 +23,6 @@ export default function Checkout({ cartItems, total }) {
             setIsLoading(true);
             setError(null);
 
-            console.log("Création de la session de paiement...");
 
             // Créer une session de checkout Stripe en utilisant le chemin relatif complet
             const response = await axios.post(
@@ -38,11 +37,11 @@ export default function Checkout({ cartItems, total }) {
                 }
             );
 
-            console.log("Réponse reçue:", response.data);
+
 
             // Vérifier si la réponse contient un ID de session
             if (response.data && response.data.id) {
-                console.log("ID de session Stripe:", response.data.id);
+
 
                 // Charger Stripe et rediriger vers la page de paiement
                 const stripe = await stripePromise;
@@ -74,19 +73,16 @@ export default function Checkout({ cartItems, total }) {
 
             // Afficher un message d'erreur plus détaillé
             if (error.response) {
-                // Le serveur a répondu avec un code d'erreur
                 console.error("Réponse d'erreur:", error.response.data);
                 setError(
                     error.response.data.error ||
                         "Erreur du serveur. Veuillez réessayer."
                 );
             } else if (error.request) {
-                // La requête a été envoyée mais pas de réponse
                 setError(
                     "Aucune réponse du serveur. Vérifiez votre connexion."
                 );
             } else {
-                // Autre type d'erreur
                 setError(
                     "Erreur lors de la préparation du paiement: " +
                         error.message

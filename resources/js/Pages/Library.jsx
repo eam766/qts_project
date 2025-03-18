@@ -11,12 +11,9 @@ export default function Library() {
     const { auth, libraryEntries } = usePage().props;
     const user = auth.user;
 
-    // Mettre la liste dans un state (optionnel si tu veux la modifier)
     const [library, setLibrary] = useState(libraryEntries || []);
 
-    // Fonction d’affichage d’un item dans OrderList
     const itemTemplate = (entry) => {
-        // entry.game => objet Game associé
         const game = entry.game;
         if (!game) {
             // Si le jeu n’existe pas ou n’a pas été chargé
@@ -28,7 +25,6 @@ export default function Library() {
         const themes = parseJson(game.themes);
         const genres = parseJson(game.genres);
 
-        // Construire l’URL de la cover
         const coverUrl = game.cover_image_id
             ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover_image_id}.jpg`
             : null;
@@ -123,7 +119,7 @@ export default function Library() {
                     </span>
                 </div>
 
-                {/* Bouton Installer (exemple) */}
+                {/* Bouton Installer*/}
                 <button className="buttonRight ml-auto AudioWideBlue text-lg pointer-events-auto">
                     Installer
                 </button>

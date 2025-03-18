@@ -1,37 +1,36 @@
-.p-autocomplete-input{
-
+.p-autocomplete-input {
     background-color: transparent;
-    background-image:url( "../../assets/img/Barre_de_Recherche3.png");
-    background-repeat:no-repeat;
-    background-position:center;
+    background-image: url("../../assets/img/Barre_de_Recherche3.png");
+    background-repeat: no-repeat;
+    background-position: center;
     background-size: cover;
     border: 0 none;
-    height:40px;
-
-
+    height: 43px;
 }
 
-.p-autocomplete-items-wrapper{
-
-    overflow: auto !important; /* Allows scrolling */
+.p-autocomplete-items-wrapper {
+    overflow: auto !important;
     scrollbar-width: none;
-    font-family: "Audiowide", serif ;
+    font-family: "Audiowide", serif;
+}
+.p-autocomplete-item {
+    background-color: #2e3f3e;
+
 }
 
-
-.game-suggestions{
+.game-suggestions {
     min-width: 600px;
-
     height: 70px;
     display: flex;
     align-items: center;
     padding: 20px;
-    border-top: solid #02D7F2 1px;
-    background-color: #2E3F3E;
+    border-top: solid #02d7f2 1px;
+
 }
-
-.game-suggestions:hover{
-
-    background-color: #02D7F2;
+.p-highlight{
+    background-color: #02d7f2;
+}
+.game-suggestions:hover {
+    background-color: #02d7f2;
 }
 

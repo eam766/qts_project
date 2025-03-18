@@ -36,16 +36,35 @@ export default function SearchBar({}) {
         }, 250);
     };
 
+    // const handleSearch = (e) => {
+    //     e.preventDefault();
+    //     router.get(
+    //         route("games.search"),
+    //         { search: value },
+    //         { preserveState: true }
+    //     );
+    //
+    // };
     const handleSearch = (e) => {
         e.preventDefault();
-        router.get(
-            route("games.search"),
-            { search: value.name },
-            { preserveState: true }
-        );
-        setValue("");
-    };
 
+
+        if (typeof value === "object" && value !== null && value.game_id) {
+
+            router.get(route("games.show", value.game_id));
+            setValue("");
+        } else if (typeof value === "string" && value.trim() !== "") {
+
+            router.get(route("games.search"), { search: value }, { preserveState: true });
+            setValue("");
+
+        } else {
+
+            router.get(route("games.index"));
+            setValue("");
+        }
+        setFilteredGames([]);
+    };
     const itemTemplate = (item) => {
         return (
             <Link

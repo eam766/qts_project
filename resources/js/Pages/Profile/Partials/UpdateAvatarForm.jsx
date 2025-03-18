@@ -64,8 +64,7 @@ export default function UpdateAvatarForm() {
         );
     };
 
-    console.log(data.description, data.image);
-    console.log(localData.image, localData.description);
+
 
     return (
         <section>
