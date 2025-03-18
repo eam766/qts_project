@@ -76,7 +76,7 @@ export default function Filtre({ genres, themes, maxPrice }) {
             prices: [0, Math.round(maxPrice)],
         });
 
-        router.get(route("games.filter"), {}, { preserveState: true });
+        router.get(route("games.index"), {}, { preserveState: true });
     };
 
     return (

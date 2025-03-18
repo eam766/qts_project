@@ -17,7 +17,7 @@ import ListeJeux from "@/Components/Accueil/ListeJeux.jsx";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Tooltip } from "@mui/material";
 
-export default function Jeux({ game, games, translatedDescription }) {
+export default function Jeux({ game, games }) {
     const { auth } = usePage().props;
     const user = auth.user;
     const [wishlist, setWishlist] = useState([]);
@@ -232,8 +232,8 @@ export default function Jeux({ game, games, translatedDescription }) {
                             activeIndex={0}
                             style={{
                                 position: "relative",
-                                maxWidth: "40vw",
-                                minWidth: "40vw",
+                                maxWidth: "900px",
+                                minWidth: "900px",
                                 borderRadius: 0,
                                 overflow: "hidden",
                             }}
@@ -262,7 +262,7 @@ export default function Jeux({ game, games, translatedDescription }) {
                             color: "white",
                             borderColor: "#02D7F2",
                             borderSize: 2,
-                            minWidth: "40vw",
+                            minWidth: "900px",
                         }}
                     >
                         {genres && genres.length > 0 ? (

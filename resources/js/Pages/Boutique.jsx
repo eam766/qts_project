@@ -10,8 +10,12 @@ export default function Boutique({games, genres, themes, maxPrice}) {
     const params = new URLSearchParams(window.location.search);
     const initialGenres = params.get('genres') ? params.get('genres').split(',') : [];
     const initialThemes = params.get('themes') ? params.get('themes').split(',') : [];
+    const initialPrices = params.get('prices') ? params.get('prices').split(',') : [];
     const search = params.get('search') ? params.get('search') : [];
 
+console.log(initialPrices);
+    console.log(initialGenres);
+    console.log(initialThemes);
 
     return (
 
@@ -19,7 +23,7 @@ export default function Boutique({games, genres, themes, maxPrice}) {
              style={{display: "flex", flexDirection: 'column', alignItems: 'center'}}>
             <Head title={"Boutique"}/>
             <div style={{display: "flex", flexDirection: 'column'}}>
-
+                {}
                 <Filtre genres={genres} themes={themes} maxPrice={maxPrice}/>
                 <br/>
 
@@ -42,6 +46,11 @@ export default function Boutique({games, genres, themes, maxPrice}) {
 
 
                         }
+                        {
+                            initialPrices.length !==0?
+                                <div>
+                                    $C {initialPrices[0]} - $C {initialPrices[1]}
+                                </div> : null}
 
                     </div> : null}
                     <br/>{
