@@ -5,11 +5,12 @@ import CookieBanner from "@/Components/LayoutC/CookieBanner";
 import Footer from "@/Components/LayoutC/Footer";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import axios from "axios"; // Ajoute axios pour faire des requêtes API
+import axios from "axios";
 
 export default function Layout({ children, games }) {
     const { auth } = usePage().props;
-    const user = auth.user; // Récupérer l'utilisateur connecté
+    const user = auth.user;
+    // Récupérer l'utilisateur connecté
     const [wishlistGames, setWishlistGames] = useState([]);
     const [cartGames, setCartGames] = useState([]);
 
@@ -33,16 +34,13 @@ export default function Layout({ children, games }) {
                 .catch((error) =>
                     console.error("Erreur chargement cart:", error)
                 );
-
         }
     }, [user]);
-
 
     const wishlistCount = wishlistGames.length;
     const cartCount = cartGames.length;
     console.log("Wishlist Games dans le wishlist LAYOUT :", wishlistGames);
     console.log("Données actuelles du panier LAYOUT  :", cartGames);
-
 
     return (
         <>

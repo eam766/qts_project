@@ -1,7 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import avatar from "@/assets/img/img.jpg";
 import border from "@/assets/img/BordureAvatar.png";
 import axios from "axios";
 

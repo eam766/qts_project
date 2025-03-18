@@ -1,9 +1,8 @@
 import { usePage, router, Head } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import carte from "../assets/img/CartePanier.png"; // Image du panier
+import carte from "../assets/img/CartePanier.png";
 import bouton from "../assets/img/Bouton_Inscription.png";
-import axios from "axios";
 
 export default function Panier() {
     const { auth, cartGames } = usePage().props;
