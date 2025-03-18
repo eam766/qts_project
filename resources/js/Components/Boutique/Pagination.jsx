@@ -2,7 +2,7 @@ import { router, usePage } from "@inertiajs/react";
 
 export default function Pagination({ games }) {
     const { filters } = usePage().props;
-    console.log(games);
+
     const handlePageChange = (url) => {
         if (url) {
             router.get(url, filters, {

@@ -23,7 +23,6 @@ export default function Checkout({ cartItems, total }) {
             setIsLoading(true);
             setError(null);
 
-            console.log("Création de la session de paiement...");
 
             // Créer une session de checkout Stripe en utilisant le chemin relatif complet
             const response = await axios.post(
@@ -38,11 +37,11 @@ export default function Checkout({ cartItems, total }) {
                 }
             );
 
-            console.log("Réponse reçue:", response.data);
+
 
             // Vérifier si la réponse contient un ID de session
             if (response.data && response.data.id) {
-                console.log("ID de session Stripe:", response.data.id);
+
 
                 // Charger Stripe et rediriger vers la page de paiement
                 const stripe = await stripePromise;
