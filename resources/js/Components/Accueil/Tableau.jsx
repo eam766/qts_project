@@ -48,25 +48,39 @@ function JeuxList({ jeux }) {
 
     const [wishlist, setWishlist] = useState([]);
     const [cart, setCart] = useState([]);
+    const [library, setLibrary] = useState([]);
 
     // Charger les données depuis le backend au chargement
     useEffect(() => {
         if (user) {
+            // Charger la wishlist
             axios
                 .get(route("wishlist.data"))
-                .then((response) => setWishlist(response.data.wishlistGames))
-                .catch((error) =>
-                    console.error("Erreur chargement wishlist:", error)
-                );
+                .then((res) => setWishlist(res.data.wishlistGames))
+                .catch((err) => console.error("Erreur wishlist:", err));
 
+            // Charger le panier
             axios
                 .get(route("cart.data"))
-                .then((response) => setCart(response.data.cartGames))
-                .catch((error) =>
-                    console.error("Erreur chargement panier:", error)
-                );
+                .then((res) => setCart(res.data.cartGames))
+                .catch((err) => console.error("Erreur cart:", err));
+
+            // Charger la library
+            axios
+                .get(route("library.data"))
+                .then((res) => {
+                    console.log(
+                        "ALLO libraryEntries =>",
+                        res.data.libraryEntries
+                    );
+                    setLibrary(res.data.libraryEntries);
+                })
+                .catch((err) => console.error("Erreur library:", err));
         }
     }, [user]);
+
+    const isInLibrary = (gameId) =>
+        Array.isArray(library) && library.includes(gameId);
 
     // Fonction pour gérer la liste de souhaits
     const toggleWishlist = (gameId) => {
@@ -131,15 +145,17 @@ function JeuxList({ jeux }) {
             );
         }
     };
-
+    console.log(route("bibliotheque"));
     return (
         <div className="jeux-grid">
             {jeux.map((jeu) => {
                 const isInWishlist = wishlist.includes(jeu.id);
                 const isInCart = cart.includes(jeu.id);
+                const inLibrary = isInLibrary(jeu.id); // <-- Vérifie si le user possède déjà ce jeu
 
                 return (
                     <div key={jeu.id} className="card">
+                        {/* Lien vers la page détail */}
                         <Link
                             className="card-link"
                             href={`/jeux/${jeu.game_id}`}
@@ -159,66 +175,102 @@ function JeuxList({ jeux }) {
                             </div>
                         </Link>
 
-                        <div>
-                            {/* Bouton Wishlist avec effet */}
-                            <Tooltip title="Ajouter à la liste de souhaits">
-                                <motion.div
-                                    whileTap={{ scale: 0.8 }}
-                                    animate={{
-                                        rotate: isInWishlist ? 360 : 0,
-                                    }}
-                                    transition={{
-                                        type: "spring",
-                                        stiffness: 200,
-                                        damping: 10,
-                                    }}
-                                >
+                        {/* Zone des boutons */}
+                        <div style={{ display: "flex", gap: "8px" }}>
+                            {/* --- WishList --- */}
+                            {inLibrary ? (
+                                /* Si le jeu est dans la library, on n'affiche pas "Ajouter à la wishlist" */
+                                <Tooltip title="Vous possédez déjà ce jeu">
                                     <IconButton
-                                        onClick={() => toggleWishlist(jeu.id)}
+                                        onClick={() =>
+                                            router.visit(route("bibliotheque"))
+                                        }
                                     >
+                                        {/* Icône grisée ou autre */}
                                         <PlaylistAddIcon
-                                            className="icons"
-                                            style={{
-                                                color: isInWishlist
-                                                    ? "#FF007F"
-                                                    : "#02d7f2",
-                                            }}
+                                            style={{ color: "gray" }}
                                         />
                                     </IconButton>
-                                </motion.div>
-                            </Tooltip>
+                                </Tooltip>
+                            ) : (
+                                /* Sinon, logique habituelle */
+                                <Tooltip title="Ajouter à la liste de souhaits">
+                                    <motion.div
+                                        whileTap={{ scale: 0.8 }}
+                                        animate={{
+                                            rotate: isInWishlist ? 360 : 0,
+                                        }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 200,
+                                            damping: 10,
+                                        }}
+                                    >
+                                        <IconButton
+                                            onClick={() =>
+                                                toggleWishlist(jeu.id)
+                                            }
+                                        >
+                                            <PlaylistAddIcon
+                                                className="icons"
+                                                style={{
+                                                    color: isInWishlist
+                                                        ? "#FF007F"
+                                                        : "#02d7f2",
+                                                }}
+                                            />
+                                        </IconButton>
+                                    </motion.div>
+                                </Tooltip>
+                            )}
 
-                            {/* Bouton Panier avec effet */}
-                            <Tooltip
-                                title={
-                                    isInCart
-                                        ? "Retirer du panier"
-                                        : "Ajouter au panier"
-                                }
-                            >
-                                <motion.div
-                                    whileTap={{ scale: 0.8 }}
-                                    animate={{ rotate: isInCart ? 720 : 0 }}
-                                    transition={{
-                                        type: "spring",
-                                        stiffness: 200,
-                                        damping: 10,
-                                    }}
-                                >
+                            {/* --- Panier --- */}
+                            {inLibrary ? (
+                                /* Si le jeu est déjà possédé, on désactive ou on met un bouton "Dans la bibliothèque" */
+                                <Tooltip title="Vous possédez déjà ce jeu">
                                     <IconButton
-                                        onClick={() => toggleCart(jeu.id)}
+                                        onClick={() =>
+                                            router.visit(route("bibliotheque"))
+                                        }
                                     >
                                         <AddShoppingCartIcon
-                                            className="icons"
-                                            style={{
-                                                color: isInCart
-                                                    ? "#FFA500"
-                                                    : "#02d7f2",
-                                            }}
+                                            style={{ color: "gray" }}
                                         />
                                     </IconButton>
-                                </motion.div>
-                            </Tooltip>
+                                </Tooltip>
+                            ) : (
+                                /* Sinon, on affiche le bouton habituel du panier */
+                                <Tooltip
+                                    title={
+                                        isInCart
+                                            ? "Retirer du panier"
+                                            : "Ajouter au panier"
+                                    }
+                                >
+                                    <motion.div
+                                        whileTap={{ scale: 0.8 }}
+                                        animate={{ rotate: isInCart ? 720 : 0 }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 200,
+                                            damping: 10,
+                                        }}
+                                    >
+                                        <IconButton
+                                            onClick={() => toggleCart(jeu.id)}
+                                        >
+                                            <AddShoppingCartIcon
+                                                className="icons"
+                                                style={{
+                                                    color: isInCart
+                                                        ? "#FFA500"
+                                                        : "#02d7f2",
+                                                }}
+                                            />
+                                        </IconButton>
+                                    </motion.div>
+                                </Tooltip>
+                            )}
                         </div>
                     </div>
                 );

@@ -167,7 +167,6 @@ export default function Jeux({ game, games, translatedDescription }) {
             borderRadius: 15,
         },
 
-
         ".p-galleria-thumbnail-container": {
             marginTop: "10px",
         },
@@ -268,7 +267,7 @@ export default function Jeux({ game, games, translatedDescription }) {
                             </div>
                         ) : null}
                         <hr className="my-2 border-gray-600" />
-                        {themes && themes.length > 0 ?  (
+                        {themes && themes.length > 0 ? (
                             <div>
                                 <p className="font-bold pb-5">Themes</p>
                                 <Stack direction="row" spacing={1}>
@@ -301,24 +300,29 @@ export default function Jeux({ game, games, translatedDescription }) {
                             {game.name}
                         </h1>
 
-                        { game.total_rating !== null?
-                        <Tooltip title={`${game.total_rating.toFixed(1)}%`}>
-                            <Stack spacing={1}>
-                                <StyledRating
-                                    name="game-rating"
-                                    emptyIcon={
-                                        <StarOutlineIcon
-                                            style={{ color: "#F0F14E" }}
-                                            fontSize="inherit"
-                                        />
-                                    }
-                                    readOnly
-                                    defaultValue={game.total_rating / 20}
-                                    precision={0.1}
-                                    size={"large"}
-                                />
-                            </Stack>
-                        </Tooltip>: <div style={{fontSize:18}}>Aucune Évaluation</div>}
+                        {game.total_rating !== null ? (
+                            <Tooltip title={`${game.total_rating.toFixed(1)}%`}>
+                                <Stack spacing={1}>
+                                    <StyledRating
+                                        name="game-rating"
+                                        emptyIcon={
+                                            <StarOutlineIcon
+                                                style={{ color: "#F0F14E" }}
+                                                fontSize="inherit"
+                                            />
+                                        }
+                                        readOnly
+                                        defaultValue={game.total_rating / 20}
+                                        precision={0.1}
+                                        size={"large"}
+                                    />
+                                </Stack>
+                            </Tooltip>
+                        ) : (
+                            <div style={{ fontSize: 18 }}>
+                                Aucune Évaluation
+                            </div>
+                        )}
                         <br />
                         <p style={{ fontSize: 22 }}>{game.price}$</p>
 
