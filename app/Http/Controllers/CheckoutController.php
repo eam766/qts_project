@@ -273,6 +273,10 @@ class CheckoutController extends Controller
                     }
                 }
 
+                foreach ($cartItems as $cartItem) {
+                    $user->wishlist()->where('game_id', $cartItem->game_id)->delete();
+                }
+
                 // Vider le panier
                 try {
                     $deleteCount = $user->cart()->delete();

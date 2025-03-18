@@ -22,6 +22,7 @@ export default function Jeux({ game, games, translatedDescription }) {
     const user = auth.user;
     const [wishlist, setWishlist] = useState([]);
     const [cart, setCart] = useState([]);
+    const [library, setLibrary] = useState([]);
     const [loadingWishlist, setLoadingWishlist] = useState(false);
     const [loadingCart, setLoadingCart] = useState(false);
     const themes = parseJson(game.themes);
@@ -37,7 +38,6 @@ export default function Jeux({ game, games, translatedDescription }) {
     const commonGames = games.filter((game) =>
         similarGames.includes(game.game_id)
     );
-
 
     // Charger l'état de la wishlist et du panier depuis le backend
     useEffect(() => {
@@ -55,12 +55,20 @@ export default function Jeux({ game, games, translatedDescription }) {
                 .catch((error) =>
                     console.error("Erreur chargement panier:", error)
                 );
+            axios
+                .get(route("library.data"))
+                .then((res) => {
+                    console.log("Library data:", res.data.libraryEntries);
+                    setLibrary(res.data.libraryEntries);
+                })
+                .catch((err) => console.error("Erreur library:", err));
         }
     }, [user]);
 
     // Vérifier si le jeu est dans la liste de souhaits / panier
     const isInWishlist = wishlist.includes(game.id);
     const isInCart = cart.includes(game.id);
+    const isInLibrary = library.includes(game.id);
 
     // Fonction pour gérer la wishlist
     const toggleWishlist = () => {
@@ -158,15 +166,13 @@ export default function Jeux({ game, games, translatedDescription }) {
         },
         ".p-galleria-thumbnail-item": {
             borderRadius: 15,
-
-
         },
-       ".p-galleria-thumbnail-item-content":{
-           borderRadius: 15,
+        ".p-galleria-thumbnail-item-content": {
+            borderRadius: 15,
 
-           maxHeight: 125,
-           aspectRatio: 16/9,
-       },
+            maxHeight: 125,
+            aspectRatio: 16 / 9,
+        },
         ".p-galleria-item-next-icon, .p-galleria-item-prev-icon": {
             fontSize: "2rem",
         },
@@ -176,11 +182,9 @@ export default function Jeux({ game, games, translatedDescription }) {
 
         ".p-galleria-thumbnail-container": {
             marginTop: "10px",
-
         },
         ".p-galleria-item": {
             marginBottom: "20px",
-
         },
     });
 
@@ -339,19 +343,35 @@ export default function Jeux({ game, games, translatedDescription }) {
 
                         <br />
 
-                        {/* Bouton Ajouter au Panier avec couleur jaune et message dynamique */}
-                        <BoutonAjouter
-                            inCart={isInCart}
-                            cartLoading={loadingCart}
-                            onPress={toggleCart}
-                        />
+                        {isInLibrary ? (
+                            // S’il est dans la library, tu affiches un bouton “Dans la bibliothèque” (ou rien)
+                            <button
+                                className="AudioWideBlue buttonAdd"
+                                onClick={() =>
+                                    router.visit(route("bibliotheque"))
+                                }
+                                style={{ marginTop: "8px" }}
+                            >
+                                <p className="text-xl ">Dans la bibliothèque</p>
+                            </button>
+                        ) : (
+                            <>
+                                {/* Bouton Ajouter au Panier */}
+                                <BoutonAjouter
+                                    inCart={isInCart}
+                                    cartLoading={loadingCart}
+                                    onPress={toggleCart}
+                                />
 
-                        {/* Bouton Ajouter à la liste de souhaits avec message dynamique */}
-                        <BoutonListe
-                            inWishlist={isInWishlist}
-                            onPress={toggleWishlist}
-                            wishlistLoading={loadingWishlist}
-                        />
+                                {/* Bouton Ajouter à la liste de souhaits */}
+                                <BoutonListe
+                                    inWishlist={isInWishlist}
+                                    onPress={toggleWishlist}
+                                    wishlistLoading={loadingWishlist}
+                                />
+                            </>
+                        )}
+
                         <br />
                         <div
                             className="border-2  p-4 shadow-md  text-white"
