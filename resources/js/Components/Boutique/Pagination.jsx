@@ -1,7 +1,4 @@
-import { Link } from "@inertiajs/react";
-
 import { router, usePage } from "@inertiajs/react";
-import * as buttons from "framer-motion/m";
 
 export default function Pagination({ games }) {
     const { filters } = usePage().props;

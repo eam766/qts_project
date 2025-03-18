@@ -17,7 +17,6 @@ use App\Http\Controllers\LibraryController;
 
 
 Route::get('/', [GameController::class,'acceuil'])->name('accueil');
-// Route::inertia('/connexion', 'Connexion')->name('connexion');
 
 Route::inertia('/inscription', 'Inscription')->name('inscription');
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
@@ -108,9 +107,9 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->name('wishlist.index');
 
     Route::middleware('auth')->group(function () {
-        Route::get('/panier', [CartController::class, 'index'])->name('cart.index'); // Voir le panier
-        Route::post('/cart/add', [CartController::class, 'store'])->name('cart.store'); // Ajouter au panier
-        Route::delete('/cart/remove', [CartController::class, 'destroy'])->name('cart.destroy'); // Supprimer du panier
+        Route::get('/panier', [CartController::class, 'index'])->name('cart.index'); 
+        Route::post('/cart/add', [CartController::class, 'store'])->name('cart.store'); 
+        Route::delete('/cart/remove', [CartController::class, 'destroy'])->name('cart.destroy'); 
     });
 
 
@@ -127,15 +126,13 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
 
 
     Route::middleware(['auth'])->group(function () {
-        // Page de checkout
+
         Route::get('/finaliser-commande', [CheckoutController::class, 'index'])
             ->name('checkout.index');
 
-        // API Stripe pour créer une session de paiement
         Route::post('/create-checkout-session', [CheckoutController::class, 'createCheckoutSession'])
             ->name('checkout.session');
 
-        // Callbacks Stripe
         Route::get('/finaliser-commande/succes', [CheckoutController::class, 'success'])
             ->name('checkout.success');
 
@@ -143,38 +140,30 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
             ->name('checkout.cancel');
     });
 
-    // Routes pour connexion/inscription, accessibles seulement si l'utilisateur n'est PAS connecté
 Route::middleware('guest')->group(function () {
 
-    // Page Inertia pour inscription
     Route::inertia('/inscription', 'Inscription')
         ->name('inscription');
 
-    // Route POST pour s’inscrire
     Route::post('/register', [RegisteredUserController::class, 'store'])
         ->name('register');
 
-    // Page Inertia pour connexion
     Route::get('/connexion', function () {
         return Inertia::render('Connexion', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
-            // ...
         ]);
     })->name('connexion');
 
-    // Route POST pour se connecter
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])
         ->name('login');
 
-    // Mots de passe oubliés, reset password, etc., si tu veux aussi qu'ils soient inaccessibles quand on est déjà connecté
     Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
 
     Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
         ->name('password.email');
 
-    // etc.
 });
 
 

@@ -23,7 +23,6 @@ export default function Carousel({ temps, galleryImage }) {
         return () => clearInterval(intervalID);
     }, [temps]);
 
-    // Jeu "center" pour l’image de fond
     const bgGame = galleryImage[centerIndex];
     const bgArtworks = parseJson(bgGame.artworks) || [];
     const bgImage = bgArtworks.length > 0 ? bgArtworks[0] : null;
@@ -47,8 +46,8 @@ export default function Carousel({ temps, galleryImage }) {
                 // État local pour l’image active (celle en grand)
                 const [activeImage, setActiveImage] = useState(images[0]);
 
-                // On NE dépend que de "game.id" pour réinitialiser
-                //    Ainsi, tant que c’est le même jeu, le hover n’est pas écrasé.
+                //On NE dépend que de "game.id" pour réinitialiser
+                //Ainsi, tant que c’est le même jeu, le hover n’est pas écrasé.
                 useEffect(() => {
                     setActiveImage(images[0]);
                 }, [game.id]);

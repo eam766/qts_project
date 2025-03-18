@@ -73,19 +73,16 @@ export default function Checkout({ cartItems, total }) {
 
             // Afficher un message d'erreur plus détaillé
             if (error.response) {
-                // Le serveur a répondu avec un code d'erreur
                 console.error("Réponse d'erreur:", error.response.data);
                 setError(
                     error.response.data.error ||
                         "Erreur du serveur. Veuillez réessayer."
                 );
             } else if (error.request) {
-                // La requête a été envoyée mais pas de réponse
                 setError(
                     "Aucune réponse du serveur. Vérifiez votre connexion."
                 );
             } else {
-                // Autre type d'erreur
                 setError(
                     "Erreur lors de la préparation du paiement: " +
                         error.message

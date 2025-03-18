@@ -8,7 +8,7 @@ export default function BoutonListe({ inWishlist, wishlistLoading, onPress }) {
                 wishlistLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={onPress}
-            disabled={wishlistLoading} // ✅ Désactive temporairement
+            disabled={wishlistLoading}
         >
             <LuHeart
                 className={`mr-4 transition-colors duration-300 pl-1 ${

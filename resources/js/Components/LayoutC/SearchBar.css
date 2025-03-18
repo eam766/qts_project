@@ -9,7 +9,7 @@
 }
 
 .p-autocomplete-items-wrapper {
-    overflow: auto !important; /* Allows scrolling */
+    overflow: auto !important;
     scrollbar-width: none;
     font-family: "Audiowide", serif;
 }
