@@ -258,6 +258,7 @@ export default function Jeux({ game, games, translatedDescription }) {
                                     {genres.map((genre) => (
                                         <Chip
                                             label={genre}
+                                            key={genre}
                                             variant="outlined"
                                             style={{ color: "white" }}
                                         />
@@ -273,11 +274,12 @@ export default function Jeux({ game, games, translatedDescription }) {
                                     {themes.map((theme) => (
                                         <Chip
                                             label={theme}
+                                            key={theme}
                                             variant="outlined"
                                             style={{ color: "white" }}
                                         />
                                     ))}
-                                </Stack>{" "}
+                                </Stack>
                             </div>
                         ) : null}
                     </div>
