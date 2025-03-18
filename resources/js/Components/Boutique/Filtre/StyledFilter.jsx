@@ -38,7 +38,7 @@ const StyledAccordion = styled("Accordion")({
     },
 
     '.p-accordion-toggle-icon': {
-        color: '#02D7F2',
+        color: 'white',
         margin: '10px',
         width: '25px',
     },
@@ -55,7 +55,7 @@ const StyledAccordion = styled("Accordion")({
     },
 
     '.accordion-inner-tab .p-accordion-header.p-highlight': {
-        backgroundColor: '#02D7F2',
+        backgroundColor: '#2a2a2a',
         color: 'white',
     },
 

@@ -158,7 +158,15 @@ export default function Jeux({ game, games, translatedDescription }) {
         },
         ".p-galleria-thumbnail-item": {
             borderRadius: 15,
+
+
         },
+       ".p-galleria-thumbnail-item-content":{
+           borderRadius: 15,
+
+           maxHeight: 125,
+           aspectRatio: 16/9,
+       },
         ".p-galleria-item-next-icon, .p-galleria-item-prev-icon": {
             fontSize: "2rem",
         },
@@ -168,9 +176,11 @@ export default function Jeux({ game, games, translatedDescription }) {
 
         ".p-galleria-thumbnail-container": {
             marginTop: "10px",
+
         },
         ".p-galleria-item": {
             marginBottom: "20px",
+
         },
     });
 
