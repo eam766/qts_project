@@ -22,7 +22,7 @@ class WishlistController extends Controller
             return redirect()->route('connexion');
         }
     
-        // Récupérer les game_id des jeux ajoutés à la wishlist
+   
         $gameIds = Wishlist::where('user_id', $user->id)->pluck('game_id');
 
 
@@ -33,8 +33,6 @@ class WishlistController extends Controller
             ]);
         }
     
-        // Récupérer les jeux depuis la base de données locale
-        // Ici, on n'utilise plus l'API IGDB, mais directement notre table "games"
         $wishlistGames = Game::whereIn('id', $gameIds)->get();
 
     
