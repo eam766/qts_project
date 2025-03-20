@@ -20,7 +20,7 @@ class ProfileUpdateRequest extends FormRequest
                 'sometimes',
                 'string',
                 'max:255',
-                'regex:/^[A-Za-zÀ-ÖØ-öø-ÿ\s-]+$/', // Empêche chiffres et symboles
+                'regex:/^[A-Za-zÀ-ÖØ-öø-ÿ\s-]+$/', 
             ],
             'lastName' => [
                 'sometimes',

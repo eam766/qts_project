@@ -193,7 +193,13 @@ function JeuxList({ jeux }) {
                                 </Tooltip>
                             ) : (
                                 /* Sinon, logique habituelle */
-                                <Tooltip title="Ajouter à la liste de souhaits">
+                                <Tooltip
+                                    title={
+                                        isInWishlist
+                                            ? "Retirer de la liste de souhaits"
+                                            : "Ajouter à la liste de souhaits"
+                                    }
+                                >
                                     <motion.div
                                         whileTap={{ scale: 0.8 }}
                                         animate={{
