@@ -210,8 +210,8 @@ export default function Jeux({ game, games }) {
 
     return (
         <div className="container mx-auto p-10 flex-col">
-            <div className=" mx-auto p-10 flex">
-                <div className="w-2/3 flex flex-col items-center mr-8">
+            <div className=" mx-auto p-10 flex ">
+                <div className="w-2/3 flex flex-col items-center ">
                     <div className="flex flex-wrap gap-2 items-start justify-center">
                         <StyledGalleria
                             value={parseJson(game.screenshots)}
@@ -232,8 +232,8 @@ export default function Jeux({ game, games }) {
                             activeIndex={0}
                             style={{
                                 position: "relative",
-                                maxWidth: "900px",
-                                minWidth: "900px",
+                                maxWidth: "100%",
+                                minWidth: "100%",
                                 borderRadius: 0,
                                 overflow: "hidden",
                             }}
@@ -253,8 +253,8 @@ export default function Jeux({ game, games }) {
                             )}
                         </Accordion>
                     </StyledAccordion>
-
                     <br />
+
 
                     <div
                         className="border-2  p-4 shadow-md  text-white"
@@ -262,7 +262,8 @@ export default function Jeux({ game, games }) {
                             color: "white",
                             borderColor: "#02D7F2",
                             borderSize: 2,
-                            minWidth: "900px",
+                            minWidth: "100%",
+                            maxWidth: "100%",
                         }}
                     >
                         {genres && genres.length > 0 ? (

@@ -3,8 +3,6 @@ import { styled} from "@mui/material";
 
 const StyledAccordion = styled("Accordion")({
     '.top-accordion': {
-        maxWidth: '80vw',
-        minWidth: '80vw',
         position: 'absolute',
         border: '#02D7F2 1px solid',
         borderRadius: '10px',
@@ -32,10 +30,7 @@ const StyledAccordion = styled("Accordion")({
         },
     },
 
-    '.p-accordion-header-text': {
-        maxWidth: '80vw',
-        minWidth: '75vw',
-    },
+
 
     '.p-accordion-toggle-icon': {
         color: 'white',
