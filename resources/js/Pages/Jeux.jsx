@@ -209,9 +209,10 @@ export default function Jeux({ game, games }) {
     };
 
     return (
-        <div className="container mx-auto p-10 flex-col">
-            <div className=" mx-auto p-10 flex ">
-                <div className="w-2/3 flex flex-col items-center ">
+        <div className="container mx-auto p-10">
+            <div className="mx-auto p-10 flex flex-wrap lg:flex-nowrap gap-10">
+                {/* Section Gauche */}
+                <div className="w-full lg:w-2/3 flex flex-col items-center">
                     <div className="flex flex-wrap gap-2 items-start justify-center">
                         <StyledGalleria
                             value={parseJson(game.screenshots)}
@@ -225,82 +226,47 @@ export default function Jeux({ game, games }) {
                             transitionInterval={5000}
                         />
                     </div>
+
                     <br />
                     <StyledAccordion>
-                        <Accordion
-                            className="top-accordion"
-                            activeIndex={0}
-                            style={{
-                                position: "relative",
-                                maxWidth: "100%",
-                                minWidth: "100%",
-                                borderRadius: 0,
-                                overflow: "hidden",
-                            }}
-                        >
-                            {/* Affiche l'onglet "Résumé" seulement si game.summary existe et n'est pas vide */}
+                        <Accordion activeIndex={0} className="top-accordion">
                             {game.summary && (
-                                <AccordionTab header="Résumé">
-                                    {game.summary}
-                                </AccordionTab>
+                                <AccordionTab header="Résumé">{game.summary}</AccordionTab>
                             )}
-
-                            {/* Affiche l'onglet "Histoire" seulement si game.storyline existe et n'est pas vide */}
                             {game.storyline && (
-                                <AccordionTab header="Histoire">
-                                    {game.storyline}
-                                </AccordionTab>
+                                <AccordionTab header="Histoire">{game.storyline}</AccordionTab>
                             )}
                         </Accordion>
                     </StyledAccordion>
+
                     <br />
-
-
-                    <div
-                        className="border-2  p-4 shadow-md  text-white"
-                        style={{
-                            color: "white",
-                            borderColor: "#02D7F2",
-                            borderSize: 2,
-                            minWidth: "100%",
-                            maxWidth: "100%",
-                        }}
-                    >
-                        {genres && genres.length > 0 ? (
+                    <div className="border-2 p-4 shadow-md text-white w-full" style={{ borderColor: "#02D7F2" }}>
+                        {genres?.length > 0 && (
                             <div>
                                 <p className="font-bold pb-5">Genres</p>
                                 <Stack direction="row" spacing={1}>
                                     {genres.map((genre) => (
-                                        <Chip
-                                            label={genre}
-                                            key={genre}
-                                            variant="outlined"
-                                            style={{ color: "white" }}
-                                        />
-                                    ))}
-                                </Stack>{" "}
-                            </div>
-                        ) : null}
-                        <hr className="my-2 border-gray-600" />
-                        {themes && themes.length > 0 ? (
-                            <div>
-                                <p className="font-bold pb-5">Themes</p>
-                                <Stack direction="row" spacing={1}>
-                                    {themes.map((theme) => (
-                                        <Chip
-                                            label={theme}
-                                            key={theme}
-                                            variant="outlined"
-                                            style={{ color: "white" }}
-                                        />
+                                        <Chip label={genre} key={genre} variant="outlined" style={{ color: "white" }} />
                                     ))}
                                 </Stack>
                             </div>
-                        ) : null}
+                        )}
+                        <hr className="my-2 border-gray-600" />
+                        {themes?.length > 0 && (
+                            <div>
+                                <p className="font-bold pb-5">Thèmes</p>
+                                <Stack direction="row" spacing={1}>
+                                    {themes.map((theme) => (
+                                        <Chip label={theme} key={theme} variant="outlined" style={{ color: "white" }} />
+                                    ))}
+                                </Stack>
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                <div className="w-1/3 flex flex-col items-center">
+                {/* Section Droite */}
+                <div className="w-full lg:w-1/3 flex flex-col items-center">
                     <Head title={game.name} />
 
                     <BordureCover>
@@ -311,22 +277,15 @@ export default function Jeux({ game, games }) {
                         />
                     </BordureCover>
 
-                    <div className="flex flex-col items-center mt-12 w-100">
-                        <h1 className="text-3xl font-bold text-center AudioWideBlue">
-                            {game.name}
-                        </h1>
+                    <div className="flex flex-col items-center mt-12 w-full">
+                        <h1 className="text-3xl font-bold text-center AudioWideBlue">{game.name}</h1>
 
                         {game.total_rating !== null ? (
                             <Tooltip title={`${game.total_rating.toFixed(1)}%`}>
                                 <Stack spacing={1}>
                                     <StyledRating
                                         name="game-rating"
-                                        emptyIcon={
-                                            <StarOutlineIcon
-                                                style={{ color: "#F0F14E" }}
-                                                fontSize="inherit"
-                                            />
-                                        }
+                                        emptyIcon={<StarOutlineIcon style={{ color: "#F0F14E" }} fontSize="inherit" />}
                                         readOnly
                                         defaultValue={game.total_rating / 20}
                                         precision={0.1}
@@ -335,95 +294,48 @@ export default function Jeux({ game, games }) {
                                 </Stack>
                             </Tooltip>
                         ) : (
-                            <div style={{ fontSize: 18 }}>
-                                Aucune Évaluation
-                            </div>
+                            <div style={{ fontSize: 18 }}>Aucune Évaluation</div>
                         )}
+
                         <br />
                         <p style={{ fontSize: 22 }}>C$ {game.price}</p>
 
                         <br />
 
                         {isInLibrary ? (
-                            // S’il est dans la library, tu affiches un bouton “Dans la bibliothèque” (ou rien)
-                            <button
-                                className="AudioWideBlue buttonAdd"
-                                onClick={() =>
-                                    router.visit(route("bibliotheque"))
-                                }
-                                style={{ marginTop: "8px" }}
-                            >
-                                <p className="text-xl ">Dans la bibliothèque</p>
+                            <button className="AudioWideBlue buttonAdd" onClick={() => router.visit(route("bibliotheque"))} style={{ marginTop: "8px" }}>
+                                <p className="text-xl">Dans la bibliothèque</p>
                             </button>
                         ) : (
                             <>
-                                {/* Bouton Ajouter au Panier */}
-                                <BoutonAjouter
-                                    inCart={isInCart}
-                                    cartLoading={loadingCart}
-                                    onPress={toggleCart}
-                                />
-
-                                {/* Bouton Ajouter à la liste de souhaits */}
-                                <BoutonListe
-                                    inWishlist={isInWishlist}
-                                    onPress={toggleWishlist}
-                                    wishlistLoading={loadingWishlist}
-                                />
+                                <BoutonAjouter inCart={isInCart} cartLoading={loadingCart} onPress={toggleCart} />
+                                <BoutonListe inWishlist={isInWishlist} onPress={toggleWishlist} wishlistLoading={loadingWishlist} />
                             </>
                         )}
 
                         <br />
-                        <div
-                            className="border-2  p-4 shadow-md  text-white"
-                            style={{
-                                color: "#02D7F2",
-                                borderColor: "#02D7F2",
-                                width: "100%",
-                            }}
-                        >
-                            <p className="text-lg font-semibold">
-                                Développeur:{" "}
-                                <span className="text-white">{developer}</span>
-                            </p>
+                        <div className="border-2 p-4 shadow-md text-white w-full" style={{ borderColor: "#02D7F2" }}>
+                            <p className="text-lg font-semibold">Développeur: <span className="text-white">{developer}</span></p>
                             <hr className="my-2 border-gray-600" />
-                            <p className="text-lg font-semibold">
-                                Éditeur:{" "}
-                                <span className="text-white">{publisher}</span>
-                            </p>
+                            <p className="text-lg font-semibold">Éditeur: <span className="text-white">{publisher}</span></p>
                             <hr className="my-2 border-gray-600" />
-                            <p className="text-lg font-semibold">
-                                Date de sortie:{" "}
-                                <span className="text-white">
-                                    {game.release_date}
-                                </span>
-                            </p>
+                            <p className="text-lg font-semibold">Date de sortie: <span className="text-white">{game.release_date}</span></p>
                             <hr className="my-2 border-gray-600" />
-                            <p className="text-lg font-semibold flex items-center gap-2">
-                                Plateforme :{" "}
-                                <WindowIcon className="w-5 h-5 text-gray-300" />
-                            </p>
+                            <p className="text-lg font-semibold flex items-center gap-2">Plateforme : <WindowIcon className="w-5 h-5 text-gray-300" /></p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {commonGames.length !== 0 ? (
-                <div className="flex flex-col   mx-auto p-10">
+            {commonGames.length !== 0 && (
+                <div className="flex flex-col mx-auto p-10">
                     <hr />
                     <br />
-                    <p style={{ width: 200, fontSize: 25, fontWeight: "bold" }}>
-                        Jeux Similaire
-                    </p>
+                    <p style={{ width: 200, fontSize: 25, fontWeight: "bold" }}>Jeux Similaires</p>
                     <br />
-
-                    <ListeJeux
-                        numScroll={1}
-                        visibleCount={5}
-                        couvertures={commonGames}
-                    ></ListeJeux>
+                    <ListeJeux numScroll={1} visibleCount={5} couvertures={commonGames} />
                 </div>
-            ) : null}
+            )}
         </div>
     );
 }

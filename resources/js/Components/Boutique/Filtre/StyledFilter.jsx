@@ -1,9 +1,8 @@
 import { styled} from "@mui/material";
 
 
-const StyledAccordion = styled("Accordion")({
+const StyledAccordion = styled("div")({
     '.top-accordion': {
-        position: 'absolute',
         border: '#02D7F2 1px solid',
         borderRadius: '10px',
         backgroundColor: '#121214',
@@ -21,16 +20,14 @@ const StyledAccordion = styled("Accordion")({
         fontWeight: 'bold',
         fontSize: '18px',
         borderRadius: '5px',
-        transition: 'background-color 0.3s',
         display: 'flex',
         alignItems: 'center',
+        transition: 'background-color 0.3s',
 
         '&:hover': {
             backgroundColor: '#0197B1',
         },
     },
-
-
 
     '.p-accordion-toggle-icon': {
         color: 'white',
@@ -53,20 +50,6 @@ const StyledAccordion = styled("Accordion")({
         backgroundColor: '#2a2a2a',
         color: 'white',
     },
-
-    '.filter-button': {
-        color: 'white',
-        borderRadius: '5px',
-        fontWeight: 'bold',
-        padding: '10px 20px',
-        transition: 'background-color 0.3s ease',
-        border: '#02D7F2 1px solid',
-
-        '&:hover': {
-            backgroundColor: '#0197B1',
-        },
-    },
 });
-
 
 export default StyledAccordion;
