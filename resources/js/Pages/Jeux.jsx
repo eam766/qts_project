@@ -229,24 +229,50 @@ export default function Jeux({ game, games }) {
 
                     <br />
                     <StyledAccordion>
-                        <Accordion activeIndex={0} className="top-accordion">
+                        <Accordion
+                            activeIndex={0}
+                            className="top-accordion"
+                            style={{
+                                position: "relative",
+                                maxWidth: "40vw",
+                                minWidth: "40vw",
+                                borderRadius: 0,
+                                overflow: "hidden",
+                            }}
+                        >
                             {game.summary && (
-                                <AccordionTab header="Résumé">{game.summary}</AccordionTab>
+                                <AccordionTab header="Résumé">
+                                    {game.summary}
+                                </AccordionTab>
                             )}
                             {game.storyline && (
-                                <AccordionTab header="Histoire">{game.storyline}</AccordionTab>
+                                <AccordionTab header="Histoire">
+                                    {game.storyline}
+                                </AccordionTab>
                             )}
                         </Accordion>
                     </StyledAccordion>
 
                     <br />
-                    <div className="border-2 p-4 shadow-md text-white w-full" style={{ borderColor: "#02D7F2" }}>
+                    <div
+                        className="border-2 p-4 shadow-md text-white w-full"
+                        style={{
+                            borderColor: "#02D7F2",
+                            maxWidth: "40vw",
+                            minWidth: "40vw",
+                        }}
+                    >
                         {genres?.length > 0 && (
                             <div>
                                 <p className="font-bold pb-5">Genres</p>
                                 <Stack direction="row" spacing={1}>
                                     {genres.map((genre) => (
-                                        <Chip label={genre} key={genre} variant="outlined" style={{ color: "white" }} />
+                                        <Chip
+                                            label={genre}
+                                            key={genre}
+                                            variant="outlined"
+                                            style={{ color: "white" }}
+                                        />
                                     ))}
                                 </Stack>
                             </div>
@@ -257,7 +283,12 @@ export default function Jeux({ game, games }) {
                                 <p className="font-bold pb-5">Thèmes</p>
                                 <Stack direction="row" spacing={1}>
                                     {themes.map((theme) => (
-                                        <Chip label={theme} key={theme} variant="outlined" style={{ color: "white" }} />
+                                        <Chip
+                                            label={theme}
+                                            key={theme}
+                                            variant="outlined"
+                                            style={{ color: "white" }}
+                                        />
                                     ))}
                                 </Stack>
                             </div>
@@ -278,14 +309,21 @@ export default function Jeux({ game, games }) {
                     </BordureCover>
 
                     <div className="flex flex-col items-center mt-12 w-full">
-                        <h1 className="text-3xl font-bold text-center AudioWideBlue">{game.name}</h1>
+                        <h1 className="text-3xl font-bold text-center AudioWideBlue">
+                            {game.name}
+                        </h1>
 
                         {game.total_rating !== null ? (
                             <Tooltip title={`${game.total_rating.toFixed(1)}%`}>
                                 <Stack spacing={1}>
                                     <StyledRating
                                         name="game-rating"
-                                        emptyIcon={<StarOutlineIcon style={{ color: "#F0F14E" }} fontSize="inherit" />}
+                                        emptyIcon={
+                                            <StarOutlineIcon
+                                                style={{ color: "#F0F14E" }}
+                                                fontSize="inherit"
+                                            />
+                                        }
                                         readOnly
                                         defaultValue={game.total_rating / 20}
                                         precision={0.1}
@@ -294,7 +332,9 @@ export default function Jeux({ game, games }) {
                                 </Stack>
                             </Tooltip>
                         ) : (
-                            <div style={{ fontSize: 18 }}>Aucune Évaluation</div>
+                            <div style={{ fontSize: 18 }}>
+                                Aucune Évaluation
+                            </div>
                         )}
 
                         <br />
@@ -303,25 +343,56 @@ export default function Jeux({ game, games }) {
                         <br />
 
                         {isInLibrary ? (
-                            <button className="AudioWideBlue buttonAdd" onClick={() => router.visit(route("bibliotheque"))} style={{ marginTop: "8px" }}>
+                            <button
+                                className="AudioWideBlue buttonAdd"
+                                onClick={() =>
+                                    router.visit(route("bibliotheque"))
+                                }
+                                style={{ marginTop: "8px" }}
+                            >
                                 <p className="text-xl">Dans la bibliothèque</p>
                             </button>
                         ) : (
                             <>
-                                <BoutonAjouter inCart={isInCart} cartLoading={loadingCart} onPress={toggleCart} />
-                                <BoutonListe inWishlist={isInWishlist} onPress={toggleWishlist} wishlistLoading={loadingWishlist} />
+                                <BoutonAjouter
+                                    inCart={isInCart}
+                                    cartLoading={loadingCart}
+                                    onPress={toggleCart}
+                                />
+                                <BoutonListe
+                                    inWishlist={isInWishlist}
+                                    onPress={toggleWishlist}
+                                    wishlistLoading={loadingWishlist}
+                                />
                             </>
                         )}
 
                         <br />
-                        <div className="border-2 p-4 shadow-md text-white w-full" style={{ borderColor: "#02D7F2" }}>
-                            <p className="text-lg font-semibold">Développeur: <span className="text-white">{developer}</span></p>
+                        <div
+                            className="border-2 p-4 shadow-md text-white w-full"
+                            style={{ borderColor: "#02D7F2" }}
+                        >
+                            <p className="text-lg font-semibold">
+                                Développeur:{" "}
+                                <span className="text-white">{developer}</span>
+                            </p>
                             <hr className="my-2 border-gray-600" />
-                            <p className="text-lg font-semibold">Éditeur: <span className="text-white">{publisher}</span></p>
+                            <p className="text-lg font-semibold">
+                                Éditeur:{" "}
+                                <span className="text-white">{publisher}</span>
+                            </p>
                             <hr className="my-2 border-gray-600" />
-                            <p className="text-lg font-semibold">Date de sortie: <span className="text-white">{game.release_date}</span></p>
+                            <p className="text-lg font-semibold">
+                                Date de sortie:{" "}
+                                <span className="text-white">
+                                    {game.release_date}
+                                </span>
+                            </p>
                             <hr className="my-2 border-gray-600" />
-                            <p className="text-lg font-semibold flex items-center gap-2">Plateforme : <WindowIcon className="w-5 h-5 text-gray-300" /></p>
+                            <p className="text-lg font-semibold flex items-center gap-2">
+                                Plateforme :{" "}
+                                <WindowIcon className="w-5 h-5 text-gray-300" />
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -331,9 +402,15 @@ export default function Jeux({ game, games }) {
                 <div className="flex flex-col mx-auto p-10">
                     <hr />
                     <br />
-                    <p style={{ width: 200, fontSize: 25, fontWeight: "bold" }}>Jeux Similaires</p>
+                    <p style={{ width: 200, fontSize: 25, fontWeight: "bold" }}>
+                        Jeux Similaires
+                    </p>
                     <br />
-                    <ListeJeux numScroll={1} visibleCount={5} couvertures={commonGames} />
+                    <ListeJeux
+                        numScroll={1}
+                        visibleCount={5}
+                        couvertures={commonGames}
+                    />
                 </div>
             )}
         </div>
